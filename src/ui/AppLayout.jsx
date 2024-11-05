@@ -7,8 +7,10 @@ function AppLayout() {
     <div className="h-lvh grid grid-cols-layout grid-rows-layout">
       <Sidebar />
       <Header />
-      <main className="bg-neutral-50 p-16">
-        <Outlet />
+      <main className="bg-neutral-50 p-16 overflow-scroll">
+        <div className="max-w-main mx-auto flex gap-12 flex-col">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
