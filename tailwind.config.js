@@ -2,7 +2,14 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        layout: "20rem 1fr",
+      },
+      gridTemplateRows: {
+        layout: "auto 1fr",
+      },
+    },
   },
   plugins: [],
 };
