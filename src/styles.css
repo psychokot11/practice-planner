@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-sans;
+  }
+
+  h1 {
+    @apply text-3xl font-semibold;
+  }
+}
