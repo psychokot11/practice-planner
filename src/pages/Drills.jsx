@@ -5,7 +5,7 @@ import Spinner from "../ui/Spinner";
 function Drills() {
   const { isLoading, drills } = useDrills();
 
-  isLoading && <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <>
