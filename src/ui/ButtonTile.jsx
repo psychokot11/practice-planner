@@ -16,7 +16,7 @@ export default ButtonTile;
 
 ButtonTile.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
   color: PropTypes.oneOf(["red", "green", "blue", "yellow"]),
 };

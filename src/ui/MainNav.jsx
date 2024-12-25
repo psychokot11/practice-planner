@@ -1,4 +1,4 @@
-import { FcHome, FcIdea, FcPlanner, FcSettings } from "react-icons/fc";
+import { FcHome, FcIdea, FcPlanner, FcFolder, FcSettings } from "react-icons/fc";
 import { NavLink } from "react-router-dom";
 
 const navLinkClasses =
@@ -24,6 +24,12 @@ function MainNav() {
         <NavLink to="/drills" className={navLinkClasses}>
           <FcIdea className={iconClasses} />
           <span>Drills</span>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/tags" className={navLinkClasses}>
+          <FcFolder className={iconClasses} />
+          <span>Tags</span>
         </NavLink>
       </li>
       <li>

@@ -1,11 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Plans from "./pages/Plans";
 import Drills from "./pages/Drills";
+import Tags from "./pages/Tags";
 import PageNotFound from "./pages/PageNotFound";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClinet = new QueryClient({
   defaultOptions: {
@@ -26,6 +28,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="plans" element={<Plans />} />
             <Route path="drills" element={<Drills />} />
+            <Route path="tags" element={<Tags />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
