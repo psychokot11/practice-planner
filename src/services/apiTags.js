@@ -26,3 +26,17 @@ export async function createTag(newTag) {
 
     return data
 }
+
+export async function deleteTag(id) {
+  const { data: tags, error } = await supabase
+  .from('tags')
+  .delete()
+  .eq('id', id)
+
+  if (error) {
+      console.error(error)
+      throw new Error('An error occurred while deleting the tag')
+  }
+
+  return tags;
+}

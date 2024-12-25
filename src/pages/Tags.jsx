@@ -1,7 +1,7 @@
 import { useTags } from "../features/tags/useTags";
 import CreateTagForm from "../features/tags/CreateTagForm";
 import Spinner from "../ui/Spinner";
-import Tag from "../ui/Tag";
+import Tag from "../features/tags/Tag";
 
 function Tags() {
     const { isLoading, tags } = useTags();
@@ -13,7 +13,7 @@ function Tags() {
         <h1>Available Tags:</h1>
         <div className="flex flex-wrap gap-5">
             {tags.map((tag) => (
-                <Tag key={tag.id} tag={tag.name} />
+                <Tag key={tag.id} id={tag.id} tag={tag.name} />
             ))}
         </div>
         <CreateTagForm />
