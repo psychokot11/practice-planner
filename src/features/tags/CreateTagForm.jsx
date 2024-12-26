@@ -10,8 +10,6 @@ function CreateTagForm() {
     const { createTag, isCreating } = useCreateTag();
     const { errors } = formState;
     
-    
-
     const isWorking = isCreating;
     
     function onSubmit(data) {
@@ -40,7 +38,7 @@ function CreateTagForm() {
                     {...register("name", {
                         required: "This field is required",
                     })}/>
-                {errors.name && <span className="absolute py-2 text-rose-600">{errors.name.message}</span>}
+                {errors.name && <span className="absolute py-2 text-red-600">{errors.name.message}</span>}
                 </div>
                 <button type="submit" className={buttonClasses}>Create tag</button>
             </div>
