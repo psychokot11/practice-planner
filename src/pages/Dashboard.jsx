@@ -5,7 +5,7 @@ function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <div className="flex gap-10 justify-around my-10">
-        <ButtonTile color="pink">PLANS</ButtonTile>
+        <ButtonTile>PLANS</ButtonTile>
         <ButtonTile>DRILLS</ButtonTile>
         <ButtonTile>CREATE PLAN</ButtonTile>
       </div>

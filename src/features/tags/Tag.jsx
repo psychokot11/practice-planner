@@ -8,7 +8,7 @@ function Tag({ id, tag }) {
     const { isDeleting, deleteTag } = useDeleteTag();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    function handleDeleteTag() {
+    function handleOpenModal() {
         setIsModalOpen(true);
     }
 
@@ -25,14 +25,13 @@ function Tag({ id, tag }) {
         <div className="text-m px-5 py-3 max-w-fit rounded-full bg-neutral-200 border-2 border-neutral-300 flex items-center gap-2">
             {tag}{" "}
             <button
-                onClick={handleDeleteTag}
+                onClick={handleOpenModal}
                 disabled={isDeleting}
             >
                 <IoMdClose />
             </button>
             {isModalOpen && (
                 <DeleteModal
-                    id={id}
                     item='tag'
                     onAccept={handleConfirmDelete}
                     onCancel={handleCancelDelete}
