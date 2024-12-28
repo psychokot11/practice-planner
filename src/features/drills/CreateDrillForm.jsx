@@ -54,8 +54,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                 }
             })
         }
-    }
-        
+    }    
     
     function onError(errors) {
         console.log(errors);
