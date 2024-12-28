@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useDrills } from "../features/drills/useDrills";
-import { useTags } from "../features/tags/useTags";
-import { useCreateDrill } from "../features/drills/useCreateDrill";
 import DrillsTable from "../features/drills/DrillsTable";
 import Spinner from "../ui/Spinner";
 import CreateDrillForm from "../features/drills/CreateDrillForm";
@@ -10,8 +8,6 @@ const buttonClasses = "focus:outline-none text-white bg-purple-700 hover:bg-purp
 
 function Drills() {
   const { isLoading, drills } = useDrills();
-  const { createDrill, isCreating } = useCreateDrill();
-  const { tags } = useTags();
   const [ isFormOpen, setIsFormOpen] = useState(false);
 
   function handleOpenForm() {
@@ -30,12 +26,9 @@ function Drills() {
       <DrillsTable drills={drills} />
       <button onClick={handleOpenForm} className={buttonClasses}>Create drill</button>
       { isFormOpen && 
-        <CreateDrillForm 
-          item="drill"
-          tags={tags}
-          onClose={handleCancelCreate}
-          onCreate={createDrill}
-          isCreating={isCreating}/>}
+        <CreateDrillForm
+          type="create"
+          onClose={handleCancelCreate} />}
     </>
   );
 }

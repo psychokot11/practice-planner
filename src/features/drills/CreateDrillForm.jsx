@@ -1,15 +1,25 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTags } from "../tags/useTags";
+import { useCreateDrill } from "./useCreateDrill";
+import { useEditDrill } from "./useEditDrill";
+import Spinner from "../../ui/Spinner";
 
-function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
+function CreateDrillForm({ drill, type, onClose }) {
+    const { tags, isLoading } = useTags();
+    const { createDrill, isCreating } = useCreateDrill();
+    const { editDrill, isEditing } = useEditDrill();
+
+    const isWorking = isCreating || isEditing;
+    const drillId = drill ? drill.id : null;
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
     const [tagsString, setTagsString] = useState("");
+
     const { register, handleSubmit, setValue, reset, formState } = useForm();
     const { errors } = formState;
-    
-    const isWorking = isCreating;
 
     const handleTagChange = (event) => {
         const { value, checked } = event.target;
@@ -29,14 +39,23 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
     }, [tagsString, setValue]);
 
     function onSubmit(data) {
-        console.log(data);
-        onCreate(data, {
-            onSuccess: () => {
-                reset();
-                onClose();
-              }
-        });
+        if (type === "create") { 
+            createDrill(data, {
+                onSuccess: () => {
+                    reset();
+                    onClose();
+                  }
+            });
+        } else {
+            editDrill({newDrillData: data, id: drillId}, {
+                onSuccess: () => {
+                    reset();
+                    onClose();
+                }
+            })
+        }
     }
+        
     
     function onError(errors) {
         console.log(errors);
@@ -55,7 +74,7 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                Create new {item}
+                               {type === 'create' ? 'Create new drill' : 'Edit drill'} 
                             </h3>
                             <button type="button"
                                 onClick={onClose}
@@ -73,7 +92,8 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                     <input type="text" 
                                         name="name" 
-                                        id="name" 
+                                        id="name"
+                                        defaultValue={type === "edit" ? drill.name : ''}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         {...register("name", {
                                             required: "This field is required",
@@ -86,7 +106,7 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                                         name="minNumPlayers" 
                                         id="minNumPlayers" 
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        defaultValue={2} 
+                                        defaultValue={type === "edit" ? drill.minNumPlayers : 2}
                                         {...register("minNumPlayers")} />
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
@@ -100,7 +120,7 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                                     </button>
                                     <div className={`${!isDropdownOpen && 'hidden'} z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
                                         <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-                                            {tags.map((tag) => (
+                                            {isLoading ? <Spinner /> : tags.map((tag) => (
                                                 <li key={tag.id} onClick={handleTagChange}>
                                                     <div className="flex items-center">
                                                         <input type="checkbox" 
@@ -124,7 +144,8 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                                     <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                                     <textarea id="description"
                                         name="description"
-                                        rows="4" 
+                                        rows="4"
+                                        defaultValue={type === "edit" ? drill.description : ''}
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                         placeholder="Write drill description here"
                                         {...register("description")} />                   
@@ -134,6 +155,7 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                                     <input type="url" 
                                         id="link" 
                                         name="link"
+                                        defaultValue={type === "edit" ? drill.link : ''}
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         {...register("link")}/>                   
                                 </div>
@@ -141,14 +163,14 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
                             <button type="submit"
                                 disabled={isWorking}
                                 className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
-                                Add new {item}
+                                {type === "create" && <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>}
+                                {type === "create" ? "Add new drill" : "Edit drill"}
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
+            <div className={`${type === 'create' ? 'bg-gray-900/50' : 'bg-gray-900/10'} dark:bg-gray-900/80 fixed inset-0 z-40`}></div>
         </div>
     )
 }
@@ -156,9 +178,7 @@ function CreateDrillForm({ item, tags = [], onClose, onCreate, isCreating}) {
 export default CreateDrillForm;
 
 CreateDrillForm.propTypes = {
-    tags: PropTypes.array,
-    item: PropTypes.string.isRequired,
+    drill: PropTypes.object,
+    type: PropTypes.string,
     onClose: PropTypes.func,
-    onCreate: PropTypes.func,
-    isCreating: PropTypes.bool,
 };

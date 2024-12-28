@@ -1,29 +1,32 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
+import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
+import CreateDrillForm from "./CreateDrillForm";
 
 function DrillsTable({ drills }) {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedDrill, setSelectedDrill] = useState(null);
+
+  function handleEditClick(drill) {
+    setSelectedDrill(drill); 
+    setIsFormOpen(true); 
+  }
+
+  function handleDeleteClick(drillId) {
+    console.log(drillId);
+  }
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-neutral-500 dark:text-neutral-400">
         <thead className="text-xs text-neutral-700 uppercase bg-neutral-100 dark:bg-neutral-700 dark:text-neutral-400">
           <tr>
-            <th scope="col" className="px-6 py-3">
-              Drill name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Min. number of players
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Description
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Tags
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Link
-            </th>
-            <th scope="col" className="px-6 py-3">
-              <span className="sr-only">Edit</span>
-            </th>
+            <th scope="col" className="px-6 py-3">Drill name</th>
+            <th scope="col" className="px-6 py-3">Min. number of players</th>
+            <th scope="col" className="px-6 py-3">Description</th>
+            <th scope="col" className="px-6 py-3">Tags</th>
+            <th scope="col" className="px-6 py-3">Link</th>
+            <th scope="col" className="px-6 py-3"><span className="sr-only">Edit</span></th>
           </tr>
         </thead>
         <tbody>
@@ -44,25 +47,40 @@ function DrillsTable({ drills }) {
               <td className="px-6 py-4">
                 {drill.link && <a href={drill.link}>link</a>}
               </td>
-              <td className="px-6 py-4 text-right">
+              <td className="flex justify-between px-6 py-4 text-right">
                 <button
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:cursor-pointe disabled:cursor-not-allowed disabled:text-neutral-400"
-                  disabled
+                  onClick={() => handleEditClick(drill)}
+                  className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
+                  disabled={false}
                 >
-                  Edit
+                  <AiTwotoneEdit />
+                </button>
+                <button
+                  onClick={() => handleDeleteClick(drill.id)}
+                  className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
+                  disabled={false}
+                >
+                  <AiTwotoneDelete />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {isFormOpen && (
+        <CreateDrillForm
+          drill={selectedDrill}
+          type="edit"
+          onClose={() => setIsFormOpen(false)}
+        />
+      )}
     </div>
   );
-  }
+}
 
 export default DrillsTable;
 
 DrillsTable.propTypes = {
-  drills: PropTypes.array,
+  drills: PropTypes.array.isRequired,
 };

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createDrill as createDrillService } from "../../services/apiDrills";
+import { createEditDrill as createDrillService } from "../../services/apiDrills";
 
 export function useCreateDrill() {
     const queryClient = useQueryClient();

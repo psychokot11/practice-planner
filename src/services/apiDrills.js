@@ -11,18 +11,23 @@ export async function getDrills() {
   return drills;
 }
 
-export async function createDrill(newDrill) {
-  const { data, error } = await supabase
-      .from('drills')
-      .insert([
-          {...newDrill},
-      ])
-      .select('*')
+export async function createEditDrill(newDrill, id) {
+  let query;
 
-  if (error) {
-      console.error(error)
-      throw new Error('An error occurred while creating a new drill')
+  if (!id) {
+    query = supabase.from('drills').insert([newDrill]);
   }
 
-  return data
+  if (id) {
+    query = supabase.from('drills').update({...newDrill}).eq('id', id);
+  }
+
+  const { data, error } = await query.select().single();
+
+  if (error) {
+    console.error(error);
+    throw new Error('An error occurred while creating or updating the drill');
+  }
+
+  return data;
 }
