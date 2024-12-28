@@ -31,3 +31,17 @@ export async function createEditDrill(newDrill, id) {
 
   return data;
 }
+
+export async function deleteDrill(id) {
+  const { data: drills, error } = await supabase
+  .from('drills')
+  .delete()
+  .eq('id', id)
+
+  if (error) {
+      console.error(error)
+      throw new Error('An error occurred while deleting the drill')
+  }
+
+  return drills;
+}

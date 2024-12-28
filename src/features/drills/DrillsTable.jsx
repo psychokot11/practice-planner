@@ -2,18 +2,20 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
 import CreateDrillForm from "./CreateDrillForm";
+import { useDeleteDrill } from "./useDeleteDrills";
 
 function DrillsTable({ drills }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedDrill, setSelectedDrill] = useState(null);
+  const {isDeleting, deleteDrill} = useDeleteDrill();
 
   function handleEditClick(drill) {
     setSelectedDrill(drill); 
     setIsFormOpen(true); 
   }
 
-  function handleDeleteClick(drillId) {
-    console.log(drillId);
+  function handleDeleteClick(drill) {
+    deleteDrill(drill.id);
   }
 
   return (
@@ -56,9 +58,9 @@ function DrillsTable({ drills }) {
                   <AiTwotoneEdit />
                 </button>
                 <button
-                  onClick={() => handleDeleteClick(drill.id)}
+                  onClick={() => handleDeleteClick(drill)}
                   className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
-                  disabled={false}
+                  disabled={isDeleting}
                 >
                   <AiTwotoneDelete />
                 </button>
