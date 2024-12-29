@@ -15,8 +15,8 @@ function CreateDrillForm({ drill, type, onClose }) {
     const drillId = drill ? drill.id : null;
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [tagsString, setTagsString] = useState("");
+    const [selectedTags, setSelectedTags] = useState(drill?.tags ? [drill.tags] : []);
+    const [tagsString, setTagsString] = useState(drill?.tags ? [drill.tags].join(", ") : "");
 
     const { register, handleSubmit, setValue, reset, formState } = useForm();
     const { errors } = formState;
