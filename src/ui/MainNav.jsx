@@ -7,7 +7,7 @@ const iconClasses = "w-8 h-8";
 
 function MainNav() {
   return (
-    <ul className="flex flex-col gap-2 mt-12">
+    <ul>
       <li>
         <NavLink to="/dashboard" className={navLinkClasses}>
           <FcHome className={iconClasses} />
