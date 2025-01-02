@@ -4,7 +4,7 @@ import UserAvatar from "../features/authentication/UserAvatar";
 import HeaderMenu from "./HeaderMenu";
 import Logo from "./Logo";
 
-function Header({ onClick }) {
+function Header({ handleMenu }) {
 
   return (
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -12,7 +12,7 @@ function Header({ onClick }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start rtl:justify-end">
             <button
-              onClick={onClick} 
+              onClick={handleMenu} 
               data-drawer-target="logo-sidebar" 
               data-drawer-toggle="logo-sidebar" 
               aria-controls="logo-sidebar" 
@@ -41,5 +41,5 @@ function Header({ onClick }) {
 export default Header;
 
 Header.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  handleMenu: PropTypes.func.isRequired,
 }
