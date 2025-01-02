@@ -6,7 +6,7 @@ function UserAvatar() {
         alt="user avatar"
         className="h-8 block aspect-square object-cover rounded-full object-center outline outline-2 outline-neutral-100"
       />
-      <span>username</span>
+      <span className="text-sm md:text-lg lg:text-xl">username</span>
     </button>
   );
 }

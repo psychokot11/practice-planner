@@ -3,7 +3,7 @@ function Logo() {
     <img
       src="logo.png"
       alt="logo"
-      className="h-8 me-3"
+      className="h-10 sm:h-12 me-3 sm:px-9"
     />
   );
 }

@@ -5,7 +5,7 @@ const iconClasses = "w-6 h-6";
 
 function HeaderMenu() {
   return (
-    <ul className="flex gap-2">
+    <ul className="flex gap-2 ml-4">
       <ButtonIcon>
         <FcManager className={iconClasses} />
       </ButtonIcon>
