@@ -22,7 +22,7 @@ function Tag({ id, tag }) {
     }
 
     return (
-        <div className="text-m px-5 py-3 max-w-fit rounded-full bg-neutral-200 border-2 border-neutral-300 flex items-center gap-2">
+        <div className="text-m px-3 py-1 max-w-fit rounded-lg bg-neutral-200 border-2 border-neutral-300 flex items-center gap-2">
             {tag}{" "}
             <button
                 onClick={handleOpenModal}
