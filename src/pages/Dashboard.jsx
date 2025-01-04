@@ -10,7 +10,7 @@ function Dashboard() {
       <div className="flex gap-10 justify-around my-10">
         <NavLink to="/plans"><ButtonTile><FcPlanner className="size-10" /> PLANS</ButtonTile></NavLink>
         <NavLink to="/drills"><ButtonTile><FcIdea  className="size-10" /> DRILLS</ButtonTile></NavLink>
-        <ButtonTile><FcAddDatabase  className="size-10" /> CREATE PLAN</ButtonTile>
+        <ButtonTile disabled={true}><FcAddDatabase  className="size-10" /> CREATE PLAN</ButtonTile>
       </div>
     </div>
   );
