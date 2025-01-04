@@ -26,7 +26,7 @@ export async function createEditDrill(newDrill, id) {
 
   if (error) {
     console.error(error);
-    throw new Error('An error occurred while creating or updating the drill');
+    throw new Error('An error occurred while creating/updating the drill');
   }
 
   return data;

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
+import { useDeletePlan } from "./useDeletePlan";
 import CreatePlanForm from "./CreatePlanForm";
 import DeleteModal from "../../ui/DeleteModal";
 
 function PlansTable({ plans }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-//   const {isDeleting, deleteDrill} = useDeleteDrill();
+  const {isDeleting, deletePlan} = useDeletePlan();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleOpenModal(plan) {
@@ -22,7 +23,7 @@ function PlansTable({ plans }) {
   }
 
   function handleDeleteClick(plan) {
-    // deleteDrill(drill.id);
+    deletePlan(plan.id);
     setIsModalOpen(false); 
     console.log(plan);
   }
@@ -67,7 +68,7 @@ function PlansTable({ plans }) {
                 <button
                   onClick={() => handleOpenModal(plan)}
                   className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
-                //   disabled={isDeleting}
+                  disabled={isDeleting}
                 >
                   <AiTwotoneDelete />
                 </button>
