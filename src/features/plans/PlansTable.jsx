@@ -17,15 +17,13 @@ function PlansTable({ plans }) {
   }
 
   function handleEditClick(plan) {
-    // setSelectedDrill(drill); 
+    setSelectedPlan(plan); 
     setIsFormOpen(true); 
-    console.log(plan);
   }
 
   function handleDeleteClick(plan) {
     deletePlan(plan.id);
-    setIsModalOpen(false); 
-    console.log(plan);
+    setIsModalOpen(false);
   }
 
   return (

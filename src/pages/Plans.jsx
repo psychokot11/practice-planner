@@ -16,7 +16,6 @@ function Plans() {
   const { isLoading: isLoadingTags, tags } = useTags();
 
   const isDataReady = !isLoading && !isLoadingDrills && !isLoadingTags;
-  console.log(plans)
 
   if (isLoading) return <Spinner />;
 

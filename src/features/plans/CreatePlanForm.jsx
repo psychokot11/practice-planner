@@ -1,21 +1,25 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useDrills } from "../drills/useDrills";
 import { useTags } from "../tags/useTags";
 import { useCreatePlan } from "./useCreatePlan";
 import { useEditPlan } from "./useEditPlan";
 import Spinner from "../../ui/Spinner";
 
 function CreatePlanForm({ plan, type, onClose }) {
-    const { tags, isLoading } = useTags();
+    const { tags, isLoading: isLoadingTags } = useTags();
+    const { drills, isLoading: isLoadingDrills } = useDrills();
     const { createPlan, isCreating } = useCreatePlan();
     const { editPlan, isEditing } = useEditPlan();
 
     const isWorking = isCreating || isEditing;
     const planId = plan ? plan.id : null;
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false);
     const [selectedTags, setSelectedTags] = useState(plan?.focus ? plan.focus : []);
+    const [isDrillsDropdownOpen, setIsDrillsDropdownOpen] = useState(false);
+    const [selectedDrills, setSelectedDrills] = useState(plan?.drills ? plan.drills : []);
 
     const { register, handleSubmit, setValue, reset, formState } = useForm();
     const { errors } = formState;
@@ -46,6 +50,38 @@ function CreatePlanForm({ plan, type, onClose }) {
         setValue("focus", selectedTags);
     }, [selectedTags, setValue]);
 
+    const handleDrillChange = (event) => {
+        const { value, checked } = event.target;
+        console.log(value);
+
+        let drillsArray;
+        
+        if (!selectedDrills.length) {
+            drillsArray = [];
+        } else {
+            // drillsArray = selectedDrills.split(',').map(tag => tag.trim());
+            drillsArray = selectedDrills;
+        }
+        
+        if (checked) {
+            if (!drillsArray.includes(value)) {
+                drillsArray.push(value);
+            }                      
+            console.log(drillsArray);
+            setSelectedDrills(drillsArray);
+            // setSelectedTags(tagsArray.join(', '));
+        } else {
+            const filteredDrills = drillsArray.filter(tag => tag !== value);
+            setSelectedDrills(filteredDrills);
+            // setSelectedTags(filteredTags.join(', '));
+        }
+    };
+
+    useEffect(() => {
+        // setValue("focus", selectedTags);
+        console.log(selectedDrills);
+    }, [selectedDrills]);
+
     function onSubmit(data) {
         if (type === "create") { 
             createPlan(data, {
@@ -68,8 +104,9 @@ function CreatePlanForm({ plan, type, onClose }) {
         console.log(errors);
     }
 
-    function handleDropdownToggle() {
-        setIsDropdownOpen(!isDropdownOpen);
+    function handleDropdownToggle(item) {
+        item === "tags" && setIsTagsDropdownOpen(!isTagsDropdownOpen);
+        item === "drills" && setIsDrillsDropdownOpen(!isDrillsDropdownOpen);
     }
 
     return (
@@ -118,16 +155,16 @@ function CreatePlanForm({ plan, type, onClose }) {
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
                                     <label htmlFor="tags" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Focus</label>
-                                    <button onClick={handleDropdownToggle} 
+                                    <button onClick={() => handleDropdownToggle("tags")} 
                                         className="w-full justify-between text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                         Choose main focus areas 
                                         <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                                         </svg>
                                     </button>
-                                    <div className={`${!isDropdownOpen && 'hidden'} z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
+                                    <div className={`${!isTagsDropdownOpen && 'hidden'} z-10 w-full bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
                                         <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-                                            {isLoading ? <Spinner /> : tags.map((tag) => (
+                                            {isLoadingTags ? <Spinner /> : tags.map((tag) => (
                                                 <li key={tag.id}>
                                                     <div className="flex items-center">
                                                         <input  onChange={handleTagChange}
@@ -150,14 +187,33 @@ function CreatePlanForm({ plan, type, onClose }) {
                                         {...register("focus")} />
                                 </div>
                                 <div className="col-span-2">
-                                    <label htmlFor="plan" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plan</label>
-                                    <textarea id="plan"
-                                        name="plan"
-                                        rows="4"
-                                        // defaultValue={type === "edit" ? plan.plan : ''}
-                                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                        placeholder="Write drill plan here"
-                                        {...register("plan")} />                   
+                                    <label htmlFor="tags" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Focus</label>
+                                    <button onClick={() => handleDropdownToggle("drills")} 
+                                        className="w-full justify-between text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                        Choose drills 
+                                        <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+                                        </svg>
+                                    </button>
+                                        <div className={`${!isDrillsDropdownOpen && 'hidden'} z-10 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 w-full`}>
+                                            <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
+                                            {isLoadingDrills ? <Spinner /> : drills.map((drill) => (
+                                                <li key={drill.id}>
+                                                    <div className="flex items-center">
+                                                        <input  onChange={handleDrillChange}
+                                                            type="checkbox" 
+                                                            id={drill.id} 
+                                                            name={drill.name} 
+                                                            value={drill.name}
+                                                            defaultChecked={(type === "edit" && plan.focus) && plan.focus.includes(drill.name)}
+                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
+                                                        <label htmlFor={drill.id} 
+                                                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{drill.name}</label>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>               
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="comments" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comments</label>
