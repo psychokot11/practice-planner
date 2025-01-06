@@ -6,11 +6,13 @@ import { useDrills } from "../features/drills/useDrills";
 import { useTags } from "../features/tags/useTags";
 import ButtonTile from "../ui/ButtonTile";
 import Spinner from "../ui/Spinner";
+import CreatePlanForm from "../features/plans/CreatePlanForm";
 import CreateRandomPlanForm from "../features/plans/CreateRandomPlanForm";
 import PlansTable from "../features/plans/PlansTable";
 
 function Plans() {
   const [isRandomModalOpen, setIsRandomModalOpen] = useState(false);
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const { isLoading, plans } = usePlans();
   const { isLoading: isLoadingDrills, drills } = useDrills();
   const { isLoading: isLoadingTags, tags } = useTags();
@@ -29,12 +31,22 @@ function Plans() {
         <GiPerspectiveDiceSixFacesRandom className="size-10" />
         random
       </ButtonTile>
-      <ButtonTile>
+      <ButtonTile onClick={() => setIsCustomModalOpen(true)}>
         <MdOutlineDashboardCustomize className="size-10" />
         custom
       </ButtonTile>
     </div>
-    {(isRandomModalOpen && isDataReady) && <CreateRandomPlanForm drills={drills} tags={tags} onClose={() => setIsRandomModalOpen(false)}/>}
+    {isCustomModalOpen && 
+      <CreatePlanForm
+        type="create"
+        onClose={() => setIsCustomModalOpen(false)}
+      />
+    }
+    {(isRandomModalOpen && isDataReady) && 
+      <CreateRandomPlanForm 
+        drills={drills} 
+        tags={tags} onClose={() => setIsRandomModalOpen(false)}
+      />}
   </>;
 }
 
