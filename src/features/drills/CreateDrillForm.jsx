@@ -15,29 +15,37 @@ function CreateDrillForm({ drill, type, onClose }) {
     const drillId = drill ? drill.id : null;
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedTags, setSelectedTags] = useState(drill?.tags ? [drill.tags] : []);
-    const [tagsString, setTagsString] = useState(drill?.tags ? [drill.tags].join(", ") : "");
+    const [selectedTags, setSelectedTags] = useState(drill?.tags ? drill.tags : []);
 
     const { register, handleSubmit, setValue, reset, formState } = useForm();
     const { errors } = formState;
 
     const handleTagChange = (event) => {
         const { value, checked } = event.target;
-        if (checked) {
-            setSelectedTags([...selectedTags, value]);
+
+        let tagsArray;
+        
+        if (!selectedTags.length) {
+            tagsArray = [];
         } else {
-            setSelectedTags(selectedTags.filter(tag => tag !== value));
+            tagsArray = selectedTags.split(',').map(tag => tag.trim());
+        }
+        
+        if (checked) {
+            if (!tagsArray.includes(value)) {
+                tagsArray.push(value);
+            }
+            setSelectedTags(tagsArray.join(', '));
+        } else {
+            const filteredTags = tagsArray.filter(tag => tag !== value);
+            setSelectedTags(filteredTags.join(', '));
         }
     };
 
     useEffect(() => {
-        setTagsString(selectedTags.join(", "));
-    }, [selectedTags]);
-
-    useEffect(() => {
-        setValue("tags", tagsString);
-    }, [tagsString, setValue]);
-
+        setValue("tags", selectedTags);
+    }, [selectedTags, setValue]);
+    
     function onSubmit(data) {
         if (type === "create") { 
             createDrill(data, {
@@ -137,7 +145,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                     </div>
                                     <input type="hidden" 
                                         name="tags" 
-                                        value={tagsString}
+                                        value={selectedTags}
                                         {...register("tags")} />
                                 </div>
                                 <div className="col-span-2">
