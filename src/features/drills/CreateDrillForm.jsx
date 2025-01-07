@@ -23,12 +23,10 @@ function CreateDrillForm({ drill, type, onClose }) {
     const handleTagChange = (event) => {
         const { value, checked } = event.target;
 
-        let tagsArray;
+        let tagsArray = [];
         
-        if (!selectedTags.length) {
-            tagsArray = [];
-        } else {
-            tagsArray = selectedTags.split(',').map(tag => tag.trim());
+        if (typeof selectedTags === "string" ) {
+            tagsArray = selectedTags.split(',').map(tag => tag.trim())
         }
         
         if (checked) {
@@ -43,7 +41,12 @@ function CreateDrillForm({ drill, type, onClose }) {
     };
 
     useEffect(() => {
-        setValue("tags", selectedTags);
+        //TODO this is ugly, refactor
+        if (selectedTags == "[]") {
+            setValue("tags", "");
+        } else {
+            setValue("tags", selectedTags);
+        }
     }, [selectedTags, setValue]);
     
     function onSubmit(data) {

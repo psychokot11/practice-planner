@@ -27,12 +27,10 @@ function CreatePlanForm({ plan, type, onClose }) {
     const handleTagChange = (event) => {
         const { value, checked } = event.target;
 
-        let tagsArray;
+        let tagsArray = [];
         
-        if (!selectedTags.length) {
-            tagsArray = [];
-        } else {
-            tagsArray = selectedTags.split(',').map(tag => tag.trim());
+        if (typeof selectedTags === "string" ) {
+            tagsArray = selectedTags.split(',').map(tag => tag.trim())
         }
         
         if (checked) {
@@ -47,7 +45,12 @@ function CreatePlanForm({ plan, type, onClose }) {
     };
 
     useEffect(() => {
-        setValue("focus", selectedTags);
+        //TODO this is ugly, refactor
+        if (selectedTags == "[]") {
+            setValue("focus", "");
+        } else {
+            setValue("focus", selectedTags);
+        }       
     }, [selectedTags, setValue]);
 
     const handleDrillChange = (event) => {
@@ -59,8 +62,8 @@ function CreatePlanForm({ plan, type, onClose }) {
         if (!selectedDrills.length) {
             drillsArray = [];
         } else {
-            // drillsArray = selectedDrills.split(',').map(tag => tag.trim());
-            drillsArray = selectedDrills;
+            drillsArray = selectedDrills.split(',').map(drill => drill.trim());
+            // drillsArray = selectedDrills;
         }
         
         if (checked) {
@@ -79,7 +82,7 @@ function CreatePlanForm({ plan, type, onClose }) {
 
     useEffect(() => {
         // setValue("focus", selectedTags);
-        console.log(selectedDrills);
+        // console.log(selectedDrills);
     }, [selectedDrills]);
 
     function onSubmit(data) {
