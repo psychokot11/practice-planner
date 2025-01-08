@@ -1,6 +1,6 @@
 function UserAvatar() {
   return (
-    <button className="text-neutral-500 hover:text-neutral-600 flex gap-2 items-center font-medium text-2xl">
+    <button disabled className="text-neutral-500 hover:text-neutral-600 flex gap-2 items-center font-medium text-2xl">
       <img
         src="default-user.jpg"
         alt="user avatar"
