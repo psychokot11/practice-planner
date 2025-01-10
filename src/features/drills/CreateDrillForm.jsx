@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useTags } from "../tags/useTags";
 import { useCreateDrill } from "./useCreateDrill";
 import { useEditDrill } from "./useEditDrill";
-import Spinner from "../../ui/Spinner";
+import TagsCheckboxList from "../tags/TagsCheckboxList";
 
 function CreateDrillForm({ drill, type, onClose }) {
     const { tags, isLoading } = useTags();
@@ -129,22 +129,12 @@ function CreateDrillForm({ drill, type, onClose }) {
                                         </svg>
                                     </button>
                                     <div className={`${!isDropdownOpen && 'hidden'} z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
-                                        <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-                                            {isLoading ? <Spinner /> : tags.map((tag) => (
-                                                <li key={tag.id} onClick={handleTagChange}>
-                                                    <div className="flex items-center">
-                                                        <input type="checkbox" 
-                                                            id={tag.id} 
-                                                            name={tag.name} 
-                                                            value={tag.name}
-                                                            defaultChecked={type === "edit" && drill.tags.includes(tag.name)}
-                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                                        <label htmlFor={tag.id} 
-                                                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{tag.name}</label>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        <TagsCheckboxList 
+                                            tags={tags} 
+                                            isLoadingTags={isLoading} 
+                                            handleTagChange={handleTagChange} 
+                                            type={type} 
+                                            drill={drill} />
                                     </div>
                                     <input type="hidden" 
                                         name="tags" 
