@@ -9,8 +9,9 @@ import TableRow from "../../ui/TableRow";
 const columns = [
   {name: "Plan name"}, 
   {name: "Tags"}, 
-  {name: "Min. number of players"}, 
-  {name: "Plan"}, {name: "Comments"}
+  {name: "Min. players"}, 
+  {name: "Plan"}, 
+  {name: "Comments"}
 ];
 
 const properties = [

@@ -20,7 +20,7 @@ function TableRow({ data, properties, handleEditClick, handleOpenModal, isDeleti
                   {item[property]}
                 </td>
               ))}
-              <td className="flex justify-between px-6 py-4 text-right">
+              <td className="flex justify-between gap-4 px-6 py-4 text-right">
                 <button
                   onClick={() => handleEditClick(item)}
                   className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"

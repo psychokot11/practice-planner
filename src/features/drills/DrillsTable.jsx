@@ -8,7 +8,7 @@ import TableRow from "../../ui/TableRow";
 
 const columns = [
   {name: "Drill name"}, 
-  {name: "Min. number of players"}, 
+  {name: "Min. players"}, 
   {name: "Description"}, 
   {name: "Tags"}, 
   {name: "Link"}
