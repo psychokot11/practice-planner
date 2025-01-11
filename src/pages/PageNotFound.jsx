@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import Button from "../ui/Button";
 
 function PageNotFound() {
 return (
@@ -6,8 +7,10 @@ return (
     <div className="min-h-screen flex flex-grow items-center justify-center bg-gray-50">
       <div className="rounded-lg bg-white p-8 text-center shadow-xl">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="text-gray-600">Oops! The page you are looking for could not be found.</p>
-        <NavLink to="/" className="mt-4 inline-block rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"> Go back to Home </NavLink>
+        <p className="text-gray-600 mb-4">Oops! The page you are looking for could not be found.</p>
+        <Button type="button" center>
+          <NavLink to="/"> Go back to Home </NavLink>
+        </Button>
       </div>
     </div>
   </div>

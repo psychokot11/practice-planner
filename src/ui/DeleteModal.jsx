@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 function DeleteModal({ item, onAccept, onCancel, onClose }) {
     return (
@@ -50,20 +51,18 @@ function DeleteModal({ item, onAccept, onCancel, onClose }) {
                             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                 Are you sure you want to delete this {item}?
                             </h3>
-                            <button
-                                onClick={onAccept}
-                                type="button"
-                                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                            >
-                                Yes, I&apos;m sure
-                            </button>
-                            <button
-                                onClick={onCancel}
-                                type="button"
-                                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            >
-                                No, cancel
-                            </button>
+                            <div className="flex justify-center gap-4">
+                                <Button
+                                    onClick={onAccept}
+                                    type="button"
+                                    subtype="delete"
+                                > Yes, I&apos;m sure </Button>
+                                <Button
+                                    onClick={onCancel}
+                                    type="button"
+                                    subtype="accept"
+                                > No, cancel </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
