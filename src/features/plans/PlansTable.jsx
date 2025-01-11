@@ -1,9 +1,24 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
-import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
+import { useState } from "react";
 import { useDeletePlan } from "./useDeletePlan";
 import CreatePlanForm from "./CreatePlanForm";
 import DeleteModal from "../../ui/DeleteModal";
+import Table from "../../ui/Table";
+import TableRow from "../../ui/TableRow";
+
+const columns = [
+  {name: "Plan name"}, 
+  {name: "Tags"}, 
+  {name: "Min. number of players"}, 
+  {name: "Plan"}, {name: "Comments"}
+];
+
+const properties = [
+  "tags", 
+  "minNumPlayers", 
+  "plan", 
+  "comments"
+];
 
 function PlansTable({ plans }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -28,54 +43,15 @@ function PlansTable({ plans }) {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-neutral-500 dark:text-neutral-400">
-        <thead className="text-xs text-neutral-700 uppercase bg-neutral-100 dark:bg-neutral-700 dark:text-neutral-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">Plan name</th>
-            <th scope="col" className="px-6 py-3">Focus</th>
-            <th scope="col" className="px-6 py-3">Min. number of players</th>
-            <th scope="col" className="px-6 py-3">Plan</th>
-            <th scope="col" className="px-6 py-3">Comments</th>
-            <th scope="col" className="px-6 py-3"><span className="sr-only">Edit</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          {plans.map((plan) => (
-            <tr
-              key={plan.id}
-              className="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-600"
-            >
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-neutral-900 whitespace-nowrap dark:text-white"
-              >
-                {plan.name}
-              </th>
-              <td className="px-6 py-4">{plan.focus}</td>
-              <td className="px-6 py-4">{plan.minNumPlayers}</td>
-              <td className="px-6 py-4">plan</td>
-              <td className="px-6 py-4">{plan.comments}</td>
-              <td className="flex justify-between px-6 py-4 text-right">
-                <button
-                  onClick={() => handleEditClick(plan)}
-                  className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
-                  disabled={false}
-                >
-                  <AiTwotoneEdit />
-                </button>
-                <button
-                  onClick={() => handleOpenModal(plan)}
-                  className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
-                  disabled={isDeleting}
-                >
-                  <AiTwotoneDelete />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
+      <Table columns={columns}>
+        <TableRow 
+          data={plans}
+          properties={properties} 
+          handleEditClick={handleEditClick} 
+          handleOpenModal={handleOpenModal} 
+          isDeleting={isDeleting}/>
+      </Table>
+      
       {isFormOpen && (
         <CreatePlanForm
           plan={selectedPlan}
@@ -86,7 +62,7 @@ function PlansTable({ plans }) {
 
       {isModalOpen && (
         <DeleteModal
-          item="drill"
+          item="plan"
           onAccept={() => handleDeleteClick(selectedPlan)}
           onCancel={() => setIsModalOpen(false)}
           onClose={() => setIsModalOpen(false)}
