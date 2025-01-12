@@ -5,6 +5,7 @@ import { useTags } from "../tags/useTags";
 import { useCreateDrill } from "./useCreateDrill";
 import { useEditDrill } from "./useEditDrill";
 import TagsCheckboxList from "../tags/TagsCheckboxList";
+import Button from "../../ui/Button";
 
 function CreateDrillForm({ drill, type, onClose }) {
     const { tags, isLoading } = useTags();
@@ -121,13 +122,18 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
                                     <label htmlFor="tags" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
-                                    <button onClick={handleDropdownToggle} 
-                                        className="w-full justify-between text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                        Choose tags 
+                                    <Button 
+                                        onClick={handleDropdownToggle}
+                                        type="button"
+                                        subtype="normal"
+                                        center
+                                        fullWidth
+                                        flex
+                                    > Choose tags  
                                         <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                                         </svg>
-                                    </button>
+                                    </Button>
                                     <div className={`${!isDropdownOpen && 'hidden'} z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
                                         <TagsCheckboxList 
                                             tags={tags} 
@@ -161,12 +167,14 @@ function CreateDrillForm({ drill, type, onClose }) {
                                         {...register("link")}/>                   
                                 </div>
                             </div>
-                            <button type="submit"
+                            <Button
+                                type="submit"
+                                subtype="normal"
+                                center
                                 disabled={isWorking}
-                                className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                {type === "create" && <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>}
+                            >   {type === "create" && <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>}
                                 {type === "create" ? "Add new drill" : "Edit drill"}
-                            </button>
+                            </Button>
                         </form>
                     </div>
                 </div>
