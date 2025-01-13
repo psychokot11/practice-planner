@@ -7,8 +7,6 @@ function Button({ children, onClick, type, subtype = "normal", disabled, center,
     const fullWidthClasses = fullWidth ? "w-full" : "";
     const flexClasses = flex ? "flex justify-between" : "";
     const classes = `${commonClasses} ${centerClasses} ${fullWidthClasses} ${flexClasses}`;
-
-    console.log(classes);
     
     let buttonClasses;
 
