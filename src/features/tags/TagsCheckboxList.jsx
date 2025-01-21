@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import Spinner from "../../ui/Spinner";
 
 function TagsCheckboxList({ tags, isLoadingTags, handleTagChange, type, plan, drill }) {
@@ -29,12 +28,3 @@ function TagsCheckboxList({ tags, isLoadingTags, handleTagChange, type, plan, dr
 }
 
 export default TagsCheckboxList;
-
-TagsCheckboxList.propTypes = {
-    tags: PropTypes.array,
-    isLoadingTags: PropTypes.bool.isRequired,
-    handleTagChange: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired,
-    plan: PropTypes.object,
-    drill: PropTypes.object
-}
