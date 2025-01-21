@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { FcHome, FcIdea, FcPlanner, FcFolder, FcSettings } from "react-icons/fc";
 import { NavLink } from "react-router-dom";
 
@@ -44,7 +43,3 @@ function MainNav({ handleMenu }) {
 }
 
 export default MainNav;
-
-MainNav.propTypes = {
-  handleMenu : PropTypes.func,
-}

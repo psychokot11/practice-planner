@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";
 
 function TableRow({ data, properties, handleEditClick, handleOpenModal, isDeleting }) {
@@ -43,11 +42,3 @@ function TableRow({ data, properties, handleEditClick, handleOpenModal, isDeleti
 }
 
 export default TableRow;
-
-TableRow.propTypes = {
-    data: PropTypes.array.isRequired,
-    properties: PropTypes.array,
-    handleEditClick: PropTypes.func,
-    handleOpenModal: PropTypes.func,
-    isDeleting: PropTypes.bool
-};

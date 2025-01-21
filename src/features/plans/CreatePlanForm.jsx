@@ -6,6 +6,12 @@ import { useTags } from "../tags/useTags";
 import { useCreatePlan } from "./useCreatePlan";
 import { useEditPlan } from "./useEditPlan";
 import Spinner from "../../ui/Spinner";
+import TagsCheckboxList from "../tags/TagsCheckboxList";
+import SortableList from "../../ui/SortableList";
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 function CreatePlanForm({ plan, type, onClose }) {
     const { tags, isLoading: isLoadingTags } = useTags();
@@ -17,14 +23,20 @@ function CreatePlanForm({ plan, type, onClose }) {
     const planId = plan ? plan.id : null;
 
     const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false);
-    const [selectedTags, setSelectedTags] = useState(plan?.focus ? plan.focus : []);
+    const [selectedTags, setSelectedTags] = useState(plan?.tags ? plan.tags : []);
     const [isDrillsDropdownOpen, setIsDrillsDropdownOpen] = useState(false);
-    const [selectedDrills, setSelectedDrills] = useState(plan?.drills ? plan.drills : []);
+    const [selectedDrills, setSelectedDrills] = useState([]);
 
     const { register, handleSubmit, setValue, reset, formState } = useForm();
     const { errors } = formState;
 
-    const handleTagChange = (event) => {
+    
+    function handleDropdownToggle(item) {
+        item === "tags" && setIsTagsDropdownOpen(!isTagsDropdownOpen);
+        item === "drills" && setIsDrillsDropdownOpen(!isDrillsDropdownOpen);
+    }
+
+    function handleTagChange(event) {
         const { value, checked } = event.target;
 
         let tagsArray = [];
@@ -44,46 +56,26 @@ function CreatePlanForm({ plan, type, onClose }) {
         }
     };
 
-    useEffect(() => {
-        //TODO this is ugly, refactor
-        if (selectedTags == "[]") {
-            setValue("focus", "");
-        } else {
-            setValue("focus", selectedTags);
-        }       
-    }, [selectedTags, setValue]);
-
-    const handleDrillChange = (event) => {
+    function handleDrillChange(event) {
         const { value, checked } = event.target;
-        console.log(value);
 
-        let drillsArray;
-        
-        if (!selectedDrills.length) {
-            drillsArray = [];
-        } else {
-            drillsArray = selectedDrills.split(',').map(drill => drill.trim());
-            // drillsArray = selectedDrills;
-        }
-        
         if (checked) {
-            if (!drillsArray.includes(value)) {
-                drillsArray.push(value);
-            }                      
-            console.log(drillsArray);
-            setSelectedDrills(drillsArray);
-            // setSelectedTags(tagsArray.join(', '));
+            setSelectedDrills([...selectedDrills, value]);
         } else {
-            const filteredDrills = drillsArray.filter(tag => tag !== value);
+            const filteredDrills = selectedDrills.filter(drill => drill !== value);
             setSelectedDrills(filteredDrills);
-            // setSelectedTags(filteredTags.join(', '));
         }
     };
 
     useEffect(() => {
-        // setValue("focus", selectedTags);
-        // console.log(selectedDrills);
-    }, [selectedDrills]);
+        //TODO this is ugly, refactor
+        if (selectedTags == "[]") {
+            setValue("tags", "");
+        } else {
+            setValue("tags", selectedTags);
+        }       
+    }, [selectedTags, setValue]);
+
 
     function onSubmit(data) {
         if (type === "create") { 
@@ -101,15 +93,10 @@ function CreatePlanForm({ plan, type, onClose }) {
                 }
             })
         }
-    }    
+    }
     
     function onError(errors) {
         console.log(errors);
-    }
-
-    function handleDropdownToggle(item) {
-        item === "tags" && setIsTagsDropdownOpen(!isTagsDropdownOpen);
-        item === "drills" && setIsDrillsDropdownOpen(!isDrillsDropdownOpen);
     }
 
     return (
@@ -166,28 +153,17 @@ function CreatePlanForm({ plan, type, onClose }) {
                                         </svg>
                                     </button>
                                     <div className={`${!isTagsDropdownOpen && 'hidden'} z-10 w-full bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
-                                        <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-                                            {isLoadingTags ? <Spinner /> : tags.map((tag) => (
-                                                <li key={tag.id}>
-                                                    <div className="flex items-center">
-                                                        <input  onChange={handleTagChange}
-                                                            type="checkbox" 
-                                                            id={tag.id} 
-                                                            name={tag.name} 
-                                                            value={tag.name}
-                                                            defaultChecked={(type === "edit" && plan.focus) && plan.focus.includes(tag.name)}
-                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                                        <label htmlFor={tag.id} 
-                                                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{tag.name}</label>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        <TagsCheckboxList 
+                                            tags={tags}
+                                            isLoadingTags={isLoadingTags}
+                                            handleTagChange={handleTagChange}
+                                            type={type}
+                                            plan={plan} />
                                     </div>
                                     <input type="hidden" 
-                                        name="focus" 
+                                        name="tags" 
                                         value={selectedTags}
-                                        {...register("focus")} />
+                                        {...register("tags")} />
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="tags" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Focus</label>
@@ -203,12 +179,13 @@ function CreatePlanForm({ plan, type, onClose }) {
                                             {isLoadingDrills ? <Spinner /> : drills.map((drill) => (
                                                 <li key={drill.id}>
                                                     <div className="flex items-center">
-                                                        <input  onChange={handleDrillChange}
+                                                        <input  
+                                                            onChange={handleDrillChange}
                                                             type="checkbox" 
                                                             id={drill.id} 
                                                             name={drill.name} 
-                                                            value={drill.name}
-                                                            defaultChecked={(type === "edit" && plan.focus) && plan.focus.includes(drill.name)}
+                                                            value={drill.id}
+                                                            // defaultChecked={(type === "edit" && plan.drills) && plan.drills.includes(drill.name)}
                                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
                                                         <label htmlFor={drill.id} 
                                                             className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{drill.name}</label>
@@ -217,6 +194,12 @@ function CreatePlanForm({ plan, type, onClose }) {
                                             ))}
                                         </ul>
                                     </div>               
+                                </div>
+                                <div className="col-span-2">
+                                    <DndProvider backend={HTML5Backend}>
+                                        <SortableList items={drills} selectedItems={selectedDrills} />
+                                    </DndProvider>
+                                    
                                 </div>
                                 <div className="col-span-2">
                                     <label htmlFor="comments" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comments</label>

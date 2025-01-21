@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDeleteTag } from "./useDeleteTags";
 import { IoMdClose } from "react-icons/io";
@@ -41,10 +40,5 @@ function Tag({ id, tag }) {
         </div>
     );
 }
-
-Tag.propTypes = {
-    tag: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-};
 
 export default Tag;

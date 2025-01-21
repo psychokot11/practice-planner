@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 function Table({ columns, children }) {
     return (
         <div className="table-auto relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -21,8 +19,3 @@ function Table({ columns, children }) {
 }
 
 export default Table;
-
-Table.propTypes = {
-    columns: PropTypes.array.isRequired,
-    children: PropTypes.node
-};

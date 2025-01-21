@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 const commonClasses = `py-2.5 px-5 text-sm font-medium rounded-lg`;
 
 function Button({ children, onClick, type, subtype = "normal", disabled, center, fullWidth, flex }) {
@@ -26,14 +24,3 @@ function Button({ children, onClick, type, subtype = "normal", disabled, center,
 }
 
 export default Button;
-
-Button.propTypes = {
-    children: PropTypes.node,
-    type: PropTypes.string,
-    subtype: PropTypes.string,
-    onClick: PropTypes.func,
-    disabled: PropTypes.bool,
-    center: PropTypes.bool,
-    fullWidth: PropTypes.bool,
-    flex: PropTypes.bool
-};

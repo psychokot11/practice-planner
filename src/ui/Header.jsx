@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
 import UserAvatar from "../features/authentication/UserAvatar";
 import HeaderMenu from "./HeaderMenu";
 import Logo from "./Logo";
@@ -39,7 +38,3 @@ function Header({ handleMenu }) {
 }
 
 export default Header;
-
-Header.propTypes = {
-  handleMenu: PropTypes.func.isRequired,
-}

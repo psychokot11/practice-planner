@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import MainNav from "./MainNav";
 
 function Sidebar({ isMenuOpen, handleMenu }) {
@@ -16,8 +15,3 @@ function Sidebar({ isMenuOpen, handleMenu }) {
 }
 
 export default Sidebar;
-
-Sidebar.propTypes = {
-  isMenuOpen: PropTypes.bool.isRequired,
-  handleMenu: PropTypes.func,
-}

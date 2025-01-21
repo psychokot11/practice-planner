@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDeletePlan } from "./useDeletePlan";
 import CreatePlanForm from "./CreatePlanForm";
@@ -74,7 +73,3 @@ function PlansTable({ plans }) {
 }
 
 export default PlansTable;
-
-PlansTable.propTypes = {
-  plans: PropTypes.array.isRequired,
-};

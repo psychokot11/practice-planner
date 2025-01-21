@@ -33,6 +33,7 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      'react/prop-types': 'off', // Disable prop-types TODO as we use TypeScript for type checking 
     },
   },
 ]

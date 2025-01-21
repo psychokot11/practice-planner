@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import Button from "./Button";
 
 function DeleteModal({ item, onAccept, onCancel, onClose }) {
@@ -71,12 +70,5 @@ function DeleteModal({ item, onAccept, onCancel, onClose }) {
         </div>
     );
 }
-
-DeleteModal.propTypes = {
-    item: PropTypes.string.isRequired,
-    onAccept: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-};
 
 export default DeleteModal;

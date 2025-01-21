@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import CreateDrillForm from "./CreateDrillForm";
 import { useDeleteDrill } from "./useDeleteDrills";
@@ -74,7 +73,3 @@ function DrillsTable({ drills }) {
 }
 
 export default DrillsTable;
-
-DrillsTable.propTypes = {
-  drills: PropTypes.array.isRequired,
-};

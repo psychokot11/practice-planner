@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTags } from "../tags/useTags";
@@ -42,8 +41,9 @@ function CreateDrillForm({ drill, type, onClose }) {
     };
 
     useEffect(() => {
+        console.log(selectedTags);
         //TODO this is ugly, refactor
-        if (selectedTags == "[]") {
+        if (selectedTags === "[]" || selectedTags.legth === 0) {
             setValue("tags", "");
         } else {
             setValue("tags", selectedTags);
@@ -185,9 +185,3 @@ function CreateDrillForm({ drill, type, onClose }) {
 }
 
 export default CreateDrillForm;
-
-CreateDrillForm.propTypes = {
-    drill: PropTypes.object,
-    type: PropTypes.string,
-    onClose: PropTypes.func,
-};

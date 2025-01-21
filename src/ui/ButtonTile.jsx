@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 function ButtonTile({ children, onClick, disabled = false }) {
   return (
     <button
@@ -13,10 +11,3 @@ function ButtonTile({ children, onClick, disabled = false }) {
 }
 
 export default ButtonTile;
-
-ButtonTile.propTypes = {
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool,
-  color: PropTypes.oneOf(["red", "green", "blue", "yellow"]),
-};
