@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from './buttons/Button'
 
 function DeleteModal({ item, onAccept, onCancel, onClose }) {
     return (
@@ -55,12 +55,18 @@ function DeleteModal({ item, onAccept, onCancel, onClose }) {
                                     onClick={onAccept}
                                     type="button"
                                     subtype="delete"
-                                > Yes, I&apos;m sure </Button>
+                                >
+                                    {' '}
+                                    Yes, I&apos;m sure{' '}
+                                </Button>
                                 <Button
                                     onClick={onCancel}
                                     type="button"
                                     subtype="accept"
-                                > No, cancel </Button>
+                                >
+                                    {' '}
+                                    No, cancel{' '}
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -68,7 +74,7 @@ function DeleteModal({ item, onAccept, onCancel, onClose }) {
             </div>
             <div className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
         </div>
-    );
+    )
 }
 
-export default DeleteModal;
+export default DeleteModal
