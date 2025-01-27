@@ -1,4 +1,8 @@
-const commonClasses = `py-2.5 px-5 text-sm font-medium rounded-lg shadow-lg duration-700`
+import { IoMdClose, IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
+
+const commonClasses =
+    'py-2.5 px-5 text-sm font-medium rounded-lg shadow-lg duration-700'
+const iconClasses = 'text-xl'
 
 function Button({
     children,
@@ -9,6 +13,8 @@ function Button({
     center,
     fullWidth,
     flex,
+    icon,
+    iconPosition,
 }) {
     const centerClasses = center ? 'items-center text-center' : 'text-left'
     const fullWidthClasses = fullWidth ? 'w-full' : ''
@@ -28,6 +34,18 @@ function Button({
         buttonClasses = `${classes} text-white bg-blue-500 font-semibold hover:bg-blue-600`
     }
 
+    let iconElement
+
+    if (icon === 'close') {
+        iconElement = <IoMdClose className={iconClasses} />
+    } else if (icon === 'dropdown') {
+        iconElement = <IoMdArrowDropdown className={iconClasses} />
+    } else if (icon === 'add') {
+        iconElement = <IoMdAdd className={`${iconClasses} mr-2`} />
+    } else {
+        iconElement = null
+    }
+
     return (
         <button
             onClick={onClick}
@@ -35,7 +53,9 @@ function Button({
             disabled={disabled}
             className={buttonClasses}
         >
+            {iconPosition === 'left' && iconElement}
             {children}
+            {!iconPosition && iconElement}
         </button>
     )
 }

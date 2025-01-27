@@ -1,7 +1,6 @@
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import SortableList from './SortableList'
-import DropdownArrow from './icons/DropdownArrow'
 import Button from './buttons/Button'
 
 const backendOptions = {
@@ -25,11 +24,11 @@ function DropdownList({
                 <Button
                     type="button"
                     onClick={() => handleDropdownToggle('drills')}
+                    icon="dropdown"
                     flex
                     fullWidth
                 >
                     {details.dropDownText}
-                    <DropdownArrow />
                 </Button>
                 <div
                     className={`${

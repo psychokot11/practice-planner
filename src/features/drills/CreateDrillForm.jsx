@@ -5,9 +5,6 @@ import { useCreateDrill } from './useCreateDrill'
 import { useEditDrill } from './useEditDrill'
 import TagsCheckboxList from '../tags/TagsCheckboxList'
 import Button from '../../ui/buttons/Button'
-import PlusIcon from '../../ui/icons/PlusIcon'
-import DropdownArrow from '../../ui/icons/DropdownArrow'
-import XIcon from '../../ui/icons/XIcon'
 
 function CreateDrillForm({ drill, type, onClose }) {
     const { tags, isLoading } = useTags()
@@ -103,8 +100,8 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 onClick={onClose}
                                 type="button"
                                 subtype="close"
+                                icon="close"
                             >
-                                <XIcon />
                                 <span className="sr-only">Close modal</span>
                             </Button>
                         </div>
@@ -169,12 +166,12 @@ function CreateDrillForm({ drill, type, onClose }) {
                                         onClick={handleDropdownToggle}
                                         type="button"
                                         subtype="normal"
+                                        icon="dropdown"
                                         center
                                         fullWidth
                                         flex
                                     >
                                         Choose tags
-                                        <DropdownArrow />
                                     </Button>
                                     <div
                                         className={`${
@@ -239,11 +236,12 @@ function CreateDrillForm({ drill, type, onClose }) {
                             <Button
                                 type="submit"
                                 subtype="normal"
+                                icon="add"
+                                iconPosition="left"
                                 center
                                 disabled={isWorking}
                                 flex
                             >
-                                {type === 'create' && <PlusIcon />}
                                 {type === 'create'
                                     ? 'Add new drill'
                                     : 'Edit drill'}

@@ -1,5 +1,4 @@
 import Button from '../../ui/buttons/Button'
-import DropdownArrow from '../../ui/icons/DropdownArrow'
 
 function TagsCheckboxList({
     tags,
@@ -14,9 +13,14 @@ function TagsCheckboxList({
 
     return (
         <div className="relative">
-            <Button onClick={handleDropdownToggle} type="button" flex fullWidth>
+            <Button
+                onClick={handleDropdownToggle}
+                type="button"
+                icon="dropdown"
+                flex
+                fullWidth
+            >
                 Choose main focus areas
-                <DropdownArrow />
             </Button>
             <div
                 className={`${
