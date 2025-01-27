@@ -7,7 +7,7 @@ import TagsCheckboxList from '../tags/TagsCheckboxList'
 import Button from '../../ui/buttons/Button'
 
 function CreateDrillForm({ drill, type, onClose }) {
-    const { tags, isLoading } = useTags()
+    const { tags } = useTags()
     const { createDrill, isCreating } = useCreateDrill()
     const { editDrill, isEditing } = useEditDrill()
 
@@ -162,30 +162,16 @@ function CreateDrillForm({ drill, type, onClose }) {
                                     >
                                         Tags
                                     </label>
-                                    <Button
-                                        onClick={handleDropdownToggle}
-                                        type="button"
-                                        subtype="normal"
-                                        icon="dropdown"
-                                        center
-                                        fullWidth
-                                        flex
-                                    >
-                                        Choose tags
-                                    </Button>
-                                    <div
-                                        className={`${
-                                            !isDropdownOpen && 'hidden'
-                                        } z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
-                                    >
-                                        <TagsCheckboxList
-                                            tags={tags}
-                                            isLoadingTags={isLoading}
-                                            handleTagChange={handleTagChange}
-                                            type={type}
-                                            drill={drill}
-                                        />
-                                    </div>
+                                    <TagsCheckboxList
+                                        tags={tags}
+                                        handleTagChange={handleTagChange}
+                                        handleDropdownToggle={() =>
+                                            handleDropdownToggle('tags')
+                                        }
+                                        isDropdownOpen={isDropdownOpen}
+                                        type={type}
+                                        item={drill}
+                                    />
                                     <input
                                         type="hidden"
                                         name="tags"
