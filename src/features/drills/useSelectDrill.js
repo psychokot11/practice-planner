@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useDrillSelect(sections) {
+export function useSelectDrill(sections) {
     const initialDrillsState = sections.reduce((acc, section) => {
         acc[section] = []
         return acc
@@ -30,7 +30,7 @@ export function useDrillSelect(sections) {
         })
     }
 
-    const handleDropdownToggle = (section) => {
+    const handleDrillDropdownToggle = (section) => {
         setIsDrillsDropdownOpen((prevState) => ({
             ...prevState,
             [section]: !prevState[section],
@@ -41,6 +41,6 @@ export function useDrillSelect(sections) {
         selectedDrills,
         isDrillsDropdownOpen,
         handleDrillChange,
-        handleDropdownToggle,
+        handleDrillDropdownToggle,
     }
 }
