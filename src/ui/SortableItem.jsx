@@ -7,8 +7,7 @@ const ItemTypes = {
 }
 
 function SortableItem({ item, index, sortedItems, setSortedItems }) {
-    const { name, description, link, tags } = item
-    console.log(name, description, link, tags)
+    const { name, description } = item
 
     const moveItem = (dragIndex, hoverIndex) => {
         const draggedItem = sortedItems[dragIndex]

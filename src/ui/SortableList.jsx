@@ -9,8 +9,6 @@ const SortableList = ({ items, selectedItems }) => {
             .filter((item) => selectedItems.map(Number).includes(item.id))
             .map((item) => item)
         setSortedItems(filteredItems)
-
-        console.log('filteredItemNames', filteredItems)
     }, [items, selectedItems])
 
     return (
