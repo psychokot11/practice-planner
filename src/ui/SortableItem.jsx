@@ -6,7 +6,7 @@ const ItemTypes = {
     CARD: 'card',
 }
 
-function SortableItem({ item, index, sortedItems, setSortedItems }) {
+function SortableItem({ item, index, sortedItems, setSortedItems, setIndex }) {
     const { name, description } = item
 
     const moveItem = (dragIndex, hoverIndex) => {
@@ -37,6 +37,8 @@ function SortableItem({ item, index, sortedItems, setSortedItems }) {
 
             moveItem(dragIndex, hoverIndex)
             item.index = hoverIndex
+
+            setIndex(hoverIndex)
         },
     })
 
