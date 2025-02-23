@@ -48,9 +48,15 @@ function CreateTagForm() {
                         </span>
                     )}
                 </div>
-                <Button type="submit" subtype="normal" disabled={false} center>
-                    {' '}
-                    Create drill{' '}
+                <Button
+                    type="submit"
+                    subtype="normal"
+                    disabled={false}
+                    icon="add"
+                    flex
+                    iconPosition="left"
+                >
+                    Add tag
                 </Button>
             </div>
         </form>

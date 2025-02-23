@@ -1,4 +1,4 @@
-import { IoMdClose, IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
+import { IoMdClose, IoMdArrowDropdown, IoMdAddCircle } from 'react-icons/io'
 
 const commonClasses =
     'py-2.5 px-5 text-sm font-medium rounded-lg shadow-lg duration-700'
@@ -41,7 +41,7 @@ function Button({
     } else if (icon === 'dropdown') {
         iconElement = <IoMdArrowDropdown className={iconClasses} />
     } else if (icon === 'add') {
-        iconElement = <IoMdAdd className={`${iconClasses} mr-2`} />
+        iconElement = <IoMdAddCircle className={`${iconClasses} mr-2`} />
     } else {
         iconElement = null
     }
