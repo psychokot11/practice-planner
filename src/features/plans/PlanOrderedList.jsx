@@ -25,8 +25,6 @@ function PlanOrderedList({ title, items }) {
                     numericItems.indexOf(a.id) - numericItems.indexOf(b.id)
             )
 
-    console.log(filteredDrills)
-
     return (
         <div>
             <h3 className="font-semibold">{title}</h3>

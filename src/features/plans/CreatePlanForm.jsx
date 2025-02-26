@@ -57,7 +57,6 @@ function CreatePlanForm({ plan, type, onClose }) {
     }, [selectedTags, setValue])
 
     useEffect(() => {
-        console.log(practicePlan)
         setValue('drills', practicePlan)
     }, [practicePlan, setValue])
 
@@ -65,7 +64,6 @@ function CreatePlanForm({ plan, type, onClose }) {
         if (type === 'create') {
             createPlan(data, {
                 onSuccess: () => {
-                    console.log(data)
                     reset()
                     onClose()
                 },
@@ -75,7 +73,6 @@ function CreatePlanForm({ plan, type, onClose }) {
                 { newPlanData: data, id: planId },
                 {
                     onSuccess: () => {
-                        console.log('edited', data)
                         reset()
                         onClose()
                     },
@@ -214,9 +211,6 @@ function CreatePlanForm({ plan, type, onClose }) {
                                                         key
                                                     )
                                                 }
-                                                // handleSortedListChange={
-                                                //     handleSortedListChange
-                                                // }
                                                 handleSortedListChange={(
                                                     sortedList
                                                 ) =>
@@ -258,7 +252,7 @@ function CreatePlanForm({ plan, type, onClose }) {
                             </div>
                             <Button
                                 type="submit"
-                                icon="add"
+                                icon={type === 'create' ? 'add' : ''}
                                 iconPosition="left"
                                 disabled={isWorking}
                                 flex
