@@ -3,6 +3,8 @@ import SortableItem from './SortableItem'
 
 const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
     const [sortedItems, setSortedItems] = useState([])
+
+    // eslint-disable-next-line no-unused-vars
     const [newIndex, setNewIndex] = useState(null)
 
     useEffect(() => {
@@ -20,7 +22,7 @@ const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
                     index,
                 }))
                 .sort((a, b) => a.index - b.index)
-            // console.log(sortedData)
+
             handleSortedListChange(sortedData)
         }
     }, [sortedItems, handleSortedListChange])
