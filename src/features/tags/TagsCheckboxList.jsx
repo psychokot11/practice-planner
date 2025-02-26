@@ -8,6 +8,10 @@ function TagsCheckboxList({
     handleDropdownToggle,
     isDropdownOpen,
 }) {
+    if (!tags) {
+        return null
+    }
+
     return (
         <div className="relative">
             <Button

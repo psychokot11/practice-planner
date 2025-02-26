@@ -10,16 +10,20 @@ function SortableItem({ item, index, sortedItems, setSortedItems, setIndex }) {
     const { name, description } = item
 
     const moveItem = (dragIndex, hoverIndex) => {
-        const draggedItem = sortedItems[dragIndex]
-        const newSortedItems = [...sortedItems]
-        newSortedItems.splice(dragIndex, 1)
-        newSortedItems.splice(hoverIndex, 0, draggedItem)
-        setSortedItems(newSortedItems)
+        if (dragIndex === hoverIndex) return
+
+        const updatedItems = [...sortedItems]
+        const [draggedItem] = updatedItems.splice(dragIndex, 1)
+        updatedItems.splice(hoverIndex, 0, draggedItem)
+
+        setSortedItems(updatedItems.map((item, i) => ({ ...item, index: i })))
+
+        setIndex(hoverIndex)
     }
 
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.CARD,
-        item: { type: ItemTypes.CARD, index },
+        item: { index },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
@@ -27,18 +31,11 @@ function SortableItem({ item, index, sortedItems, setSortedItems, setIndex }) {
 
     const [, drop] = useDrop({
         accept: ItemTypes.CARD,
-        hover: (item) => {
-            const dragIndex = item.index
-            const hoverIndex = index
-
-            if (dragIndex === hoverIndex) {
-                return
+        hover: (draggedItem) => {
+            if (draggedItem.index !== index) {
+                moveItem(draggedItem.index, index)
+                draggedItem.index = index
             }
-
-            moveItem(dragIndex, hoverIndex)
-            item.index = hoverIndex
-
-            setIndex(hoverIndex)
         },
     })
 

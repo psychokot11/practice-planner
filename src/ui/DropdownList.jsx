@@ -14,6 +14,7 @@ function DropdownList({
     isDropdownOpen,
     handleDropdownToggle,
     handleChange,
+    handleSortedListChange,
 }) {
     return (
         <>
@@ -64,7 +65,11 @@ function DropdownList({
             </div>
             {details.isSortable && (
                 <DndProvider backend={TouchBackend} options={backendOptions}>
-                    <SortableList items={items} selectedItems={selectedItems} />
+                    <SortableList
+                        items={items}
+                        selectedItems={selectedItems}
+                        handleSortedListChange={handleSortedListChange}
+                    />
                 </DndProvider>
             )}
         </>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import SortableItem from './SortableItem'
 
-const SortableList = ({ items, selectedItems }) => {
+const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
     const [sortedItems, setSortedItems] = useState([])
+    const [newIndex, setNewIndex] = useState(null)
 
     useEffect(() => {
         const filteredItems = items
@@ -10,6 +11,19 @@ const SortableList = ({ items, selectedItems }) => {
             .map((item) => item)
         setSortedItems(filteredItems)
     }, [items, selectedItems])
+
+    useEffect(() => {
+        if (handleSortedListChange) {
+            const sortedData = sortedItems
+                .map((item, index) => ({
+                    id: item.id,
+                    index,
+                }))
+                .sort((a, b) => a.index - b.index)
+            // console.log(sortedData)
+            handleSortedListChange(sortedData)
+        }
+    }, [sortedItems, handleSortedListChange])
 
     return (
         <ul>
@@ -20,6 +34,7 @@ const SortableList = ({ items, selectedItems }) => {
                     index={index}
                     sortedItems={sortedItems}
                     setSortedItems={setSortedItems}
+                    setIndex={setNewIndex}
                 />
             ))}
         </ul>

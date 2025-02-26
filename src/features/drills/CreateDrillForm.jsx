@@ -43,7 +43,6 @@ function CreateDrillForm({ drill, type, onClose }) {
     }
 
     useEffect(() => {
-        console.log(selectedTags)
         //TODO this is ugly, refactor
         if (selectedTags === '[]' || selectedTags.legth === 0) {
             setValue('tags', '')
