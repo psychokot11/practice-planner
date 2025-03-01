@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useSelectTag({ plan }) {
+export function useSelectTag(plan) {
     const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
     const [selectedTags, setSelectedTags] = useState(
         plan?.tags ? plan.tags : []

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useSetPlan({ plan }) {
+export function useSetPlan(plan) {
     const [practicePlan, setPracticePlan] = useState(
         plan?.drills ? plan.drills : {}
     )

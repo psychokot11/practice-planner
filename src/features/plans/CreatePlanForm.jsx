@@ -187,7 +187,10 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                     dropDownText:
                                                         'Choose drills',
                                                     isSortable: true,
+                                                    type,
                                                 }}
+                                                sectionKey={key}
+                                                plan={plan}
                                                 items={drills}
                                                 selectedItems={
                                                     selectedDrills[key]
