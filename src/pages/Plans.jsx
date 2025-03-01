@@ -10,6 +10,13 @@ import CreatePlanForm from '../features/plans/CreatePlanForm'
 import CreateRandomPlanForm from '../features/plans/CreateRandomPlanForm'
 import PlansTable from '../features/plans/PlansTable'
 
+//TODO: in the future move those sections to the database and edit in settings
+const sections = [
+    { key: 'warmUp', title: 'Warm up' },
+    { key: 'mainPart', title: 'Main part' },
+    { key: 'closingExercise', title: 'Closing exercise' },
+]
+
 function Plans() {
     const [isRandomModalOpen, setIsRandomModalOpen] = useState(false)
     const [isCustomModalOpen, setIsCustomModalOpen] = useState(false)
@@ -25,7 +32,7 @@ function Plans() {
         <>
             <h1>PLANS</h1>
             <div>
-                <PlansTable plans={plans} />
+                <PlansTable plans={plans} sections={sections} />
             </div>
             <div className="flex gap-10 justify-around my-10">
                 <ButtonTile onClick={() => setIsRandomModalOpen(true)}>
@@ -41,6 +48,7 @@ function Plans() {
                 <CreatePlanForm
                     type="create"
                     onClose={() => setIsCustomModalOpen(false)}
+                    planSections={sections}
                 />
             )}
             {isRandomModalOpen && isDataReady && (

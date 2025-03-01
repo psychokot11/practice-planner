@@ -15,13 +15,7 @@ const columns = [
 
 const properties = ['tags', 'minNumPlayers', 'plan', 'comments']
 
-const sections = [
-    { key: 'warmUp', title: 'Warm up' },
-    { key: 'mainPart', title: 'Main part' },
-    { key: 'closingExercise', title: 'Closing exercise' },
-]
-
-function PlansTable({ plans }) {
+function PlansTable({ plans, sections }) {
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [selectedPlan, setSelectedPlan] = useState(null)
     const { isDeleting, deletePlan } = useDeletePlan()
@@ -60,6 +54,7 @@ function PlansTable({ plans }) {
                     plan={selectedPlan}
                     type="edit"
                     onClose={() => setIsFormOpen(false)}
+                    planSections={sections}
                 />
             )}
 

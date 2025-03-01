@@ -11,16 +11,11 @@ import TagsCheckboxList from '../tags/TagsCheckboxList'
 import DropdownList from '../../ui/DropdownList'
 import Button from '../../ui/buttons/Button'
 
-//TODO: pass it as a prop
-const sections = [
-    { key: 'warmUp', title: 'Warm up' },
-    { key: 'mainPart', title: 'Main part' },
-    { key: 'closingExercise', title: 'Closing exercise' },
-]
-
-function CreatePlanForm({ plan, type, onClose }) {
+function CreatePlanForm({ plan, type, onClose, planSections }) {
     const { tags } = useTags()
     const { drills } = useDrills()
+
+    const sections = planSections
 
     const { createPlan, isCreating } = useCreatePlan()
     const { editPlan, isEditing } = useEditPlan()
