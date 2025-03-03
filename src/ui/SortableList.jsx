@@ -1,18 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import SortableItem from './SortableItem'
 
 const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
+    const selectedIds = useMemo(
+        () => selectedItems.map((item) => Number(item.id ? item.id : item)),
+        [selectedItems]
+    )
+    console.log(selectedIds)
+
     const [sortedItems, setSortedItems] = useState([])
 
     // eslint-disable-next-line no-unused-vars
     const [newIndex, setNewIndex] = useState(null)
 
     useEffect(() => {
-        const filteredItems = items
-            .filter((item) => selectedItems.map(Number).includes(item.id))
-            .map((item) => item)
+        const filteredItems = items.filter((item) =>
+            selectedIds.includes(item.id)
+        )
         setSortedItems(filteredItems)
-    }, [items, selectedItems])
+        console.log(filteredItems)
+    }, [items, selectedIds])
 
     useEffect(() => {
         if (handleSortedListChange) {
