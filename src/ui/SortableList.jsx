@@ -6,7 +6,6 @@ const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
         () => selectedItems.map((item) => Number(item.id ? item.id : item)),
         [selectedItems]
     )
-    console.log(selectedIds)
 
     const [sortedItems, setSortedItems] = useState([])
 
@@ -18,7 +17,6 @@ const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
             selectedIds.includes(item.id)
         )
         setSortedItems(filteredItems)
-        console.log(filteredItems)
     }, [items, selectedIds])
 
     useEffect(() => {
