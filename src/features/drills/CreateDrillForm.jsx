@@ -174,7 +174,6 @@ function CreateDrillForm({ drill, type, onClose }) {
                                     <input
                                         type="hidden"
                                         name="tags"
-                                        value={selectedTags}
                                         {...register('tags')}
                                     />
                                 </div>

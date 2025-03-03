@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useSelectDrill(sections) {
+export function useSelectDrill(sections, plan) {
     const initialDrillsState = sections.reduce((acc, section) => {
         acc[section] = []
         return acc
@@ -11,7 +11,10 @@ export function useSelectDrill(sections) {
         return acc
     }, {})
 
-    const [selectedDrills, setSelectedDrills] = useState(initialDrillsState)
+    const [selectedDrills, setSelectedDrills] = useState(
+        plan?.drills ? plan?.drills : initialDrillsState
+    )
+
     const [isDrillsDropdownOpen, setIsDrillsDropdownOpen] =
         useState(initialDropdownState)
 
