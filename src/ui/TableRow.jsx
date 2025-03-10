@@ -1,4 +1,4 @@
-import { AiTwotoneDelete, AiTwotoneEdit } from 'react-icons/ai'
+import { AiTwotoneDelete, AiTwotoneEdit, AiOutlineLink } from 'react-icons/ai'
 import PlanOrderedList from '../features/plans/PlanOrderedList'
 import { useState } from 'react'
 import ExpandedText from './ExpandedText'
@@ -86,7 +86,7 @@ function TableRow({
                                                         target="_blank"
                                                         rel="noreferrer"
                                                     >
-                                                        link
+                                                        <AiOutlineLink />
                                                     </a>
                                                 )
                                             )

@@ -21,18 +21,21 @@ function Drills() {
 
     return (
         <>
-            <h1>Drills</h1>
+            <div className="flex justify-between items-center">
+                <h1>Drills</h1>
+                <Button
+                    onClick={handleOpenForm}
+                    type="button"
+                    subtype="normal"
+                    disabled={false}
+                    icon="add"
+                    iconPosition="left"
+                    flex
+                >
+                    Create drill
+                </Button>
+            </div>
             <DrillsTable drills={drills} />
-            <Button
-                onClick={handleOpenForm}
-                type="button"
-                subtype="normal"
-                disabled={false}
-                center
-            >
-                {' '}
-                Create drill{' '}
-            </Button>
             {isFormOpen && (
                 <CreateDrillForm type="create" onClose={handleCancelCreate} />
             )}

@@ -11,13 +11,13 @@ function Button({
     subtype = 'normal',
     disabled,
     center,
-    fullWidth,
+    fullWidth = false,
     flex,
     icon,
     iconPosition,
 }) {
     const centerClasses = center ? 'items-center text-center' : 'text-left'
-    const fullWidthClasses = fullWidth ? 'w-full' : ''
+    const fullWidthClasses = fullWidth ? 'w-full' : 'w-fit'
     const flexClasses = flex ? 'flex justify-between items-center' : ''
     const classes = `${commonClasses} ${centerClasses} ${fullWidthClasses} ${flexClasses}`
 
