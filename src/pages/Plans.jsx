@@ -30,19 +30,21 @@ function Plans() {
 
     return (
         <>
-            <h1>PLANS</h1>
+            <div className="flex justify-between items-center">
+                <h1>Plans</h1>
+                <div className="flex gap-24 justify-around items-center">
+                    <ButtonTile onClick={() => setIsRandomModalOpen(true)}>
+                        <GiPerspectiveDiceSixFacesRandom className="size-10" />
+                        new <br /> random plan
+                    </ButtonTile>
+                    <ButtonTile onClick={() => setIsCustomModalOpen(true)}>
+                        <MdOutlineDashboardCustomize className="size-10" />
+                        new <br /> custom plan
+                    </ButtonTile>
+                </div>
+            </div>
             <div>
                 <PlansTable plans={plans} sections={sections} />
-            </div>
-            <div className="flex gap-10 justify-around my-10">
-                <ButtonTile onClick={() => setIsRandomModalOpen(true)}>
-                    <GiPerspectiveDiceSixFacesRandom className="size-10" />
-                    random
-                </ButtonTile>
-                <ButtonTile onClick={() => setIsCustomModalOpen(true)}>
-                    <MdOutlineDashboardCustomize className="size-10" />
-                    custom
-                </ButtonTile>
             </div>
             {isCustomModalOpen && (
                 <CreatePlanForm
