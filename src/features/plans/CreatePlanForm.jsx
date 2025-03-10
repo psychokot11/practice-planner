@@ -40,7 +40,10 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
         isDrillsDropdownOpen,
         handleDrillChange,
         handleDrillDropdownToggle,
-    } = useSelectDrill(sections.map((section) => section.key))
+    } = useSelectDrill(
+        sections.map((section) => section.key),
+        plan
+    )
 
     useEffect(() => {
         //TODO this is ugly and doesn't work, refactor
@@ -221,7 +224,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                             <input
                                                 type="hidden"
                                                 name="drills"
-                                                value={selectedDrills[key]}
+                                                // value={selectedDrills[key]}
                                                 {...register('drills')}
                                             />
                                         </div>

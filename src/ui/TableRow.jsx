@@ -13,7 +13,7 @@ function TableRow({
 }) {
     const [expandedStates, setExpandedStates] = useState({})
 
-    const handleToggle = (property, itemId) => {
+    function handleToggle(property, itemId) {
         setExpandedStates((prevState) => ({
             ...prevState,
             [itemId]: {
@@ -32,7 +32,7 @@ function TableRow({
                 >
                     <th
                         scope="row"
-                        className="px-4 py-2 font-medium text-neutral-900 dark:text-white max-w-fit"
+                        className="px-4 py-2 font-medium text-neutral-900 dark:text-white"
                     >
                         {item.name}
                     </th>
@@ -69,7 +69,12 @@ function TableRow({
                                                     isExpanded={isExpanded}
                                                     item={item}
                                                     property={property}
-                                                    handleToggle={handleToggle}
+                                                    handleToggle={() =>
+                                                        handleToggle(
+                                                            property,
+                                                            item.id
+                                                        )
+                                                    }
                                                 />
                                             )
 
