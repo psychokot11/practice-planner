@@ -1,39 +1,51 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export function useSelectTag(plan) {
+export function useSelectTag(formItem, drills) {
     const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
     const [selectedTags, setSelectedTags] = useState(
-        plan?.tags ? plan.tags : []
+        Array.isArray(formItem?.tags) ? formItem.tags : []
     )
+    const [filteredDrills, setFilteredDrills] = useState(drills)
 
     function handleTagDropdownToggle(item) {
-        item === 'tags' && setIsTagsDropdownOpen(!isTagsDropdownOpen)
+        if (item === 'tags') {
+            setIsTagsDropdownOpen((prev) => !prev)
+        }
     }
 
     function handleTagChange(event) {
         const { value, checked } = event.target
 
-        let tagsArray = []
-
-        if (typeof selectedTags === 'string') {
-            tagsArray = selectedTags.split(',').map((tag) => tag.trim())
-        }
-
-        if (checked) {
-            if (!tagsArray.includes(value)) {
-                tagsArray.push(value)
+        setSelectedTags((prevTags) => {
+            if (checked) {
+                return [...prevTags, value]
+            } else {
+                return prevTags.filter((tag) => tag !== value)
             }
-            setSelectedTags(tagsArray.join(', '))
-        } else {
-            const filteredTags = tagsArray.filter((tag) => tag !== value)
-            setSelectedTags(filteredTags.join(', '))
-        }
+        })
     }
+
+    useEffect(() => {
+        console.log(selectedTags)
+        console.log(drills)
+        if (selectedTags.length === 0) {
+            setFilteredDrills(drills)
+        } else {
+            setFilteredDrills(
+                drills.filter(
+                    (drill) =>
+                        Array.isArray(drill.tags) &&
+                        drill.tags.some((tag) => selectedTags.includes(tag))
+                )
+            )
+        }
+    }, [selectedTags, drills])
 
     return {
         handleTagDropdownToggle,
         isTagsDropdownOpen,
         handleTagChange,
         selectedTags,
+        filteredDrills,
     }
 }

@@ -1,46 +1,33 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTags } from '../tags/useTags'
 import { useCreateDrill } from './useCreateDrill'
 import { useEditDrill } from './useEditDrill'
 import TagsCheckboxList from '../tags/TagsCheckboxList'
 import Button from '../../ui/buttons/Button'
+import { useDrills } from './useDrills'
+import { useSelectTag } from '../tags/useSelectTag'
 
 function CreateDrillForm({ drill, type, onClose }) {
     const { tags } = useTags()
+    const { drills } = useDrills()
     const { createDrill, isCreating } = useCreateDrill()
     const { editDrill, isEditing } = useEditDrill()
 
     const isWorking = isCreating || isEditing
     const drillId = drill ? drill.id : null
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-    const [selectedTags, setSelectedTags] = useState(
-        drill?.tags ? drill.tags : []
-    )
+    const formItem = drill
+
+    const {
+        handleTagDropdownToggle,
+        isTagsDropdownOpen,
+        handleTagChange,
+        selectedTags,
+    } = useSelectTag(formItem, drills)
 
     const { register, handleSubmit, setValue, reset, formState } = useForm()
     const { errors } = formState
-
-    const handleTagChange = (event) => {
-        const { value, checked } = event.target
-
-        let tagsArray = []
-
-        if (typeof selectedTags === 'string') {
-            tagsArray = selectedTags.split(',').map((tag) => tag.trim())
-        }
-
-        if (checked) {
-            if (!tagsArray.includes(value)) {
-                tagsArray.push(value)
-            }
-            setSelectedTags(tagsArray.join(', '))
-        } else {
-            const filteredTags = tagsArray.filter((tag) => tag !== value)
-            setSelectedTags(filteredTags.join(', '))
-        }
-    }
 
     useEffect(() => {
         //TODO this is ugly, refactor
@@ -74,10 +61,6 @@ function CreateDrillForm({ drill, type, onClose }) {
 
     function onError(errors) {
         console.log(errors)
-    }
-
-    function handleDropdownToggle() {
-        setIsDropdownOpen(!isDropdownOpen)
     }
 
     return (
@@ -165,9 +148,9 @@ function CreateDrillForm({ drill, type, onClose }) {
                                         tags={tags}
                                         handleTagChange={handleTagChange}
                                         handleDropdownToggle={() =>
-                                            handleDropdownToggle('tags')
+                                            handleTagDropdownToggle('tags')
                                         }
-                                        isDropdownOpen={isDropdownOpen}
+                                        isDropdownOpen={isTagsDropdownOpen}
                                         type={type}
                                         item={drill}
                                     />

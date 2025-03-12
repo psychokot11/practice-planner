@@ -28,12 +28,15 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     const { handleSortedListChange, practicePlan } = useSetPlan(plan)
 
+    const formItem = plan
+
     const {
         handleTagDropdownToggle,
         isTagsDropdownOpen,
         handleTagChange,
         selectedTags,
-    } = useSelectTag(plan)
+        filteredDrills,
+    } = useSelectTag(formItem, drills)
 
     const {
         selectedDrills,
@@ -194,7 +197,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                 }}
                                                 sectionKey={key}
                                                 plan={plan}
-                                                items={drills}
+                                                items={filteredDrills}
                                                 selectedItems={
                                                     selectedDrills[key]
                                                 }

@@ -40,6 +40,13 @@ function TableRow({
                         const isExpanded =
                             expandedStates[item.id]?.[property] || false
 
+                        // Support both formats. TODO: CLEAR UP DB
+                        const tags = Array.isArray(item[property])
+                            ? item[property]
+                            : typeof item[property] === 'string'
+                            ? item[property].split(',').map((tag) => tag.trim())
+                            : []
+
                         return (
                             <td key={index} className="px-4 py-2">
                                 {(() => {
@@ -89,6 +96,21 @@ function TableRow({
                                                         <AiOutlineLink />
                                                     </a>
                                                 )
+                                            )
+
+                                        case 'tags':
+                                            return (
+                                                <div className="flex flex-wrap max-w-40 gap-2">
+                                                    {tags.map((tag, index) => (
+                                                        <span key={index}>
+                                                            {typeof tag ===
+                                                            'object'
+                                                                ? tag.name
+                                                                : tag}{' '}
+                                                            {/* Support both formats. TODO: CLEAR UP DB */}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             )
 
                                         default:
