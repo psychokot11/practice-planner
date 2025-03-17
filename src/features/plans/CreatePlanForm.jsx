@@ -4,6 +4,7 @@ import { useDrills } from '../drills/useDrills'
 import { useTags } from '../tags/useTags'
 import { useCreatePlan } from './useCreatePlan'
 import { useEditPlan } from './useEditPlan'
+import { useFilterByPlayerCount } from './useFilterByplayerCount'
 import { useSelectTag } from '../tags/useSelectTag'
 import { useSelectDrill } from '../drills/useSelectDrill'
 import { useSetPlan } from './useSetPlan'
@@ -31,12 +32,17 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
     const formItem = plan
 
     const {
+        filteredByCountDrills,
+        setPlayersCount,
+    } = useFilterByPlayerCount(drills, plan)
+
+    const {
         handleTagDropdownToggle,
         isTagsDropdownOpen,
         handleTagChange,
         selectedTags,
         filteredDrills,
-    } = useSelectTag(formItem, drills)
+    } = useSelectTag(formItem, filteredByCountDrills)
 
     const {
         selectedDrills,
@@ -47,6 +53,10 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
         sections.map((section) => section.key),
         plan
     )
+
+    const handleChange = (e) => {
+        setPlayersCount(Number(e.target.value));
+    };
 
     useEffect(() => {
         //TODO this is ugly and doesn't work, refactor
@@ -157,6 +167,8 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                 ? plan.minNumPlayers
                                                 : 2
                                         }
+                                        //TODO: why onClick not onChange?
+                                        onClick={handleChange}
                                         {...register('minNumPlayers')}
                                     />
                                 </div>

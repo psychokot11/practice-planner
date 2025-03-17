@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export function useSelectTag(formItem, drills) {
+export function useSelectTag(formItem = {}, filteredByCountDrills) {
+    const drills = filteredByCountDrills
     const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
     const [selectedTags, setSelectedTags] = useState(
         Array.isArray(formItem?.tags) ? formItem.tags : []
@@ -26,8 +27,6 @@ export function useSelectTag(formItem, drills) {
     }
 
     useEffect(() => {
-        console.log(selectedTags)
-        console.log(drills)
         if (selectedTags.length === 0) {
             setFilteredDrills(drills)
         } else {
