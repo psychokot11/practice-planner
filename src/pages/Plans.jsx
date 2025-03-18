@@ -33,13 +33,13 @@ function Plans() {
             <div className="flex justify-between items-center">
                 <h1>Plans</h1>
                 <div className="flex gap-24 justify-around items-center">
-                    <ButtonTile onClick={() => setIsRandomModalOpen(true)}>
-                        <GiPerspectiveDiceSixFacesRandom className="size-10" />
-                        new <br /> random plan
-                    </ButtonTile>
                     <ButtonTile onClick={() => setIsCustomModalOpen(true)}>
                         <MdOutlineDashboardCustomize className="size-10" />
                         new <br /> custom plan
+                    </ButtonTile>
+                    <ButtonTile onClick={() => setIsRandomModalOpen(true)}>
+                        <GiPerspectiveDiceSixFacesRandom className="size-10" />
+                        new <br /> random plan
                     </ButtonTile>
                 </div>
             </div>

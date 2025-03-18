@@ -3,7 +3,8 @@ import { useDrills } from '../features/drills/useDrills'
 import DrillsTable from '../features/drills/DrillsTable'
 import Spinner from '../ui/Spinner'
 import CreateDrillForm from '../features/drills/CreateDrillForm'
-import Button from '../ui/buttons/Button'
+import { MdOutlineDashboardCustomize } from 'react-icons/md'
+import ButtonTile from '../ui/buttons/ButtonTile'
 
 function Drills() {
     const { isLoading, drills } = useDrills()
@@ -23,17 +24,10 @@ function Drills() {
         <>
             <div className="flex justify-between items-center">
                 <h1>Drills</h1>
-                <Button
-                    onClick={handleOpenForm}
-                    type="button"
-                    subtype="normal"
-                    disabled={false}
-                    icon="add"
-                    iconPosition="left"
-                    flex
-                >
-                    Create drill
-                </Button>
+                <ButtonTile onClick={handleOpenForm}>
+                    <MdOutlineDashboardCustomize className="size-10" />
+                    add <br /> new drill
+                </ButtonTile>
             </div>
             <DrillsTable drills={drills} />
             {isFormOpen && (
