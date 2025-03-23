@@ -13,7 +13,7 @@ function Settings() {
             </div>
             <div className="flex flex-wrap gap-5">
                 {stages.map((stage) => (
-                    <div key={stage.key}>{stage.name}</div>
+                    <div key={stage.key}>{stage.title}</div>
                 ))}
             </div>
         </>
