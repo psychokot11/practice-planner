@@ -42,12 +42,7 @@ function CreateDrillForm({ drill, type, onClose }) {
     const { selectedStages, handleStageChange } = useSelectStage(initialStages)
 
     useEffect(() => {
-        //TODO this is ugly, refactor
-        if (selectedTags === '[]' || selectedTags.legth === 0) {
-            setValue('tags', '')
-        } else {
-            setValue('tags', selectedTags)
-        }
+        setValue('tags', selectedTags)
     }, [selectedTags, setValue])
 
     useEffect(() => {
