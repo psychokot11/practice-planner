@@ -1,23 +1,36 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTags } from '../tags/useTags'
+import { useSettings } from '../settings/useSettings'
 import { useCreateDrill } from './useCreateDrill'
 import { useEditDrill } from './useEditDrill'
-import TagsCheckboxList from '../tags/TagsCheckboxList'
-import Button from '../../ui/buttons/Button'
 import { useDrills } from './useDrills'
 import { useSelectTag } from '../tags/useSelectTag'
+import { useSelectStage } from '../settings/useSelectStage'
+import TagsCheckboxList from '../tags/TagsCheckboxList'
+import Button from '../../ui/buttons/Button'
+import Spinner from '../../ui/Spinner'
+
+const labelClasses =
+    'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
 
 function CreateDrillForm({ drill, type, onClose }) {
-    const { tags } = useTags()
-    const { drills } = useDrills()
+    const { register, handleSubmit, setValue, reset, formState } = useForm()
+    const { errors } = formState
+
+    const { tags, isLoading: isLoadingTags } = useTags()
+    const { drills, isLoading: isLoadingDrills } = useDrills()
+    const { settings, isLoading: isLoadingSettings } = useSettings()
     const { createDrill, isCreating } = useCreateDrill()
     const { editDrill, isEditing } = useEditDrill()
 
+    const isDataReady = !isLoadingDrills && !isLoadingTags && !isLoadingSettings
     const isWorking = isCreating || isEditing
     const drillId = drill ? drill.id : null
 
     const formItem = drill
+    const stages = settings && settings[0].stages
+    const initialStages = drill?.stage || []
 
     const {
         handleTagDropdownToggle,
@@ -26,8 +39,7 @@ function CreateDrillForm({ drill, type, onClose }) {
         selectedTags,
     } = useSelectTag(formItem, drills)
 
-    const { register, handleSubmit, setValue, reset, formState } = useForm()
-    const { errors } = formState
+    const { selectedStages, handleStageChange } = useSelectStage(initialStages)
 
     useEffect(() => {
         //TODO this is ugly, refactor
@@ -37,6 +49,10 @@ function CreateDrillForm({ drill, type, onClose }) {
             setValue('tags', selectedTags)
         }
     }, [selectedTags, setValue])
+
+    useEffect(() => {
+        setValue('stage', selectedStages)
+    }, [selectedStages, setValue])
 
     function onSubmit(data) {
         if (type === 'create') {
@@ -62,6 +78,8 @@ function CreateDrillForm({ drill, type, onClose }) {
     function onError(errors) {
         console.log(errors)
     }
+
+    if (!isDataReady) return <Spinner />
 
     return (
         <div>
@@ -95,7 +113,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 <div className="col-span-2">
                                     <label
                                         htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Name
                                     </label>
@@ -120,7 +138,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 <div className="col-span-2 sm:col-span-1">
                                     <label
                                         htmlFor="minNumPlayers"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Min. number of players
                                     </label>
@@ -140,7 +158,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 <div className="col-span-2 sm:col-span-1">
                                     <label
                                         htmlFor="tags"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Tags
                                     </label>
@@ -161,9 +179,52 @@ function CreateDrillForm({ drill, type, onClose }) {
                                     />
                                 </div>
                                 <div className="col-span-2">
+                                    <span className={labelClasses}>Stage</span>
+                                    <ul
+                                        className="text-sm flex  text-gray-700 place-content-between dark:text-gray-200 max-h-40 overflow-y-auto"
+                                        aria-labelledby="dropdownCheckboxButton"
+                                    >
+                                        {stages.map((stage) => (
+                                            <li key={stage.key}>
+                                                <div className="flex items-center">
+                                                    <input
+                                                        onChange={
+                                                            handleStageChange
+                                                        }
+                                                        type="checkbox"
+                                                        id={stage.key}
+                                                        name={stage.title}
+                                                        value={stage.key}
+                                                        defaultChecked={
+                                                            type === 'edit' &&
+                                                            drill.stage &&
+                                                            drill.stage.some(
+                                                                (s) =>
+                                                                    s.stage ===
+                                                                    stage.key
+                                                            )
+                                                        }
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                                    />
+                                                    <label
+                                                        htmlFor={stage.key}
+                                                        className="ms-2 text-sm text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        {stage.title}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <input
+                                        type="hidden"
+                                        {...register('stage')}
+                                    />
+                                </div>
+                                <div className="col-span-2">
                                     <label
                                         htmlFor="description"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Description
                                     </label>
@@ -184,7 +245,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 <div className="col-span-2">
                                     <label
                                         htmlFor="link"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Link
                                     </label>
