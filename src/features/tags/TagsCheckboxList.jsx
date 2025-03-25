@@ -21,12 +21,20 @@ function TagsCheckboxList({
             }
         }
 
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                handleDropdownToggle(false)
+            }
+        }
+
         if (isDropdownOpen) {
             document.addEventListener('mousedown', handleClickOutside)
+            document.addEventListener('keydown', handleEscapeKey)
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('keydown', handleEscapeKey)
         }
     }, [isDropdownOpen, handleDropdownToggle])
 
