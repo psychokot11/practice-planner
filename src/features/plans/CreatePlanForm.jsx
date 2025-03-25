@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDrills } from '../drills/useDrills'
-import { useTags } from '../tags/useTags'
 import { useCreatePlan } from './useCreatePlan'
 import { useEditPlan } from './useEditPlan'
 import { useFilterByPlayerCount } from './useFilterByplayerCount'
@@ -12,10 +10,7 @@ import TagsCheckboxList from '../tags/TagsCheckboxList'
 import DropdownList from '../../ui/DropdownList'
 import Button from '../../ui/buttons/Button'
 
-function CreatePlanForm({ plan, type, onClose, planSections }) {
-    const { tags } = useTags()
-    const { drills } = useDrills()
-
+function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
     const sections = planSections
 
     const { createPlan, isCreating } = useCreatePlan()
@@ -31,10 +26,10 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     const formItem = plan
 
-    const {
-        filteredByCountDrills,
-        setPlayersCount,
-    } = useFilterByPlayerCount(drills, plan)
+    const { filteredByCountDrills, setPlayersCount } = useFilterByPlayerCount(
+        drills,
+        plan
+    )
 
     const {
         handleTagDropdownToggle,
@@ -54,17 +49,12 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
         plan
     )
 
-    const handleChange = (e) => {
-        setPlayersCount(Number(e.target.value));
-    };
+    function handlePlayersCountChange(e) {
+        setPlayersCount(Number(e.target.value))
+    }
 
     useEffect(() => {
-        //TODO this is ugly and doesn't work, refactor
-        if (selectedTags == '[]') {
-            setValue('tags', '')
-        } else {
-            setValue('tags', selectedTags)
-        }
+        setValue('tags', selectedTags)
     }, [selectedTags, setValue])
 
     useEffect(() => {
@@ -168,7 +158,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                 : 2
                                         }
                                         //TODO: why onClick not onChange?
-                                        onClick={handleChange}
+                                        onClick={handlePlayersCountChange}
                                         {...register('minNumPlayers')}
                                     />
                                 </div>
@@ -245,7 +235,11 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         </div>
                                     ))}
                                 </div>
-
+                                <div className="col-span-3">
+                                    {type === 'create' && (
+                                        <Button>Randomize</Button>
+                                    )}
+                                </div>
                                 <div className="col-span-3">
                                     <label
                                         htmlFor="comments"

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import Button from '../../ui/buttons/Button'
 
 function TagsCheckboxList({
@@ -8,14 +9,35 @@ function TagsCheckboxList({
     handleDropdownToggle,
     isDropdownOpen,
 }) {
+    const dropdownRef = useRef(null)
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                handleDropdownToggle(false)
+            }
+        }
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isDropdownOpen, handleDropdownToggle])
+
     if (!tags) {
         return null
     }
 
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             <Button
-                onClick={handleDropdownToggle}
+                onClick={() => handleDropdownToggle(!isDropdownOpen)}
                 type="button"
                 icon="dropdown"
                 flex
