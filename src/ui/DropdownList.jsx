@@ -1,7 +1,9 @@
+import { useEffect, useRef } from 'react'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import SortableList from './SortableList'
 import Button from './buttons/Button'
+import Spinner from './Spinner'
 
 const backendOptions = {
     enableMouseEvents: true,
@@ -18,9 +20,42 @@ function DropdownList({
     handleChange,
     handleSortedListChange,
 }) {
+    const dropdownRef = useRef(null)
+
+    const isDataReady = items && selectedItems
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                handleDropdownToggle(false)
+            }
+        }
+
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                handleDropdownToggle(false)
+            }
+        }
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+            document.addEventListener('keydown', handleEscapeKey)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('keydown', handleEscapeKey)
+        }
+    }, [isDropdownOpen, handleDropdownToggle])
+
+    if (!isDataReady) return <Spinner />
+
     return (
         <>
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     {details.title}
                 </label>
