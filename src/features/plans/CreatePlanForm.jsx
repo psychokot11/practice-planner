@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDrills } from '../drills/useDrills'
+import { useTags } from '../tags/useTags'
 import { useCreatePlan } from './useCreatePlan'
 import { useEditPlan } from './useEditPlan'
 import { useFilterByPlayerCount } from './useFilterByplayerCount'
@@ -13,7 +15,10 @@ import Button from '../../ui/buttons/Button'
 const labelClasses =
     'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
 
-function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
+function CreatePlanForm({ plan, type, onClose, planSections }) {
+    const { drills } = useDrills()
+    const { tags } = useTags()
+
     const sections = planSections
 
     const { createPlan, isCreating } = useCreatePlan()

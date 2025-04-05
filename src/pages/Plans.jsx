@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { MdOutlineDashboardCustomize } from 'react-icons/md'
 import { usePlans } from '../features/plans/usePlans'
-import { useDrills } from '../features/drills/useDrills'
-import { useTags } from '../features/tags/useTags'
 import { useSettings } from '../features/settings/useSettings'
 import ButtonTile from '../ui/buttons/ButtonTile'
 import Spinner from '../ui/Spinner'
@@ -12,14 +10,12 @@ import PlansTable from '../features/plans/PlansTable'
 function Plans() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { isLoading, plans } = usePlans()
-    const { isLoading: isLoadingDrills, drills } = useDrills()
-    const { isLoading: isLoadingTags, tags } = useTags()
     const { isLoading: isLoadingSettings, settings } = useSettings()
 
     const sections = settings ? settings[0].stages : []
 
     const isDataReady =
-        !isLoading && !isLoadingDrills && !isLoadingTags && !isLoadingSettings
+        !isLoading && !isLoadingSettings
 
     if (!isDataReady) return <Spinner />
 
@@ -42,8 +38,6 @@ function Plans() {
                     type="create"
                     onClose={() => setIsModalOpen(false)}
                     planSections={sections}
-                    drills={drills}
-                    tags={tags}
                 />
             )}
         </>
