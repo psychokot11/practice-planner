@@ -10,6 +10,9 @@ import TagsCheckboxList from '../tags/TagsCheckboxList'
 import DropdownList from '../../ui/DropdownList'
 import Button from '../../ui/buttons/Button'
 
+const labelClasses =
+    'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+
 function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
     const sections = planSections
 
@@ -118,7 +121,7 @@ function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
                                 <div className="col-span-1">
                                     <label
                                         htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Name
                                     </label>
@@ -143,7 +146,7 @@ function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
                                 <div className="col-span-1">
                                     <label
                                         htmlFor="minNumPlayers"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Number of players
                                     </label>
@@ -165,7 +168,7 @@ function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
                                 <div className="col-span-1">
                                     <label
                                         htmlFor="tags"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Focus
                                     </label>
@@ -229,7 +232,6 @@ function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
                                             <input
                                                 type="hidden"
                                                 name="drills"
-                                                // value={selectedDrills[key]}
                                                 {...register('drills')}
                                             />
                                         </div>
@@ -237,13 +239,13 @@ function CreatePlanForm({ plan, type, onClose, planSections, drills, tags }) {
                                 </div>
                                 <div className="col-span-3">
                                     {type === 'create' && (
-                                        <Button>Randomize</Button>
+                                        <Button type="button">Randomize</Button>
                                     )}
                                 </div>
                                 <div className="col-span-3">
                                     <label
                                         htmlFor="comments"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className={labelClasses}
                                     >
                                         Comments
                                     </label>
