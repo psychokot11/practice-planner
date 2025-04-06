@@ -18,6 +18,7 @@ function DropdownList({
     isDropdownOpen,
     handleDropdownToggle,
     handleChange,
+    handleRemoveDrill,
     handleSortedListChange,
 }) {
     const dropdownRef = useRef(null)
@@ -112,6 +113,8 @@ function DropdownList({
                         items={items}
                         selectedItems={selectedItems}
                         handleSortedListChange={handleSortedListChange}
+                        handleRemoveDrill={handleRemoveDrill}
+                        listKey={details.key}
                     />
                 </DndProvider>
             )}

@@ -1,7 +1,13 @@
 import { useState, useEffect, useMemo } from 'react'
 import SortableItem from './SortableItem'
 
-const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
+const SortableList = ({
+    items,
+    selectedItems,
+    handleSortedListChange,
+    handleRemoveDrill,
+    listKey,
+}) => {
     const selectedIds = useMemo(
         () => selectedItems.map((item) => Number(item.id ? item.id : item)),
         [selectedItems]
@@ -42,6 +48,8 @@ const SortableList = ({ items, selectedItems, handleSortedListChange }) => {
                     sortedItems={sortedItems}
                     setSortedItems={setSortedItems}
                     setIndex={setNewIndex}
+                    handleRemoveDrill={handleRemoveDrill}
+                    listKey={listKey}
                 />
             ))}
         </ul>

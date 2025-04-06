@@ -51,6 +51,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
         selectedDrills,
         isDrillsDropdownOpen,
         handleDrillChange,
+        handleRemoveDrill,
         handleDrillDropdownToggle,
     } = useSelectDrill(
         sections.map((section) => section.key),
@@ -199,6 +200,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         <div className="col-span-1" key={key}>
                                             <DropdownList
                                                 details={{
+                                                    key,
                                                     title,
                                                     dropDownText:
                                                         'Choose drills',
@@ -210,6 +212,9 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                 items={filteredDrills}
                                                 selectedItems={
                                                     selectedDrills[key]
+                                                }
+                                                handleRemoveDrill={
+                                                    handleRemoveDrill
                                                 }
                                                 handleChange={(event) =>
                                                     handleDrillChange(

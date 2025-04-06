@@ -1,13 +1,23 @@
 import { useState } from 'react'
 
 export function useSelectDrill(sections, plan) {
-    const initialDrillsState = sections.reduce((acc, section) => {
-        acc[section] = []
+    const initialDropdownState = sections.reduce((acc, section) => {
+        acc[section] = false
         return acc
     }, {})
 
-    const initialDropdownState = sections.reduce((acc, section) => {
-        acc[section] = false
+    const [isDrillsDropdownOpen, setIsDrillsDropdownOpen] =
+        useState(initialDropdownState)
+
+    function handleDrillDropdownToggle(section) {
+        setIsDrillsDropdownOpen((prevState) => ({
+            ...prevState,
+            [section]: !prevState[section],
+        }))
+    }
+
+    const initialDrillsState = sections.reduce((acc, section) => {
+        acc[section] = []
         return acc
     }, {})
 
@@ -15,10 +25,7 @@ export function useSelectDrill(sections, plan) {
         plan?.drills ? plan?.drills : initialDrillsState
     )
 
-    const [isDrillsDropdownOpen, setIsDrillsDropdownOpen] =
-        useState(initialDropdownState)
-
-    const handleDrillChange = (section, event) => {
+    function handleDrillChange(section, event) {
         const { value, checked } = event.target
 
         setSelectedDrills((prevState) => {
@@ -33,17 +40,26 @@ export function useSelectDrill(sections, plan) {
         })
     }
 
-    const handleDrillDropdownToggle = (section) => {
-        setIsDrillsDropdownOpen((prevState) => ({
-            ...prevState,
-            [section]: !prevState[section],
-        }))
+    function handleRemoveDrill(section, drillId) {
+        console.log('Removing drill:', drillId)
+        console.log('From section:', section)
+        setSelectedDrills((prevState) => {
+            const updatedSection = prevState[section].filter(
+                (drill) => drill.id !== drillId
+            )
+
+            return {
+                ...prevState,
+                [section]: updatedSection,
+            }
+        })
     }
 
     return {
         selectedDrills,
         isDrillsDropdownOpen,
         handleDrillChange,
+        handleRemoveDrill,
         handleDrillDropdownToggle,
     }
 }
