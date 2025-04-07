@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useDrills } from '../drills/useDrills'
 import { useTags } from '../tags/useTags'
 import { useCreatePlan } from './useCreatePlan'
+import { useCreateRandomPlan } from './useCreateRandomPlan'
 import { useEditPlan } from './useEditPlan'
 import { useFilterByPlayerCount } from './useFilterByplayerCount'
 import { useSelectTag } from '../tags/useSelectTag'
@@ -30,8 +31,6 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
     const { register, handleSubmit, setValue, reset, formState } = useForm()
     const { errors } = formState
 
-    const { handleSortedListChange, practicePlan } = useSetPlan(plan)
-
     const formItem = plan
 
     const { filteredByCountDrills, setPlayersCount } = useFilterByPlayerCount(
@@ -49,6 +48,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     const {
         selectedDrills,
+        setSelectedDrills,
         isDrillsDropdownOpen,
         handleDrillChange,
         handleRemoveDrill,
@@ -57,6 +57,19 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
         sections.map((section) => section.key),
         plan
     )
+
+    const {
+        handleSetRandomPlan,
+        handleDrillsCountChange,
+        warningMessage: randomPlanWarningMessage,
+    } = useCreateRandomPlan(
+        sections,
+        selectedTags,
+        filteredByCountDrills,
+        setSelectedDrills
+    )
+
+    const { handleSortedListChange, practicePlan } = useSetPlan(plan)
 
     function handlePlayersCountChange(e) {
         setPlayersCount(Number(e.target.value))
@@ -68,7 +81,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     useEffect(() => {
         setValue('drills', practicePlan)
-    }, [practicePlan, setValue])
+    }, [practicePlan, setValue, selectedDrills])
 
     function onSubmit(data) {
         if (type === 'create') {
@@ -247,11 +260,52 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         </div>
                                     ))}
                                 </div>
-                                <div className="col-span-3">
-                                    {type === 'create' && (
-                                        <Button type="button">Randomize</Button>
-                                    )}
-                                </div>
+                                {type === 'create' && (
+                                    <div className="col-span-3 mb-4 grid-cols-3 p-5 bg-neutral-100 rounded-lg">
+                                        <div className="flex gap-4">
+                                            <Button
+                                                type="button"
+                                                onClick={handleSetRandomPlan}
+                                            >
+                                                Randomize
+                                            </Button>
+                                            {sections.map(({ key, title }) => (
+                                                <div
+                                                    key={key}
+                                                    className="flex gap-2 items-center"
+                                                >
+                                                    <label
+                                                        htmlFor="players"
+                                                        className={labelClasses}
+                                                    >
+                                                        {title}
+                                                    </label>
+                                                    <input
+                                                        type="number"
+                                                        name="players"
+                                                        id="plsyers"
+                                                        className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                        min="0"
+                                                        max="99"
+                                                        defaultValue={0}
+                                                        // TODO: why onClick not onChange?
+                                                        onClick={(event) =>
+                                                            handleDrillsCountChange(
+                                                                event,
+                                                                key
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {randomPlanWarningMessage && (
+                                            <div className="w-1/2 text-xs mt-3 text-red-500">
+                                                {randomPlanWarningMessage}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                                 <div className="col-span-3">
                                     <label
                                         htmlFor="comments"

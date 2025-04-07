@@ -41,8 +41,6 @@ export function useSelectDrill(sections, plan) {
     }
 
     function handleRemoveDrill(section, drillId) {
-        console.log('Removing drill:', drillId)
-        console.log('From section:', section)
         setSelectedDrills((prevState) => {
             const updatedSection = prevState[section].filter(
                 (drill) => drill.id !== drillId
@@ -57,6 +55,7 @@ export function useSelectDrill(sections, plan) {
 
     return {
         selectedDrills,
+        setSelectedDrills,
         isDrillsDropdownOpen,
         handleDrillChange,
         handleRemoveDrill,

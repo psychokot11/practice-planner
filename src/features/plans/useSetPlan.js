@@ -18,5 +18,8 @@ export function useSetPlan(plan) {
         })
     }
 
-    return { handleSortedListChange, practicePlan }
+    return {
+        handleSortedListChange,
+        practicePlan,
+    }
 }
