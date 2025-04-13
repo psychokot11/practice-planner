@@ -33,7 +33,10 @@ export function useCreateRandomPlan(
 
         const matchesTags = (drill) => {
             if (selectedTags.length === 0) return true
-            return drill.tags?.some((tag) => selectedTags.includes(tag))
+            return (
+                drill.tags?.length > 0 &&
+                drill.tags?.some((tag) => selectedTags.includes(tag))
+            )
         }
 
         const getRandomSubset = (array, count) => {
@@ -61,12 +64,16 @@ export function useCreateRandomPlan(
                 warnings.push(
                     `⚠️ Not enough drills for "${title}". Requested ${count}, found ${selectedDrills.length}.`
                 )
-
-                setWarningMessage(warnings.join('\n'))
             }
 
             result[stageKey] = selectedDrills
         })
+
+        if (warnings.length > 0) {
+            setWarningMessage(warnings.join('\n'))
+        } else {
+            setWarningMessage('')
+        }
 
         setSelectedDrills(result)
     }
