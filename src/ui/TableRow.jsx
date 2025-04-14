@@ -14,6 +14,7 @@ const iconClasses =
 
 function TableRow({
     data,
+    dataType,
     properties,
     handleEditClick,
     handleOpenModal,
@@ -139,13 +140,15 @@ function TableRow({
                         >
                             <AiTwotoneEdit />
                         </button>
-                        <button
-                            onClick={() => copyPlan(item)}
-                            className={iconClasses}
-                            disabled={isDeleting}
-                        >
-                            <AiTwotoneCopy />
-                        </button>
+                        {dataType === 'plans' && (
+                            <button
+                                onClick={() => copyPlan(item)}
+                                className={iconClasses}
+                                disabled={isDeleting}
+                            >
+                                <AiTwotoneCopy />
+                            </button>
+                        )}
                         <button
                             onClick={() => handleOpenModal(item)}
                             className={iconClasses}

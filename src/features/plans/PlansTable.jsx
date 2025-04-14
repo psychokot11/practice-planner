@@ -41,6 +41,7 @@ function PlansTable({ plans, sections }) {
             <Table columns={columns}>
                 <TableRow
                     data={plans}
+                    dataType="plans"
                     properties={properties}
                     handleEditClick={handleEditClick}
                     handleOpenModal={handleOpenModal}
