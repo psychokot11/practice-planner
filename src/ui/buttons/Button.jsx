@@ -1,4 +1,9 @@
-import { IoMdClose, IoMdArrowDropdown, IoMdAddCircle } from 'react-icons/io'
+import {
+    IoMdClose,
+    IoMdArrowDropdown,
+    IoMdAddCircle,
+    IoIosCopy,
+} from 'react-icons/io'
 
 const commonClasses =
     'py-2.5 px-5 text-sm font-medium rounded-lg shadow-lg duration-700'
@@ -30,6 +35,8 @@ function Button({
     } else if (subtype === 'close') {
         buttonClasses =
             'text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white duration-700'
+    } else if (subtype === 'solo-icon') {
+        buttonClasses = `text-blue-500 hover:text-blue-600`
     } else {
         buttonClasses = `${classes} text-white bg-blue-500 font-semibold hover:bg-blue-600`
     }
@@ -42,6 +49,8 @@ function Button({
         iconElement = <IoMdArrowDropdown className={iconClasses} />
     } else if (icon === 'add') {
         iconElement = <IoMdAddCircle className={`${iconClasses} mr-2`} />
+    } else if (icon === 'copy') {
+        iconElement = <IoIosCopy className={iconClasses} />
     } else {
         iconElement = null
     }

@@ -9,6 +9,7 @@ import { useFilterByPlayerCount } from './useFilterByplayerCount'
 import { useSelectTag } from '../tags/useSelectTag'
 import { useSelectDrill } from '../drills/useSelectDrill'
 import { useSetPlan } from './useSetPlan'
+import { useCopyPlan } from './useCopyPlan'
 import TagsCheckboxList from '../tags/TagsCheckboxList'
 import DropdownList from '../../ui/DropdownList'
 import Button from '../../ui/buttons/Button'
@@ -82,6 +83,12 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
     useEffect(() => {
         setValue('drills', practicePlan)
     }, [practicePlan, setValue, selectedDrills])
+
+    const { copyPlan } = useCopyPlan()
+
+    function onCopyPlan(data) {
+        copyPlan(data)
+    }
 
     function onSubmit(data) {
         if (type === 'create') {
@@ -326,17 +333,25 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                     />
                                 </div>
                             </div>
-                            <Button
-                                type="submit"
-                                icon={type === 'create' ? 'add' : ''}
-                                iconPosition="left"
-                                disabled={isWorking}
-                                flex
-                            >
-                                {type === 'create'
-                                    ? 'Add new plan'
-                                    : 'Edit plan'}
-                            </Button>
+                            <div className="flex gap-4">
+                                <Button
+                                    type="submit"
+                                    icon={type === 'create' ? 'add' : ''}
+                                    iconPosition="left"
+                                    disabled={isWorking}
+                                    flex
+                                >
+                                    {type === 'create'
+                                        ? 'Add new plan'
+                                        : 'Edit plan'}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    subtype="solo-icon"
+                                    icon="copy"
+                                    onClick={handleSubmit(onCopyPlan, onError)}
+                                ></Button>
+                            </div>
                         </form>
                     </div>
                 </div>

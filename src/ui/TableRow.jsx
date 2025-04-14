@@ -1,7 +1,16 @@
-import { AiTwotoneDelete, AiTwotoneEdit, AiOutlineLink } from 'react-icons/ai'
-import PlanOrderedList from '../features/plans/PlanOrderedList'
 import { useState } from 'react'
+import { useCopyPlan } from '../features/plans/useCopyPlan'
+import {
+    AiTwotoneDelete,
+    AiTwotoneEdit,
+    AiOutlineLink,
+    AiTwotoneCopy,
+} from 'react-icons/ai'
+import PlanOrderedList from '../features/plans/PlanOrderedList'
 import ExpandedText from './ExpandedText'
+
+const iconClasses =
+    'font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400'
 
 function TableRow({
     data,
@@ -12,6 +21,7 @@ function TableRow({
     sections,
 }) {
     const [expandedStates, setExpandedStates] = useState({})
+    const { copyPlan } = useCopyPlan()
 
     function handleToggle(property, itemId) {
         setExpandedStates((prevState) => ({
@@ -124,14 +134,21 @@ function TableRow({
                     <td className="flex justify-between gap-4 px-4 py-2 text-right">
                         <button
                             onClick={() => handleEditClick(item)}
-                            className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
+                            className={iconClasses}
                             disabled={false}
                         >
                             <AiTwotoneEdit />
                         </button>
                         <button
+                            onClick={() => copyPlan(item)}
+                            className={iconClasses}
+                            disabled={isDeleting}
+                        >
+                            <AiTwotoneCopy />
+                        </button>
+                        <button
                             onClick={() => handleOpenModal(item)}
-                            className="font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400"
+                            className={iconClasses}
                             disabled={isDeleting}
                         >
                             <AiTwotoneDelete />
