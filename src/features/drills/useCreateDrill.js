@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createEditDrill as createDrillService } from "../../services/apiDrills";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createEditDrill as createDrillService } from '../../services/apiDrills'
 
 export function useCreateDrill() {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
 
-    const {mutate: createDrill, isLoading: isCreating} = useMutation({
+    const { mutate: createDrill, isLoading: isCreating } = useMutation({
         mutationFn: createDrillService,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: 'drills' });
-        }
+            queryClient.invalidateQueries({ queryKey: ['drills'] })
+        },
     })
 
-    return {createDrill, isCreating}
+    return { createDrill, isCreating }
 }

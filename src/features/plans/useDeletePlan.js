@@ -7,7 +7,7 @@ export function useDeletePlan() {
     const { isLoading: isDeleting, mutate: deletePlan } = useMutation({
         mutationFn: deletePlanApi,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: 'plans' })
+            queryClient.invalidateQueries({ queryKey: ['plans'] })
         },
     })
 

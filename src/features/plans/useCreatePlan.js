@@ -7,7 +7,7 @@ export function useCreatePlan() {
     const { mutate: createPlan, isLoading: isCreating } = useMutation({
         mutationFn: createPlanService,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: 'plans' })
+            queryClient.invalidateQueries({ queryKey: ['plans'] })
         },
     })
 

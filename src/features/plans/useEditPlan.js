@@ -7,7 +7,7 @@ export function useEditPlan() {
     const { mutate: editPlan, isLoading: isEditing } = useMutation({
         mutationFn: ({ newPlanData, id }) => createEditPlan(newPlanData, id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: 'plans' })
+            queryClient.invalidateQueries({ queryKey: ['plans'] })
         },
     })
 
