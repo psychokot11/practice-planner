@@ -1,5 +1,5 @@
 function ExpandedText({ isExpanded, item, property, handleToggle }) {
-    const description = item[property]
+    const description = item[property] || ''
     const longDescription = description.length > 150
 
     return (
@@ -11,7 +11,7 @@ function ExpandedText({ isExpanded, item, property, handleToggle }) {
                     ? longDescription
                         ? `${description.substring(0, 150)}...`
                         : description.substring(0, 150)
-                    : 'No description available'}
+                    : 'No description added'}
             </span>
             {item[property] && longDescription && (
                 <button

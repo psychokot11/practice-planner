@@ -18,6 +18,7 @@ function TableRow({
     properties,
     handleEditClick,
     handleOpenModal,
+    handleRowClick,
     isDeleting,
     sections,
 }) {
@@ -39,7 +40,8 @@ function TableRow({
             {data.map((item) => (
                 <tr
                     key={item.id}
-                    className="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-600"
+                    onClick={() => handleRowClick && handleRowClick(item)}
+                    className="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-600 cursor-pointer"
                 >
                     <th
                         scope="row"
@@ -134,7 +136,10 @@ function TableRow({
 
                     <td className="flex justify-between gap-4 px-4 py-2 text-right">
                         <button
-                            onClick={() => handleEditClick(item)}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleEditClick(item)
+                            }}
                             className={iconClasses}
                             disabled={false}
                         >
@@ -142,7 +147,10 @@ function TableRow({
                         </button>
                         {dataType === 'plans' && (
                             <button
-                                onClick={() => copyPlan(item)}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    copyPlan(item)
+                                }}
                                 className={iconClasses}
                                 disabled={isDeleting}
                             >
@@ -150,7 +158,10 @@ function TableRow({
                             </button>
                         )}
                         <button
-                            onClick={() => handleOpenModal(item)}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleOpenModal(item)
+                            }}
                             className={iconClasses}
                             disabled={isDeleting}
                         >
