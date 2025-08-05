@@ -143,7 +143,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                             onSubmit={handleSubmit(onSubmit, onError)}
                             className="p-4 md:p-5"
                         >
-                            <div className="grid gap-4 mb-4 grid-cols-3">
+                            <div className="grid gap-4 mb-4 grid-cols-1 md:grid-cols-3">
                                 <div className="col-span-1">
                                     <label
                                         htmlFor="name"
@@ -215,7 +215,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         {...register('tags')}
                                     />
                                 </div>
-                                <div className="col-span-3 grid gap-4 mb-4 grid-cols-3 p-5 bg-neutral-100 rounded-lg">
+                                <div className="col-span-1 md:col-span-3 grid gap-4 mb-4 grid-cols-1 md:grid-cols-3 p-5 bg-neutral-100 rounded-lg">
                                     {sections.map(({ key, title }) => (
                                         <div className="col-span-1" key={key}>
                                             <DropdownList
@@ -268,7 +268,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                     ))}
                                 </div>
                                 {type === 'create' && (
-                                    <div className="col-span-3 mb-4 grid-cols-3 p-5 bg-neutral-100 rounded-lg">
+                                    <div className="col-span-1 md:col-span-3 mb-4 grid-cols-1 md:grid-cols-3 p-5 bg-neutral-100 rounded-lg">
                                         <div className="flex gap-4">
                                             <Button
                                                 type="button"
@@ -313,7 +313,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         )}
                                     </div>
                                 )}
-                                <div className="col-span-3">
+                                <div className="col-span-1 md:col-span-3">
                                     <label
                                         htmlFor="description"
                                         className={labelClasses}
@@ -332,7 +332,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         {...register('description')}
                                     />
                                 </div>
-                                <div className="col-span-3">
+                                <div className="col-span-1 md:col-span-3">
                                     <label
                                         htmlFor="comments"
                                         className={labelClasses}

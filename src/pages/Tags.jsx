@@ -10,7 +10,7 @@ function Tags() {
 
     return (
         <>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
                 <h1>Available Tags:</h1>
                 <CreateTagForm />
             </div>

@@ -31,7 +31,7 @@ function CreateTagForm() {
             <label className={labelClasses} htmlFor="name">
                 New tag:
             </label>
-            <div className="flex flex-wrap gap-6 mb-6 items-center">
+            <div className="flex flex-wrap gap-6 items-center">
                 <div className="relative">
                     <input
                         id="name"
