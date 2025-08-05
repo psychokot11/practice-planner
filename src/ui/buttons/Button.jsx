@@ -3,6 +3,7 @@ import {
     IoMdArrowDropdown,
     IoMdAddCircle,
     IoIosCopy,
+    IoMdArrowRoundForward,
 } from 'react-icons/io'
 
 const commonClasses =
@@ -28,7 +29,15 @@ function Button({
 
     let buttonClasses
 
-    if (subtype === 'accept') {
+    if (subtype === 'primary') {
+        // Placeholder for primary button styling
+        buttonClasses = `${classes} text-white bg-blue-500 font-semibold hover:bg-blue-600`
+    } else if (subtype === 'secondary') {
+        // Placeholder for secondary button styling
+        buttonClasses = `${classes} text-gray-900 bg-gray-200 font-semibold hover:bg-gray-300`
+    } else if (subtype === 'tertiary') {
+        buttonClasses = `text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 ${flexClasses}`
+    } else if (subtype === 'accept') {
         buttonClasses = `${classes} text-gray-900 focus:outline-none bg-white  border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700`
     } else if (subtype === 'delete') {
         buttonClasses = `${classes} text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800`
@@ -51,6 +60,8 @@ function Button({
         iconElement = <IoMdAddCircle className={`${iconClasses} mr-2`} />
     } else if (icon === 'copy') {
         iconElement = <IoIosCopy className={iconClasses} />
+    } else if (icon === 'small-arrow') {
+        iconElement = <IoMdArrowRoundForward className="text-sm ml-1 flex items-center" />
     } else {
         iconElement = null
     }

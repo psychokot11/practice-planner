@@ -1,8 +1,7 @@
-import { FaCircleInfo } from 'react-icons/fa6'
-import Tooltip from '../../ui/Tooltip'
 import { useDrills } from '../drills/useDrills'
+import Button from '../../ui/buttons/Button'
 
-function PlanOrderedList({ title, items }) {
+function PlanList({ title, items }) {
     const { drills } = useDrills()
 
     if (!items) {
@@ -19,6 +18,7 @@ function PlanOrderedList({ title, items }) {
                 id: drill.id,
                 name: drill.name,
                 description: drill.description,
+                link: drill.link,
             }))
             .sort(
                 (a, b) =>
@@ -27,22 +27,36 @@ function PlanOrderedList({ title, items }) {
 
     return (
         <div>
-            <h3 className="font-semibold">{title}</h3>
-            <ol className="list-decimal list-inside">
+            <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-2">{title}</h5>
+            <ul className="list-disc list-outside ml-6 space-y-2">
                 {filteredDrills &&
                     filteredDrills.map((drill) => (
-                        <li key={drill.id} className="flex gap-2">
-                            {drill.name}
-                            {drill.description && (
-                                <Tooltip message={drill.description}>
-                                    <FaCircleInfo />
-                                </Tooltip>
+                        <li key={drill.id} className="space-y-1">
+                            <span className="text-sm text-gray-900 dark:text-white">
+                                {drill.name}
+                                {drill.description && (
+                                    <span className="text-gray-600 dark:text-gray-300">
+                                        {' - '}{drill.description}
+                                    </span>
+                                )}
+                            </span>
+                            {drill.link && (
+                                <div className="mt-1">
+                                    <Button
+                                        subtype="tertiary"
+                                        icon="small-arrow"
+                                        flex
+                                        onClick={() => window.open(drill.link, '_blank')}
+                                    >
+                                        Watch video
+                                    </Button>
+                                </div>
                             )}
                         </li>
                     ))}
-            </ol>
+            </ul>
         </div>
     )
 }
 
-export default PlanOrderedList
+export default PlanList
