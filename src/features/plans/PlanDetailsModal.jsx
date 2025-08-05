@@ -39,7 +39,7 @@ function PlanDetailsModal({ plan, sections, onClose }) {
                                 scrollbarColor: '#d1d5db #f3f4f6'
                             }}
                         >
-                            <div className="grid grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <div className="space-y-6">
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
@@ -73,6 +73,18 @@ function PlanDetailsModal({ plan, sections, onClose }) {
                                         <div className="p-3 bg-gray-50 dark:bg-gray-600 rounded-lg min-h-[60px]">
                                             <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                                 {plan.description || 'No description added'}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Comments */}
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                                            Comments
+                                        </h4>
+                                        <div className="p-3 bg-gray-50 dark:bg-gray-600 rounded-lg min-h-[60px]">
+                                            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                                                {plan.comments || 'No comments added'}
                                             </p>
                                         </div>
                                     </div>
