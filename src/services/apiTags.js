@@ -19,6 +19,10 @@ export async function createTag(newTag) {
 
     if (error) {
         console.error(error)
+        // Check if error is due to duplicate key constraint
+        if (error.code === '23505' || error.message?.includes('duplicate key')) {
+            throw new Error('Tag already exists')
+        }
         throw new Error('An error occurred while creating a new tag')
     }
 

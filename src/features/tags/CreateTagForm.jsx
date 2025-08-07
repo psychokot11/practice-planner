@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { useCreateTag } from './useCreateTags'
+import { useTags } from './useTags'
 import { IoMdAddCircle } from 'react-icons/io'
+import { toast } from 'react-hot-toast'
 import ButtonIcon from '../../ui/buttons/ButtonIcon'
 
 const labelClasses =
@@ -9,18 +11,36 @@ const textInputClasses =
     'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 sm:max-w-48'
 
 function CreateTagForm() {
-    const { register, handleSubmit, reset, formState } = useForm()
+    const { register, handleSubmit, reset, formState, setError } = useForm()
     const { createTag, isCreating } = useCreateTag()
+    const { tags } = useTags()
     const { errors } = formState
 
     const isWorking = isCreating
 
     function onSubmit(data) {
-        createTag(data, {
-            onSuccess: () => {
-                reset()
-            },
-        })
+        if (data.name?.trim()) {
+            const trimmedName = data.name.trim()
+            // Check if tag already exists (case-insensitive)
+            const existingTag = tags?.find(
+                (tag) => tag.name.toLowerCase() === trimmedName.toLowerCase()
+            )
+            
+            if (existingTag) {
+                setError('name', {
+                    type: 'manual',
+                    message: 'Tag already exists',
+                })
+                toast.error('Tag already exists')
+                return
+            }
+
+            createTag({ name: trimmedName }, {
+                onSuccess: () => {
+                    reset()
+                },
+            })
+        }
     }
 
     function onError(errors) {
