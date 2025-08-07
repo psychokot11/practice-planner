@@ -4,12 +4,13 @@ import { useDeleteDrill } from './useDeleteDrills'
 import DeleteModal from '../../ui/DeleteModal'
 import Table from '../../ui/Table'
 import TableRow from '../../ui/TableRow'
+import useSorting from '../../hooks/useSorting'
 
 const columns = [
-    { name: 'Drill name' },
-    { name: 'Min. players' },
+    { name: 'Drill name', sortable: true, sortKey: 'name' },
+    { name: 'Min. players', sortable: true, sortKey: 'minNumPlayers' },
     { name: 'Description' },
-    { name: 'Tags' },
+    { name: 'Tags', className: 'lg:min-w-64' },
     { name: 'Link' },
 ]
 
@@ -20,6 +21,7 @@ function DrillsTable({ drills }) {
     const [selectedDrill, setSelectedDrill] = useState(null)
     const { isDeleting, deleteDrill } = useDeleteDrill()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const { sortColumn, sortDirection, handleSort, sortedData: sortedDrills } = useSorting(drills)
 
     function handleOpenModal(drill) {
         setIsModalOpen(true)
@@ -38,9 +40,14 @@ function DrillsTable({ drills }) {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <Table columns={columns}>
+            <Table 
+                columns={columns}
+                onSort={handleSort}
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+            >
                 <TableRow
-                    data={drills}
+                    data={sortedDrills}
                     dataType="drills"
                     properties={properties}
                     handleEditClick={handleEditClick}

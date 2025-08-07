@@ -213,8 +213,18 @@ function CreateDrillForm({ drill, type, onClose }) {
                                     </ul>
                                     <input
                                         type="hidden"
-                                        {...register('stage')}
+                                        {...register('stage', {
+                                            validate: (value) =>
+                                                value && value.length > 0
+                                                    ? true
+                                                    : 'Please select at least one stage',
+                                        })}
                                     />
+                                    {errors.stage && (
+                                        <span className="block py-2 text-red-600">
+                                            {errors.stage.message}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-span-2">
                                     <label

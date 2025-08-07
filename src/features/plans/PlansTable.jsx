@@ -5,11 +5,12 @@ import DeleteModal from '../../ui/DeleteModal'
 import PlanDetailsModal from './PlanDetailsModal'
 import Table from '../../ui/Table'
 import TableRow from '../../ui/TableRow'
+import useSorting from '../../hooks/useSorting'
 
 const columns = [
-    { name: 'Plan name' },
+    { name: 'Plan name', sortable: true, sortKey: 'name' },
     { name: 'Tags' },
-    { name: 'Min. players' },
+    { name: 'Min. players', sortable: true, sortKey: 'minNumPlayers' },
     { name: 'Description' },
 ]
 
@@ -21,6 +22,7 @@ function PlansTable({ plans, sections }) {
     const { isDeleting, deletePlan } = useDeletePlan()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+    const { sortColumn, sortDirection, handleSort, sortedData: sortedPlans } = useSorting(plans)
 
     function handleOpenModal(plan) {
         setIsModalOpen(true)
@@ -44,9 +46,14 @@ function PlansTable({ plans, sections }) {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <Table columns={columns}>
+            <Table 
+                columns={columns}
+                onSort={handleSort}
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+            >
                 <TableRow
-                    data={plans}
+                    data={sortedPlans}
                     dataType="plans"
                     properties={properties}
                     handleEditClick={handleEditClick}
