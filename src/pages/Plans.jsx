@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { MdOutlineDashboardCustomize } from 'react-icons/md'
+import { IoMdAddCircle } from 'react-icons/io'
 import { usePlans } from '../features/plans/usePlans'
 import { useSettings } from '../features/settings/useSettings'
-import ButtonTile from '../ui/buttons/ButtonTile'
+import ButtonIcon from '../ui/buttons/ButtonIcon'
 import Spinner from '../ui/Spinner'
 import CreatePlanForm from '../features/plans/CreatePlanForm'
 import PlansTable from '../features/plans/PlansTable'
@@ -23,15 +23,19 @@ function Plans() {
         <>
             <div className="flex justify-between items-center">
                 <h1>Plans</h1>
-                <div className="flex gap-24 justify-around items-center">
-                    <ButtonTile onClick={() => setIsModalOpen(true)}>
-                        <MdOutlineDashboardCustomize className="size-10" />
-                        new <br /> custom plan
-                    </ButtonTile>
+                <div className="hidden sm:block">
+                    <ButtonIcon onClick={() => setIsModalOpen(true)} text="Add plan">
+                        <IoMdAddCircle className="size-9 text-blue-500 bg-white rounded-full shadow-lg" />
+                    </ButtonIcon>
                 </div>
             </div>
             <div>
                 <PlansTable plans={plans} sections={sections} />
+            </div>
+            <div className="fixed bottom-4 right-4 sm:hidden z-50">
+                <ButtonIcon onClick={() => setIsModalOpen(true)}>
+                    <IoMdAddCircle className="size-16 text-blue-500 bg-white rounded-full shadow-lg" />
+                </ButtonIcon>
             </div>
             {isModalOpen && (
                 <CreatePlanForm

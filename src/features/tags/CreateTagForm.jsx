@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { useCreateTag } from './useCreateTags'
-import Button from '../../ui/buttons/Button'
+import { IoMdAddCircle } from 'react-icons/io'
+import ButtonIcon from '../../ui/buttons/ButtonIcon'
 
 const labelClasses =
     'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
 const textInputClasses =
-    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-80'
+    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 sm:max-w-48'
 
 function CreateTagForm() {
     const { register, handleSubmit, reset, formState } = useForm()
@@ -31,8 +32,8 @@ function CreateTagForm() {
             <label className={labelClasses} htmlFor="name">
                 New tag:
             </label>
-            <div className="flex flex-wrap gap-6 items-center">
-                <div className="relative">
+            <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
+                <div className="relative flex-1">
                     <input
                         id="name"
                         className={textInputClasses}
@@ -48,16 +49,9 @@ function CreateTagForm() {
                         </span>
                     )}
                 </div>
-                <Button
-                    type="submit"
-                    subtype="normal"
-                    disabled={false}
-                    icon="add"
-                    flex
-                    iconPosition="left"
-                >
-                    Add tag
-                </Button>
+                <ButtonIcon text="Add tag" onClick={handleSubmit(onSubmit, onError)}>
+                    <IoMdAddCircle className="size-9 text-blue-500 bg-white rounded-full shadow-lg" />
+                </ButtonIcon>
             </div>
         </form>
     )

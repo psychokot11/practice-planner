@@ -8,7 +8,7 @@
     }
 
     h1 {
-        @apply text-3xl text-neutral-700 font-semibold uppercase;
+        @apply text-3xl text-neutral-700 font-semibold uppercase self-end;
     }
 
     button {
@@ -18,4 +18,17 @@
     a {
         @apply text-blue-500 hover:text-blue-700;
     }
+}
+
+@keyframes pulse-scale {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.pulse-scale {
+    animation: pulse-scale 2s ease-in-out infinite;
 }
