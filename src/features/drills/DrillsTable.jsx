@@ -10,7 +10,7 @@ const columns = [
     { name: 'Drill name', sortable: true, sortKey: 'name' },
     { name: 'Min. players', sortable: true, sortKey: 'minNumPlayers' },
     { name: 'Description' },
-    { name: 'Tags', className: 'lg:min-w-64' },
+    { name: 'Tags',},
     { name: 'Link' },
 ]
 
