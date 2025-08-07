@@ -5,7 +5,6 @@ export function useSelectStage(initialStages = []) {
 
     const handleStageChange = (event) => {
         const { value, checked } = event.target
-        console.log(value)
 
         setSelectedStages((prevStages) => {
             if (checked) {
