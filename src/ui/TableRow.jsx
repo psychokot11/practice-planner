@@ -61,7 +61,7 @@ function TableRow({
                             : []
 
                         return (
-                            <td key={index} className="px-4 py-2">
+                            <td key={index} className={`px-4 py-2 ${property === 'description' ? 'max-w-52' : ''} ${property === 'tags' ? 'lg:min-w-64' : ''}`}>
                                 {(() => {
                                     switch (property) {
                                         case 'plan':
