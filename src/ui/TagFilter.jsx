@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { IoMdArrowDropdown } from 'react-icons/io'
 import Button from './buttons/Button'
 
 function TagFilter({ 
@@ -42,34 +41,35 @@ function TagFilter({
 
     return (
         <div className="relative" ref={dropdownRef}>
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center">
                 <Button
                     onClick={() => setIsOpen(!isOpen)}
                     type="button"
-                    className="flex items-center justify-between min-w-[140px] bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm hover:bg-gray-50"
+                    subtype="dropdown"
+                    icon="dropdown"
+                    isOpen={isOpen}
+                    flex
                 >
-                    <span>
-                        {hasActiveFilters 
-                            ? `Filter by tags (${selectedTags.length})` 
-                            : 'Filter by tags'
-                        }
-                    </span>
-                    <IoMdArrowDropdown className={`ml-2 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    {hasActiveFilters 
+                        ? `Filter by tags (${selectedTags.length})` 
+                        : 'Filter by tags'
+                    }
                 </Button>
                 
                 {hasActiveFilters && (
-                    <Button
+                    <button
                         onClick={onClearFilters}
                         type="button"
-                        className="px-3 py-2 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-300 rounded-lg"
+                        className="ml-1 w-10 h-10 text-gray-400 hover:text-blue-600 rounded-lg flex items-center justify-center text-lg"
+                        title="Clear all filters"
                     >
-                        Clear filters
-                    </Button>
+                        ×
+                    </button>
                 )}
             </div>
 
             {isOpen && (
-                <div className="absolute z-50 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg min-w-[250px] max-h-64 overflow-y-auto">
+                <div className="absolute z-50 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg w-[250px] max-h-64 overflow-y-auto">
                     <div className="p-3">
                         <div className="text-xs font-medium text-gray-500 uppercase mb-3">
                             Select tags to filter {itemType}

@@ -21,6 +21,7 @@ function Button({
     flex,
     icon,
     iconPosition,
+    isOpen,
 }) {
     const centerClasses = center ? 'items-center text-center' : 'text-left'
     const fullWidthClasses = fullWidth ? 'w-full' : 'w-fit'
@@ -46,6 +47,8 @@ function Button({
             'text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white duration-700'
     } else if (subtype === 'solo-icon') {
         buttonClasses = `text-blue-500 hover:text-blue-600`
+    } else if (subtype === 'dropdown') {
+        buttonClasses = `flex items-center justify-between w-[250px] bg-white border border-gray-200 text-gray-900 text-sm font-medium px-3 py-2 hover:bg-gray-50 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700`
     } else {
         buttonClasses = `${classes} text-white bg-blue-500 font-semibold hover:bg-blue-600`
     }
@@ -55,7 +58,7 @@ function Button({
     if (icon === 'close') {
         iconElement = <IoMdClose className={iconClasses} />
     } else if (icon === 'dropdown') {
-        iconElement = <IoMdArrowDropdown className={iconClasses} />
+        iconElement = <IoMdArrowDropdown className={`${iconClasses} ml-2 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
     } else if (icon === 'add') {
         iconElement = <IoMdAddCircle className={`${iconClasses} mr-2`} />
     } else if (icon === 'copy') {

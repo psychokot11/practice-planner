@@ -33,24 +33,26 @@ function Plans() {
 
     return (
         <>
-            <div className="flex justify-between items-center">
-                <h1>Plans</h1>
+            <div className="flex justify-between items-center mb-4">
+                <div className="flex items-center gap-4">
+                    <h1 className="flex items-center">Plans</h1>
+                    <TagFilter
+                        allTags={allTags}
+                        selectedTags={selectedTags}
+                        incompatibleTags={incompatibleTags}
+                        onTagToggle={handleTagToggle}
+                        onClearFilters={clearFilters}
+                        hasActiveFilters={hasActiveFilters}
+                        itemType="plans"
+                    />
+                </div>
                 <div className="hidden sm:block">
                     <ButtonIcon onClick={() => setIsModalOpen(true)} text="Add plan">
                         <IoMdAddCircle className="size-9 text-blue-500 bg-white rounded-full shadow-lg" />
                     </ButtonIcon>
                 </div>
             </div>
-            <div className="space-y-4">
-                <TagFilter
-                    allTags={allTags}
-                    selectedTags={selectedTags}
-                    incompatibleTags={incompatibleTags}
-                    onTagToggle={handleTagToggle}
-                    onClearFilters={clearFilters}
-                    hasActiveFilters={hasActiveFilters}
-                    itemType="plans"
-                />
+            <div>
                 <PlansTable plans={filteredPlans} sections={sections} />
             </div>
             <div className="fixed bottom-4 right-4 sm:hidden z-50">
