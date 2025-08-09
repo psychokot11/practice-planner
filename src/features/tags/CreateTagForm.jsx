@@ -49,15 +49,13 @@ function CreateTagForm() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onError)}>
-            <label className={labelClasses} htmlFor="name">
-                New tag:
-            </label>
             <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
                 <div className="relative flex-1">
                     <input
                         id="name"
                         className={textInputClasses}
                         type="text"
+                        placeholder="new tag"
                         disabled={isWorking}
                         {...register('name', {
                             required: 'This field is required',
