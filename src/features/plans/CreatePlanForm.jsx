@@ -112,7 +112,13 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
     }
 
     function onError(errors) {
-        console.log(errors)
+        console.error('Form validation errors:', errors)
+        
+        const firstErrorField = Object.keys(errors)[0]
+        if (firstErrorField) {
+            const element = document.getElementById(firstErrorField)
+            element?.focus()
+        }
     }
 
     return (
@@ -160,7 +166,15 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         }
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         {...register('name', {
-                                            required: 'This field is required',
+                                            required: 'Plan name is required',
+                                            minLength: {
+                                                value: 2,
+                                                message: 'Plan name must be at least 2 characters'
+                                            },
+                                            maxLength: {
+                                                value: 100,
+                                                message: 'Plan name must be less than 100 characters'
+                                            }
                                         })}
                                     />
                                     {errors.name && (
@@ -186,10 +200,24 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                 ? plan.minNumPlayers
                                                 : 2
                                         }
-                                        //TODO: why onClick not onChange?
-                                        onClick={handlePlayersCountChange}
-                                        {...register('minNumPlayers')}
+                                        onChange={handlePlayersCountChange}
+                                        {...register('minNumPlayers', {
+                                            required: 'Number of players is required',
+                                            min: {
+                                                value: 1,
+                                                message: 'Must have at least 1 player'
+                                            },
+                                            max: {
+                                                value: 50,
+                                                message: 'Maximum 50 players allowed'
+                                            }
+                                        })}
                                     />
+                                    {errors.minNumPlayers && (
+                                        <span className="block py-2 text-red-600">
+                                            {errors.minNumPlayers.message}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-span-1">
                                     <label
@@ -290,13 +318,12 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                     <input
                                                         type="number"
                                                         name="players"
-                                                        id="plsyers"
+                                                        id="players"
                                                         className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                         min="0"
                                                         max="99"
                                                         defaultValue={0}
-                                                        // TODO: why onClick not onChange?
-                                                        onClick={(event) =>
+                                                        onChange={(event) =>
                                                             handleDrillsCountChange(
                                                                 event,
                                                                 key
@@ -328,9 +355,19 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                             type === 'edit' ? plan.description : ''
                                         }
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Provide shordt description"
-                                        {...register('description')}
+                                        placeholder="Provide short description"
+                                        {...register('description', {
+                                            maxLength: {
+                                                value: 500,
+                                                message: 'Description must be less than 500 characters'
+                                            }
+                                        })}
                                     />
+                                    {errors.description && (
+                                        <span className="block py-2 text-red-600">
+                                            {errors.description.message}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-span-1 md:col-span-3">
                                     <label
@@ -348,8 +385,18 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         }
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Write comments here"
-                                        {...register('comments')}
+                                        {...register('comments', {
+                                            maxLength: {
+                                                value: 1000,
+                                                message: 'Comments must be less than 1000 characters'
+                                            }
+                                        })}
                                     />
+                                    {errors.comments && (
+                                        <span className="block py-2 text-red-600">
+                                            {errors.comments.message}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                             <div className="flex gap-4">

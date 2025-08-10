@@ -33,15 +33,21 @@ export function useCreateRandomPlan(
 
         const matchesTags = (drill) => {
             if (selectedTags.length === 0) return true
-            return (
-                drill.tags?.length > 0 &&
-                drill.tags?.some((tag) => selectedTags.includes(tag))
-            )
+            if (!drill.tags || drill.tags.length === 0) return false
+            
+            // Using ANY logic: drill must have at least one of the selected tags
+            // Alternative ALL logic would be: selectedTags.every(tag => drill.tags.includes(tag))
+            return drill.tags.some((tag) => selectedTags.includes(tag))
         }
 
         const getRandomSubset = (array, count) => {
-            const shuffled = [...array].sort(() => 0.5 - Math.random())
-            return shuffled.slice(0, count)
+            // Fisher-Yates shuffle for true randomness
+            const result = [...array]
+            for (let i = result.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1))
+                ;[result[i], result[j]] = [result[j], result[i]]
+            }
+            return result.slice(0, count)
         }
 
         Object.entries(drillsCount).forEach(([stageKey, count]) => {
