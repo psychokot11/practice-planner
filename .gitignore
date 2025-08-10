@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Development/Sample Data Tools (remove in production)
+src/utils/generateSampleData.js
+src/components/SampleDataGenerator.jsx
