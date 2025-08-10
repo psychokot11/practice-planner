@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import ButtonTile from '../ui/buttons/ButtonTile'
 import { FcPlanner, FcIdea, FcAddDatabase } from 'react-icons/fc'
+import SampleDataGenerator from '../components/SampleDataGenerator'
 
 function Dashboard() {
     return (
@@ -21,6 +22,9 @@ function Dashboard() {
                     <FcAddDatabase className="size-10" /> CREATE PLAN
                 </ButtonTile>
             </div>
+            
+            {/* Development Tools - Remove in production */}
+            <SampleDataGenerator />
         </div>
     )
 }

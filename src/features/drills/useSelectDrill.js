@@ -25,13 +25,13 @@ export function useSelectDrill(sections, plan) {
         plan?.drills ? plan?.drills : initialDrillsState
     )
 
-    function handleDrillChange(section, event) {
+    function handleDrillChange(section, event, drillItem) {
         const { value, checked } = event.target
 
         setSelectedDrills((prevState) => {
             const updatedSection = checked
-                ? [...prevState[section], value]
-                : prevState[section].filter((drill) => drill !== value)
+                ? [...prevState[section], drillItem]
+                : prevState[section].filter((drill) => String(drill.id) !== String(value))
 
             return {
                 ...prevState,

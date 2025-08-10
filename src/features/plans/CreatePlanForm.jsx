@@ -264,10 +264,11 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                                 handleRemoveDrill={
                                                     handleRemoveDrill
                                                 }
-                                                handleChange={(event) =>
+                                                handleChange={(event, item) =>
                                                     handleDrillChange(
                                                         key,
-                                                        event
+                                                        event,
+                                                        item
                                                     )
                                                 }
                                                 isDropdownOpen={
