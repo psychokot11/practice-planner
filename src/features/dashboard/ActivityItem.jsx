@@ -1,10 +1,14 @@
 import { formatDistanceToNow } from 'date-fns'
+import { Link } from 'react-router-dom'
 
-function ActivityItem({ type, name, createdAt, icon, bgColor, iconColor }) {
+function ActivityItem({ type, name, createdAt, icon, bgColor, iconColor, to }) {
     const timeAgo = createdAt ? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : 'Unknown'
     
     return (
-        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+        <Link 
+            to={to}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+        >
             <div className={`${bgColor} p-2 rounded-full flex items-center justify-center flex-shrink-0`}>
                 <div className={`${iconColor} w-4 h-4`}>
                     {icon}
@@ -18,7 +22,7 @@ function ActivityItem({ type, name, createdAt, icon, bgColor, iconColor }) {
                     {type} • {timeAgo}
                 </p>
             </div>
-        </div>
+        </Link>
     )
 }
 

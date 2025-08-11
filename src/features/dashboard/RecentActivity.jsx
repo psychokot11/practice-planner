@@ -16,7 +16,8 @@ function RecentActivity() {
             createdAt: plan.created_at,
             icon: <HiClipboardDocumentList className="w-full h-full" />,
             bgColor: 'bg-blue-100',
-            iconColor: 'text-blue-600'
+            iconColor: 'text-blue-600',
+            to: '/plans'
         })),
         ...drills.map(drill => ({
             type: 'Drill',
@@ -24,7 +25,8 @@ function RecentActivity() {
             createdAt: drill.created_at,
             icon: <HiCog6Tooth className="w-full h-full" />,
             bgColor: 'bg-green-100',
-            iconColor: 'text-green-600'
+            iconColor: 'text-green-600',
+            to: '/drills'
         })),
         ...tags.map(tag => ({
             type: 'Tag',
@@ -32,7 +34,8 @@ function RecentActivity() {
             createdAt: tag.created_at,
             icon: <HiTag className="w-full h-full" />,
             bgColor: 'bg-purple-100',
-            iconColor: 'text-purple-600'
+            iconColor: 'text-purple-600',
+            to: '/tags'
         }))
     ]
 
@@ -68,6 +71,7 @@ function RecentActivity() {
                         icon={activity.icon}
                         bgColor={activity.bgColor}
                         iconColor={activity.iconColor}
+                        to={activity.to}
                     />
                 ))}
             </div>
