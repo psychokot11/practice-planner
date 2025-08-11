@@ -3,6 +3,9 @@ import { usePlans } from '../features/plans/usePlans'
 import { useDrills } from '../features/drills/useDrills'
 import { useTags } from '../features/tags/useTags'
 import StatTile from '../features/dashboard/StatTile'
+import PopularTagsChart from '../features/dashboard/PopularTagsChart'
+import TimelineChart from '../features/dashboard/TimelineChart'
+import RecentActivity from '../features/dashboard/RecentActivity'
 import { HiClipboardDocumentList, HiCog6Tooth, HiTag, HiStar } from 'react-icons/hi2'
 
 function Dashboard() {
@@ -48,6 +51,28 @@ function Dashboard() {
                     bgColor="bg-yellow-100"
                     iconColor="text-yellow-600"
                 />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-6">
+                    <PopularTagsChart />
+                    <RecentActivity />
+                </div>
+
+                <div className="space-y-6">
+                    <TimelineChart 
+                        data={drills || []}
+                        title="Drills Created (Last 30 Days)"
+                        color="#10B981"
+                        dataType="Drills"
+                    />
+                    <TimelineChart 
+                        data={plans || []}
+                        title="Plans Created (Last 30 Days)"
+                        color="#3B82F6"
+                        dataType="Plans"
+                    />
+                </div>
             </div>
         </div>
     )
