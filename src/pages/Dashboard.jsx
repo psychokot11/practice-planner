@@ -29,6 +29,7 @@ function Dashboard() {
                     count={plansCount}
                     bgColor="bg-blue-100"
                     iconColor="text-blue-600"
+                    to="/plans"
                 />
                 <StatTile
                     icon={<HiCog6Tooth className="w-full h-full" />}
@@ -36,6 +37,7 @@ function Dashboard() {
                     count={drillsCount}
                     bgColor="bg-green-100"
                     iconColor="text-green-600"
+                    to="/drills"
                 />
                 <StatTile
                     icon={<HiTag className="w-full h-full" />}
@@ -43,6 +45,7 @@ function Dashboard() {
                     count={tagsCount}
                     bgColor="bg-purple-100"
                     iconColor="text-purple-600"
+                    to="/tags"
                 />
                 <StatTile
                     icon={<HiStar className="w-full h-full" />}
@@ -50,6 +53,7 @@ function Dashboard() {
                     count={starredCount}
                     bgColor="bg-yellow-100"
                     iconColor="text-yellow-600"
+                    to="/plans"
                 />
             </div>
 
