@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Plans from './pages/Plans'
 import Drills from './pages/Drills'
 import Tags from './pages/Tags'
+import Login from './pages/Login'
 import PageNotFound from './pages/PageNotFound'
 import Settings from './pages/Settings'
 
@@ -36,6 +37,7 @@ function App() {
                         <Route path="tags" element={<Tags />} />
                         <Route path="settings" element={<Settings />} />
                     </Route>
+                    <Route path="login" element={<Login />} />
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </BrowserRouter>

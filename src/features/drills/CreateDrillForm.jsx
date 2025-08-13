@@ -268,7 +268,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                             </div>
                             <Button
                                 type="submit"
-                                subtype="normal"
+                                subtype="primary"
                                 icon="add"
                                 iconPosition="left"
                                 align="center"

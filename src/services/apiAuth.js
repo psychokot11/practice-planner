@@ -35,7 +35,7 @@ export async function login({ email, password }) {
 export async function getCurrentUser() {
     const { data: session } = await supabase.auth.getSession()
 
-    if (!session.session) null
+    if (!session.session) return null
 
     const { data, error } = await supabase.auth.getUser()
 
@@ -54,10 +54,10 @@ export async function logout() {
     }
 }
 
-export async function updateCurentUser({ password, fullName, avatar }) {
-    let updateData
-    if (password) updateData = { password }
-    if (fullName) updateData = { data: { fullName } }
+export async function updateCurrentUser({ password, fullName, avatar }) {
+    let updateData = {}
+    if (password) updateData.password = password
+    if (fullName) updateData.data = { fullName }
 
     const { data, error } = await supabase.auth.updateUser(updateData)
 

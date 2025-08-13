@@ -301,6 +301,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         <div className="flex gap-4">
                                             <Button
                                                 type="button"
+                                                subtype="primary"
                                                 onClick={handleSetRandomPlan}
                                             >
                                                 Randomize
@@ -403,6 +404,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                             <div className="flex gap-4">
                                 <Button
                                     type="submit"
+                                    subtype="primary"
                                     icon={type === 'create' ? 'add' : ''}
                                     iconPosition="left"
                                     disabled={isWorking}

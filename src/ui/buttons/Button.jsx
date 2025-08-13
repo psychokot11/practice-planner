@@ -41,7 +41,6 @@ function Button({
     let buttonClasses
 
     if (subtype === 'primary') {
-        // Placeholder for primary button styling
         buttonClasses = `${classes} text-white bg-blue-500 font-semibold hover:bg-blue-600`
     } else if (subtype === 'secondary') {
         // Placeholder for secondary button styling
