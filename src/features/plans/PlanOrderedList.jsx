@@ -41,11 +41,12 @@ function PlanList({ title, items }) {
                                 )}
                             </span>
                             {drill.link && (
-                                <div className="mt-1">
+                                <div className="mt-1 flex justify-end">
                                     <Button
                                         subtype="tertiary"
-                                        icon="small-arrow"
-                                        flex
+                                        icon="play"
+                                        iconPosition='left'
+                                        align="right"
                                         onClick={() => window.open(drill.link, '_blank')}
                                     >
                                         Watch video

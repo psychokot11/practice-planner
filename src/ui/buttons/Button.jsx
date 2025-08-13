@@ -4,11 +4,11 @@ import {
     IoMdAddCircle,
     IoIosCopy,
     IoMdArrowRoundForward,
+    IoMdPlay,
 } from 'react-icons/io'
 
 const commonClasses =
     'py-2.5 px-5 text-sm font-medium rounded-lg shadow-lg duration-700'
-const iconClasses = 'text-xl'
 
 function Button({
     children,
@@ -16,17 +16,27 @@ function Button({
     type,
     subtype = 'normal',
     disabled,
-    center,
+    align = 'center',
     fullWidth = false,
     flex,
     icon,
     iconPosition,
     isOpen,
 }) {
-    const centerClasses = center ? 'items-center text-center' : 'text-left'
+    let alignClasses
+    
+    if (align === 'left') {
+        alignClasses = 'text-left'
+    } else if (align === 'right') {
+        alignClasses = 'text-right'
+    } else {
+        alignClasses = 'items-center text-center'
+    }
+    
     const fullWidthClasses = fullWidth ? 'w-full' : 'w-fit'
     const flexClasses = flex ? 'flex justify-between items-center' : ''
-    const classes = `${commonClasses} ${centerClasses} ${fullWidthClasses} ${flexClasses}`
+    const iconClasses = `text-xl ${iconPosition === 'left' ? 'mr-2' : 'ml-2'}`
+    const classes = `${commonClasses} ${alignClasses} ${fullWidthClasses} ${flexClasses}`
 
     let buttonClasses
 
@@ -37,7 +47,7 @@ function Button({
         // Placeholder for secondary button styling
         buttonClasses = `${classes} text-gray-900 bg-gray-200 font-semibold hover:bg-gray-300`
     } else if (subtype === 'tertiary') {
-        buttonClasses = `text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 ${flexClasses}`
+        buttonClasses = `text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 inline-flex items-center ${alignClasses} ${flexClasses}`
     } else if (subtype === 'accept') {
         buttonClasses = `${classes} text-gray-900 focus:outline-none bg-white  border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700`
     } else if (subtype === 'delete') {
@@ -65,6 +75,12 @@ function Button({
         iconElement = <IoIosCopy className={iconClasses} />
     } else if (icon === 'small-arrow') {
         iconElement = <IoMdArrowRoundForward className="text-sm ml-1 flex items-center" />
+    } else if (icon === 'play') {
+        iconElement = (
+            <div className={`w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center ${iconClasses}`}>
+                <IoMdPlay className="text-xs text-gray-600 ml-[3px]" />
+            </div>
+        )
     } else {
         iconElement = null
     }

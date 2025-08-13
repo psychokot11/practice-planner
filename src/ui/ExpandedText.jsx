@@ -1,3 +1,5 @@
+import Button from './buttons/Button'
+
 function ExpandedText({ isExpanded, item, property, handleToggle }) {
     const description = item[property] || ''
     const longDescription = description.length > 150
@@ -14,12 +16,13 @@ function ExpandedText({ isExpanded, item, property, handleToggle }) {
                     : 'No description added'}
             </span>
             {item[property] && longDescription && (
-                <button
+                <Button
                     onClick={() => handleToggle(property, item.id)}
-                    className="text-blue-500 self-end hover:text-blue-700"
+                    subtype='tertiary'
+                    align='right'
                 >
                     {isExpanded ? 'Show less' : 'Show more'}
-                </button>
+                </Button>
             )}
         </div>
     )

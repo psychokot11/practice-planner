@@ -10,7 +10,7 @@ function PageNotFound() {
                     <p className="text-gray-600 mb-4">
                         Oops! The page you are looking for could not be found.
                     </p>
-                    <Button type="button" center>
+                    <Button type="button" align="center">
                         <NavLink to="/"> Go back to Home </NavLink>
                     </Button>
                 </div>

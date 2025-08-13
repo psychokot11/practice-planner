@@ -271,7 +271,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                 subtype="normal"
                                 icon="add"
                                 iconPosition="left"
-                                center
+                                align="center"
                                 disabled={isWorking}
                                 flex
                             >
