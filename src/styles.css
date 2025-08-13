@@ -8,7 +8,7 @@
     }
 
     h1 {
-        @apply text-3xl text-neutral-700 font-semibold uppercase self-end;
+        @apply text-3xl text-neutral-700 font-semibold uppercase self-baseline;
     }
 
     button {
