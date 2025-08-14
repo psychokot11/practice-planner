@@ -11,6 +11,7 @@ import Tags from './pages/Tags'
 import Login from './pages/Login'
 import PageNotFound from './pages/PageNotFound'
 import Settings from './pages/Settings'
+import ProtectedRoute from './ui/ProtectedRoute'
 
 const queryClinet = new QueryClient({
     defaultOptions: {
@@ -26,7 +27,13 @@ function App() {
             <ReactQueryDevtools initialIsOpen={false} />
             <BrowserRouter>
                 <Routes>
-                    <Route element={<AppLayout />}>
+                    <Route
+                        element={
+                            <ProtectedRoute>
+                                <AppLayout />
+                            </ProtectedRoute>
+                        }
+                    >
                         <Route
                             index
                             element={<Navigate replace to="dashboard" />}
