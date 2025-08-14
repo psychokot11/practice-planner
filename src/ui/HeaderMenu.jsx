@@ -1,9 +1,11 @@
+import { useLogout } from '../features/authentication/useLogout'
 import ButtonIcon from './buttons/ButtonIcon'
 import { FcExport, FcManager, FcNightLandscape } from 'react-icons/fc'
 
 const iconClasses = 'w-6 h-6'
 
 function HeaderMenu() {
+    const { logout, isLoading } = useLogout()
     return (
         <ul className="flex gap-2 ml-4">
             <ButtonIcon disabled={true}>
@@ -12,7 +14,7 @@ function HeaderMenu() {
             <ButtonIcon disabled={true}>
                 <FcNightLandscape className={iconClasses} />
             </ButtonIcon>
-            <ButtonIcon disabled={true}>
+            <ButtonIcon disabled={isLoading} onClick={logout}>
                 <FcExport className={iconClasses} />
             </ButtonIcon>
         </ul>
