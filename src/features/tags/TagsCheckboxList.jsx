@@ -216,7 +216,7 @@ function TagsCheckboxList({
                         className="space-y-3 text-sm text-gray-700 dark:text-gray-200 max-h-40 overflow-y-auto"
                         aria-labelledby="dropdownCheckboxButton"
                     >
-                        {tags.map((tag) => (
+                        {[...tags].sort((a, b) => a.name.localeCompare(b.name)).map((tag) => (
                             <li key={tag.id}>
                                 <div className="flex items-center">
                                     <input
@@ -234,7 +234,7 @@ function TagsCheckboxList({
                                     />
                                     <label
                                         htmlFor={tag.id}
-                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 lowercase"
                                     >
                                         {tag.name}
                                     </label>

@@ -112,10 +112,15 @@ function TableRow({
                                             )
 
                                         case 'tags':
+                                            const sortedTags = [...tags].sort((a, b) => {
+                                                const tagA = typeof a === 'object' ? a.name : a;
+                                                const tagB = typeof b === 'object' ? b.name : b;
+                                                return tagA.localeCompare(tagB);
+                                            });
                                             return (
                                                 <div className="flex flex-wrap max-w-40 gap-2">
-                                                    {tags.map((tag, index) => (
-                                                        <span key={index}>
+                                                    {sortedTags.map((tag, index) => (
+                                                        <span key={index} className="lowercase">
                                                             {typeof tag ===
                                                             'object'
                                                                 ? tag.name

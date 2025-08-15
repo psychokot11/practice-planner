@@ -76,7 +76,7 @@ function TagFilter({
                         </div>
                         
                         <div className="space-y-2">
-                            {allTags.map((tag) => {
+                            {[...allTags].sort((a, b) => a.localeCompare(b)).map((tag) => {
                                 const isSelected = selectedTags.includes(tag)
                                 const isIncompatible = incompatibleTags.includes(tag)
                                 const isDisabled = isIncompatible && !isSelected
@@ -95,7 +95,7 @@ function TagFilter({
                                             onChange={() => !isDisabled && onTagToggle(tag)}
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 disabled:opacity-50"
                                         />
-                                        <span className={`ml-2 text-sm ${
+                                        <span className={`ml-2 text-sm lowercase ${
                                             isDisabled ? 'text-gray-400' : 'text-gray-700'
                                         }`}>
                                             {tag}
@@ -119,7 +119,7 @@ function TagFilter({
                                     {selectedTags.map((tag) => (
                                         <span
                                             key={tag}
-                                            className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                                            className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full lowercase"
                                         >
                                             {tag}
                                             <button
