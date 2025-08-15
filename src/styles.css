@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        @apply font-sans overflow-hidden;
+        @apply font-sans min-h-screen;
     }
 
     h1 {
@@ -21,7 +21,8 @@
 }
 
 @keyframes pulse-scale {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
     }
     50% {
