@@ -57,11 +57,16 @@ function TableRow({
                         const tags = Array.isArray(item[property])
                             ? item[property]
                             : typeof item[property] === 'string'
-                            ? item[property].split(',').map((tag) => tag.trim())
-                            : []
+                              ? item[property]
+                                    .split(',')
+                                    .map((tag) => tag.trim())
+                              : []
 
                         return (
-                            <td key={index} className={`px-4 py-2 ${property === 'description' ? 'max-w-52' : ''} ${property === 'tags' ? 'lg:min-w-64' : ''}`}>
+                            <td
+                                key={index}
+                                className={`px-4 py-2 ${property === 'description' ? 'max-w-52' : ''} ${property === 'tags' ? 'lg:min-w-64' : ''}`}
+                            >
                                 {(() => {
                                     switch (property) {
                                         case 'plan':
@@ -111,25 +116,41 @@ function TableRow({
                                                 )
                                             )
 
-                                        case 'tags':
-                                            const sortedTags = [...tags].sort((a, b) => {
-                                                const tagA = typeof a === 'object' ? a.name : a;
-                                                const tagB = typeof b === 'object' ? b.name : b;
-                                                return tagA.localeCompare(tagB);
-                                            });
+                                        case 'tags': {
+                                            const sortedTags = [...tags].sort(
+                                                (a, b) => {
+                                                    const tagA =
+                                                        typeof a === 'object'
+                                                            ? a.name
+                                                            : a
+                                                    const tagB =
+                                                        typeof b === 'object'
+                                                            ? b.name
+                                                            : b
+                                                    return tagA.localeCompare(
+                                                        tagB
+                                                    )
+                                                }
+                                            )
                                             return (
-                                                <div className="flex flex-wrap max-w-40 gap-2">
-                                                    {sortedTags.map((tag, index) => (
-                                                        <span key={index} className="lowercase">
-                                                            {typeof tag ===
-                                                            'object'
-                                                                ? tag.name
-                                                                : tag}{' '}
-                                                            {/* Support both formats. TODO: CLEAR UP DB */}
-                                                        </span>
-                                                    ))}
+                                                <div className="flex flex-wrap max-w-40 gap-1">
+                                                    {sortedTags.map(
+                                                        (tag, index) => (
+                                                            <span
+                                                                key={index}
+                                                                className="lowercase"
+                                                            >
+                                                                {typeof tag ===
+                                                                'object'
+                                                                    ? tag.name
+                                                                    : tag}{' '}
+                                                                {/* Support both formats. TODO: CLEAR UP DB */}
+                                                            </span>
+                                                        )
+                                                    )}
                                                 </div>
                                             )
+                                        }
 
                                         default:
                                             return item[property]

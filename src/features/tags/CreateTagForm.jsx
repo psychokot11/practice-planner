@@ -67,7 +67,7 @@ function CreateTagForm() {
                         </span>
                     )}
                 </div>
-                <ButtonIcon text="Add tag" onClick={handleSubmit(onSubmit, onError)}>
+                <ButtonIcon text="Add tag" onClick={handleSubmit(onSubmit, onError)} pulse>
                     <IoMdAddCircle className="size-9 text-blue-500 bg-white rounded-full shadow-lg" />
                 </ButtonIcon>
             </div>

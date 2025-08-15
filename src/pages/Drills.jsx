@@ -48,7 +48,7 @@ function Drills() {
                     />
                 </div>
                 <div className="hidden sm:block">
-                    <ButtonIcon onClick={handleOpenForm} text="Add drill">
+                    <ButtonIcon onClick={handleOpenForm} text="Add drill" pulse>
                         <IoMdAddCircle className="size-9 text-blue-500 bg-white rounded-full shadow-lg" />
                     </ButtonIcon>
                 </div>

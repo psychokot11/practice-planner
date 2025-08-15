@@ -47,7 +47,7 @@ function Plans() {
                     />
                 </div>
                 <div className="hidden sm:block">
-                    <ButtonIcon onClick={() => setIsModalOpen(true)} text="Add plan">
+                    <ButtonIcon onClick={() => setIsModalOpen(true)} text="Add plan" pulse>
                         <IoMdAddCircle className="size-9 text-blue-500 bg-white rounded-full shadow-lg" />
                     </ButtonIcon>
                 </div>

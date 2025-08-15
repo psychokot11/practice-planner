@@ -10,16 +10,17 @@ function ExpandedText({ isExpanded, item, property, handleToggle }) {
                 {isExpanded
                     ? description
                     : description
-                    ? longDescription
-                        ? `${description.substring(0, 150)}...`
-                        : description.substring(0, 150)
-                    : 'No description added'}
+                      ? longDescription
+                          ? `${description.substring(0, 150)}...`
+                          : description.substring(0, 150)
+                      : 'No description added'}
             </span>
             {item[property] && longDescription && (
                 <Button
                     onClick={() => handleToggle(property, item.id)}
-                    subtype='tertiary'
-                    align='right'
+                    subtype="tertiary"
+                    align="right"
+                    fullWidth
                 >
                     {isExpanded ? 'Show less' : 'Show more'}
                 </Button>
