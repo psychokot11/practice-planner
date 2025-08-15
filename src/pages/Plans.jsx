@@ -24,10 +24,9 @@ function Plans() {
         hasActiveFilters
     } = useFilterByTags(plans)
 
-    const sections = settings ? settings[0].stages : []
+    const sections = settings?.[0]?.stages || []
 
-    const isDataReady =
-        !isLoading && !isLoadingSettings
+    const isDataReady = !isLoading && !isLoadingSettings
 
     if (!isDataReady) return <Spinner />
 
