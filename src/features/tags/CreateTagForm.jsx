@@ -62,7 +62,7 @@ function CreateTagForm() {
                         })}
                     />
                     {errors.name && (
-                        <span className="absolute py-2 text-red-600">
+                        <span className="absolute top-full mt-1 text-xs text-red-600">
                             {errors.name.message}
                         </span>
                     )}

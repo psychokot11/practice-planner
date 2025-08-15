@@ -10,7 +10,7 @@ import Drills from './pages/Drills'
 import Tags from './pages/Tags'
 import Login from './pages/Login'
 import PageNotFound from './pages/PageNotFound'
-import Settings from './pages/Settings'
+// import Settings from './pages/Settings'
 import ProtectedRoute from './ui/ProtectedRoute'
 
 const queryClinet = new QueryClient({
@@ -42,7 +42,7 @@ function App() {
                         <Route path="plans" element={<Plans />} />
                         <Route path="drills" element={<Drills />} />
                         <Route path="tags" element={<Tags />} />
-                        <Route path="settings" element={<Settings />} />
+                        {/* <Route path="settings" element={<Settings />} /> */}
                     </Route>
                     <Route path="login" element={<Login />} />
                     <Route path="*" element={<PageNotFound />} />

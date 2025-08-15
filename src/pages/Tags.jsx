@@ -14,7 +14,7 @@ function Tags() {
                 <h1>Available Tags:</h1>
                 <CreateTagForm />
             </div>
-            <div className="flex flex-wrap gap-5">
+            <div className="flex flex-wrap gap-4 mt-8">
                 {tags.map((tag) => (
                     <Tag key={tag.id} id={tag.id} tag={tag.name} />
                 ))}

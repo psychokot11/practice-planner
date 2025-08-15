@@ -1,4 +1,3 @@
-
 import { usePlans } from '../features/plans/usePlans'
 import { useDrills } from '../features/drills/useDrills'
 import { useTags } from '../features/tags/useTags'
@@ -6,7 +5,12 @@ import StatTile from '../features/dashboard/StatTile'
 import PopularTagsChart from '../features/dashboard/PopularTagsChart'
 import TimelineChart from '../features/dashboard/TimelineChart'
 import RecentActivity from '../features/dashboard/RecentActivity'
-import { HiClipboardDocumentList, HiCog6Tooth, HiTag, HiStar } from 'react-icons/hi2'
+import {
+    HiClipboardDocumentList,
+    HiOutlineLightBulb,
+    HiTag,
+    HiStar,
+} from 'react-icons/hi2'
 
 function Dashboard() {
     const { plans } = usePlans()
@@ -21,7 +25,7 @@ function Dashboard() {
     return (
         <div className="space-y-8">
             <h1>Dashboard</h1>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                 <StatTile
                     icon={<HiClipboardDocumentList className="w-full h-full" />}
@@ -32,7 +36,7 @@ function Dashboard() {
                     to="/plans"
                 />
                 <StatTile
-                    icon={<HiCog6Tooth className="w-full h-full" />}
+                    icon={<HiOutlineLightBulb className="w-full h-full" />}
                     title="Drills"
                     count={drillsCount}
                     bgColor="bg-green-100"
@@ -64,13 +68,13 @@ function Dashboard() {
                 </div>
 
                 <div className="space-y-6">
-                    <TimelineChart 
+                    <TimelineChart
                         data={drills || []}
                         title="Drills Created (Last 30 Days)"
                         color="#10B981"
                         dataType="Drills"
                     />
-                    <TimelineChart 
+                    <TimelineChart
                         data={plans || []}
                         title="Plans Created (Last 30 Days)"
                         color="#3B82F6"

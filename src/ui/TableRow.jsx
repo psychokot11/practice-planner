@@ -168,6 +168,7 @@ function TableRow({
                             }}
                             className={iconClasses}
                             disabled={false}
+                            title="Edit"
                         >
                             <AiTwotoneEdit />
                         </button>
@@ -179,6 +180,7 @@ function TableRow({
                                 }}
                                 className={iconClasses}
                                 disabled={isDeleting}
+                                title="Copy plan"
                             >
                                 <AiTwotoneCopy />
                             </button>
@@ -190,6 +192,7 @@ function TableRow({
                             }}
                             className={iconClasses}
                             disabled={isDeleting}
+                            title="Delete"
                         >
                             <AiTwotoneDelete />
                         </button>
