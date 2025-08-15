@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import { useCopyPlan } from '../features/plans/useCopyPlan'
-import {
-    AiTwotoneDelete,
-    AiTwotoneEdit,
-    AiOutlineLink,
-    AiTwotoneCopy,
-} from 'react-icons/ai'
+import { AiTwotoneDelete, AiTwotoneEdit, AiTwotoneCopy } from 'react-icons/ai'
+import { IoMdPlay } from 'react-icons/io'
 import PlanOrderedList from '../features/plans/PlanOrderedList'
 import ExpandedText from './ExpandedText'
 
@@ -41,7 +37,7 @@ function TableRow({
                 <tr
                     key={item.id}
                     onClick={() => handleRowClick && handleRowClick(item)}
-                    className="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-600 cursor-pointer"
+                    className={`bg-white border-b dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-600 ${dataType === 'plans' ? 'cursor-pointer' : ''}`}
                 >
                     <th
                         scope="row"
@@ -104,16 +100,21 @@ function TableRow({
                                             )
 
                                         case 'link':
-                                            return (
-                                                item[property] && (
-                                                    <a
-                                                        href={item[property]}
-                                                        target="_blank"
-                                                        rel="noreferrer"
-                                                    >
-                                                        <AiOutlineLink />
-                                                    </a>
-                                                )
+                                            return item[property] ? (
+                                                <a
+                                                    href={item[property]}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="inline-block"
+                                                >
+                                                    <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                                                        <IoMdPlay className="text-xs text-gray-600 ml-[3px]" />
+                                                    </div>
+                                                </a>
+                                            ) : (
+                                                <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center opacity-50">
+                                                    <IoMdPlay className="text-xs text-gray-400 ml-[3px]" />
+                                                </div>
                                             )
 
                                         case 'tags': {

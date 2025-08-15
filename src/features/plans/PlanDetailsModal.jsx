@@ -20,6 +20,11 @@ function PlanDetailsModal({ plan, sections, onClose }) {
                 tabIndex="-1"
                 aria-hidden="true"
                 className="flex overflow-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full"
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                        onClose()
+                    }
+                }}
             >
                 <div className="relative p-4 w-full max-w-4xl h-full max-h-[90vh]">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 flex flex-col h-full">
@@ -141,7 +146,7 @@ function PlanDetailsModal({ plan, sections, onClose }) {
                     </div>
                 </div>
             </div>
-            <div className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
+            <div className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40" onClick={onClose}></div>
         </div>
     )
 }

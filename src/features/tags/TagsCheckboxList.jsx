@@ -55,7 +55,7 @@ function TagsCheckboxList({
             const recentlyCreated = recentlyCreatedTags.find(
                 (tagName) => tagName.toLowerCase() === trimmedName.toLowerCase()
             )
-            
+
             if (existingTag) {
                 // If tag exists, just select it instead of creating duplicate
                 const fakeEvent = {
@@ -81,39 +81,37 @@ function TagsCheckboxList({
             }
 
             // Add to recently created tags to prevent immediate duplicates
-            setRecentlyCreatedTags(prev => [...prev, trimmedName])
+            setRecentlyCreatedTags((prev) => [...prev, trimmedName])
 
             createTag(
                 { name: trimmedName },
                 {
-                    onSuccess: (data) => {
-                        // Automatically select the new tag
-                        const newTag = data[0]
-                        const fakeEvent = {
-                            target: {
-                                checked: true,
-                                name: newTag.name,
-                                value: newTag.name,
-                            },
-                        }
-                        handleTagChange(fakeEvent)
+                    onSuccess: () => {
                         setNewTagName('')
                         setIsCreatingNewTag(false)
                         // Remove from recently created after successful creation
                         setTimeout(() => {
-                            setRecentlyCreatedTags(prev => 
-                                prev.filter(tagName => tagName.toLowerCase() !== trimmedName.toLowerCase())
+                            setRecentlyCreatedTags((prev) =>
+                                prev.filter(
+                                    (tagName) =>
+                                        tagName.toLowerCase() !==
+                                        trimmedName.toLowerCase()
+                                )
                             )
                         }, 2000) // Remove after 2 seconds
                     },
                     onError: (err) => {
                         // Remove from recently created if creation failed
-                        setRecentlyCreatedTags(prev => 
-                            prev.filter(tagName => tagName.toLowerCase() !== trimmedName.toLowerCase())
+                        setRecentlyCreatedTags((prev) =>
+                            prev.filter(
+                                (tagName) =>
+                                    tagName.toLowerCase() !==
+                                    trimmedName.toLowerCase()
+                            )
                         )
                         // Show error toast (in case the hook's onError doesn't run)
                         toast.error(err.message + ' Please try again')
-                    }
+                    },
                 }
             )
         }
@@ -179,7 +177,9 @@ function TagsCheckboxList({
                                 <input
                                     type="text"
                                     value={newTagName}
-                                    onChange={(e) => setNewTagName(e.target.value)}
+                                    onChange={(e) =>
+                                        setNewTagName(e.target.value)
+                                    }
                                     onKeyDown={handleKeyPress}
                                     placeholder="Tag name"
                                     className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -191,7 +191,9 @@ function TagsCheckboxList({
                                         onClick={handleCreateNewTag}
                                         type="button"
                                         className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-                                        disabled={isCreating || !newTagName.trim()}
+                                        disabled={
+                                            isCreating || !newTagName.trim()
+                                        }
                                     >
                                         {isCreating ? '...' : 'Add'}
                                     </button>
@@ -216,31 +218,35 @@ function TagsCheckboxList({
                         className="space-y-3 text-sm text-gray-700 dark:text-gray-200 max-h-40 overflow-y-auto"
                         aria-labelledby="dropdownCheckboxButton"
                     >
-                        {[...tags].sort((a, b) => a.name.localeCompare(b.name)).map((tag) => (
-                            <li key={tag.id}>
-                                <div className="flex items-center">
-                                    <input
-                                        onChange={handleTagChange}
-                                        type="checkbox"
-                                        id={tag.id}
-                                        name={tag.name}
-                                        value={tag.name}
-                                        defaultChecked={
-                                            type === 'edit' && item?.tags
-                                                ? item.tags.includes(tag.name)
-                                                : false
-                                        }
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                    />
-                                    <label
-                                        htmlFor={tag.id}
-                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 lowercase"
-                                    >
-                                        {tag.name}
-                                    </label>
-                                </div>
-                            </li>
-                        ))}
+                        {[...tags]
+                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .map((tag) => (
+                                <li key={tag.id}>
+                                    <div className="flex items-center">
+                                        <input
+                                            onChange={handleTagChange}
+                                            type="checkbox"
+                                            id={tag.id}
+                                            name={tag.name}
+                                            value={tag.name}
+                                            defaultChecked={
+                                                type === 'edit' && item?.tags
+                                                    ? item.tags.includes(
+                                                          tag.name
+                                                      )
+                                                    : false
+                                            }
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                        />
+                                        <label
+                                            htmlFor={tag.id}
+                                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 lowercase"
+                                        >
+                                            {tag.name}
+                                        </label>
+                                    </div>
+                                </li>
+                            ))}
                     </ul>
                 </div>
             </div>
