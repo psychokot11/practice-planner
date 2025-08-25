@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTags } from '../tags/useTags'
 import { useSettings } from '../settings/useSettings'
@@ -10,6 +10,7 @@ import { useSelectStage } from '../settings/useSelectStage'
 import TagsCheckboxList from '../tags/TagsCheckboxList'
 import Button from '../../ui/buttons/Button'
 import Spinner from '../../ui/Spinner'
+import ConfirmationModal from '../../ui/ConfirmationModal'
 
 const labelClasses =
     'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
@@ -17,6 +18,8 @@ const labelClasses =
 function CreateDrillForm({ drill, type, onClose }) {
     const { register, handleSubmit, setValue, reset, formState } = useForm()
     const { errors } = formState
+    const [showConfirmation, setShowConfirmation] = useState(false)
+    const [hasUserMadeChanges, setHasUserMadeChanges] = useState(false)
 
     const { tags, isLoading: isLoadingTags } = useTags()
     const { drills, isLoading: isLoadingDrills } = useDrills()
@@ -74,6 +77,23 @@ function CreateDrillForm({ drill, type, onClose }) {
         console.log(errors)
     }
 
+    function handleClose() {
+        if (hasUserMadeChanges) {
+            setShowConfirmation(true)
+        } else {
+            onClose()
+        }
+    }
+
+    function handleConfirmClose() {
+        setShowConfirmation(false)
+        onClose()
+    }
+
+    function handleCancelClose() {
+        setShowConfirmation(false)
+    }
+
     if (!isDataReady) return <Spinner />
 
     return (
@@ -84,7 +104,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                 className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
                 onClick={(e) => {
                     if (e.target === e.currentTarget) {
-                        onClose()
+                        handleClose()
                     }
                 }}
             >
@@ -97,7 +117,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                                     : 'Edit drill'}
                             </h3>
                             <Button
-                                onClick={onClose}
+                                onClick={handleClose}
                                 type="button"
                                 subtype="close"
                                 icon="close"
@@ -108,6 +128,7 @@ function CreateDrillForm({ drill, type, onClose }) {
                         <form
                             onSubmit={handleSubmit(onSubmit, onError)}
                             className="p-4 md:p-5"
+                            onChange={() => setHasUserMadeChanges(true)}
                         >
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
@@ -293,6 +314,15 @@ function CreateDrillForm({ drill, type, onClose }) {
                     type === 'create' ? 'bg-gray-900/50' : 'bg-gray-900/10'
                 } dark:bg-gray-900/80 fixed inset-0 z-40`}
             ></div>
+            {showConfirmation && (
+                <ConfirmationModal
+                    title="Unsaved changes"
+                    message="You have unsaved changes. Are you sure you want to close this form?"
+                    onConfirm={handleConfirmClose}
+                    onCancel={handleCancelClose}
+                    onClose={handleCancelClose}
+                />
+            )}
         </div>
     )
 }

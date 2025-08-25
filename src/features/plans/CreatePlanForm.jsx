@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDrills } from '../drills/useDrills'
 import { useTags } from '../tags/useTags'
@@ -13,6 +13,7 @@ import { useCopyPlan } from './useCopyPlan'
 import TagsCheckboxList from '../tags/TagsCheckboxList'
 import DropdownList from '../../ui/DropdownList'
 import Button from '../../ui/buttons/Button'
+import ConfirmationModal from '../../ui/ConfirmationModal'
 
 const labelClasses =
     'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
@@ -31,6 +32,8 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     const { register, handleSubmit, setValue, reset, formState } = useForm()
     const { errors } = formState
+    const [showConfirmation, setShowConfirmation] = useState(false)
+    const [hasUserMadeChanges, setHasUserMadeChanges] = useState(false)
 
     const formItem = plan
 
@@ -121,6 +124,23 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
         }
     }
 
+    function handleClose() {
+        if (hasUserMadeChanges) {
+            setShowConfirmation(true)
+        } else {
+            onClose()
+        }
+    }
+
+    function handleConfirmClose() {
+        setShowConfirmation(false)
+        onClose()
+    }
+
+    function handleCancelClose() {
+        setShowConfirmation(false)
+    }
+
     return (
         <div>
             <div
@@ -129,7 +149,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                 className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
                 onClick={(e) => {
                     if (e.target === e.currentTarget) {
-                        onClose()
+                        handleClose()
                     }
                 }}
             >
@@ -142,7 +162,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                     : 'Edit plan'}
                             </h3>
                             <Button
-                                onClick={onClose}
+                                onClick={handleClose}
                                 type="button"
                                 subtype="close"
                                 icon="close"
@@ -153,6 +173,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                         <form
                             onSubmit={handleSubmit(onSubmit, onError)}
                             className="p-4 md:p-5"
+                            onChange={() => setHasUserMadeChanges(true)}
                         >
                             <div className="grid gap-4 mb-4 grid-cols-1 md:grid-cols-3">
                                 <div className="col-span-1">
@@ -431,6 +452,15 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                 </div>
             </div>
             <div className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
+            {showConfirmation && (
+                <ConfirmationModal
+                    title="Unsaved changes"
+                    message="You have unsaved changes. Are you sure you want to close this form?"
+                    onConfirm={handleConfirmClose}
+                    onCancel={handleCancelClose}
+                    onClose={handleCancelClose}
+                />
+            )}
         </div>
     )
 }
