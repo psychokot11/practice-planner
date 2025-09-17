@@ -8,13 +8,13 @@ import useSorting from '../../hooks/useSorting'
 
 const columns = [
     { name: 'Drill name', sortable: true, sortKey: 'name' },
-    { name: 'Min. players', sortable: true, sortKey: 'minNumPlayers' },
+    { name: 'Players', sortable: true, sortKey: 'players' },
     { name: 'Description' },
     { name: 'Tags',},
     { name: 'Link' },
 ]
 
-const properties = ['minNumPlayers', 'description', 'tags', 'link']
+const properties = ['players', 'description', 'tags', 'link']
 
 function DrillsTable({ drills }) {
     const [isFormOpen, setIsFormOpen] = useState(false)
