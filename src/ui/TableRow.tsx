@@ -3,23 +3,24 @@ import { useCopyPlan } from '../features/plans/useCopyPlan'
 import { AiTwotoneDelete, AiTwotoneEdit, AiTwotoneCopy } from 'react-icons/ai'
 import { IoMdPlay } from 'react-icons/io'
 import PlanOrderedList from '../features/plans/PlanOrderedList'
-import ExpandedText from './ExpandedText'
+import ExpandedText from './ExpandedText.tsx'
+import { Section } from '../types.ts'
 
 const iconClasses =
     'font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400'
 
-interface TableRowProps {
-    data: any[]
+interface TableRowProps<T> {
+    data: T[]
     dataType: 'plans' | 'drills' | 'tags'
     properties: string[]
-    handleEditClick: (item: any) => void
-    handleOpenModal: (item: any) => void
-    handleRowClick?: (item: any) => void
+    handleEditClick: (item: T) => void
+    handleOpenModal: (item: T) => void
+    handleRowClick?: (item: T) => void
     isDeleting: boolean
-    sections: { key: string; title: string }[]
+    sections: Section[]
 }
 
-function TableRow({
+function TableRow<T extends Record<string, any>>({
     data,
     dataType,
     properties,
@@ -28,7 +29,7 @@ function TableRow({
     handleRowClick,
     isDeleting,
     sections,
-}: TableRowProps) {
+}: TableRowProps<T>) {
     const [expandedStates, setExpandedStates] = useState<
         Record<string, Record<string, boolean>>
     >({})
