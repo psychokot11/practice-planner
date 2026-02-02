@@ -8,6 +8,17 @@ import ExpandedText from './ExpandedText'
 const iconClasses =
     'font-medium hover:cursor-pointer disabled:cursor-not-allowed disabled:text-neutral-400'
 
+interface TableRowProps {
+    data: any[]
+    dataType: 'plans' | 'drills' | 'tags'
+    properties: string[]
+    handleEditClick: (item: any) => void
+    handleOpenModal: (item: any) => void
+    handleRowClick?: (item: any) => void
+    isDeleting: boolean
+    sections: { key: string; title: string }[]
+}
+
 function TableRow({
     data,
     dataType,
@@ -17,11 +28,13 @@ function TableRow({
     handleRowClick,
     isDeleting,
     sections,
-}) {
-    const [expandedStates, setExpandedStates] = useState({})
+}: TableRowProps) {
+    const [expandedStates, setExpandedStates] = useState<
+        Record<string, Record<string, boolean>>
+    >({})
     const { copyPlan } = useCopyPlan()
 
-    function handleToggle(property, itemId) {
+    function handleToggle(property: string, itemId: number) {
         setExpandedStates((prevState) => ({
             ...prevState,
             [itemId]: {
@@ -116,6 +129,23 @@ function TableRow({
                                                     <IoMdPlay className="text-xs text-gray-400 ml-[3px]" />
                                                 </div>
                                             )
+
+                                        case 'players': {
+                                            const minPlayers =
+                                                item.minNumPlayers
+                                            const maxPlayers =
+                                                item.maxNumPlayers
+
+                                            if (minPlayers && maxPlayers) {
+                                                return `${minPlayers} - ${maxPlayers}`
+                                            } else if (minPlayers) {
+                                                return `min. ${minPlayers}`
+                                            } else if (maxPlayers) {
+                                                return `max. ${maxPlayers}`
+                                            } else {
+                                                return ''
+                                            }
+                                        }
 
                                         case 'tags': {
                                             const sortedTags = [...tags].sort(
