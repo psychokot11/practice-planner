@@ -1,6 +1,18 @@
 import Button from './buttons/Button'
 
-function ExpandedText({ isExpanded, item, property, handleToggle }) {
+interface ExpandedTextProps {
+    isExpanded: boolean
+    item: any
+    property: string
+    handleToggle: (property: string, itemId: number) => void
+}
+
+function ExpandedText({
+    isExpanded,
+    item,
+    property,
+    handleToggle,
+}: ExpandedTextProps) {
     const description = item[property] || ''
     const longDescription = description.length > 150
 
