@@ -1,4 +1,4 @@
-import Button from './buttons/Button'
+import Button from './buttons/Button.tsx'
 
 interface ExpandedTextProps {
     isExpanded: boolean

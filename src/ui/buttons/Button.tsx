@@ -10,6 +10,20 @@ import {
 const commonClasses =
     'py-2.5 px-5 text-sm font-medium rounded-lg shadow-lg transition-all duration-[600ms]'
 
+interface ButtonProps {
+    children: React.ReactNode
+    onClick?: () => void
+    type?: 'button' | 'submit' | 'reset'
+    subtype?: string
+    disabled?: boolean
+    align?: 'left' | 'center' | 'right'
+    fullWidth?: boolean
+    flex?: boolean
+    icon?: string
+    iconPosition?: 'left' | 'right'
+    isOpen?: boolean
+}
+
 function Button({
     children,
     onClick,
@@ -22,7 +36,7 @@ function Button({
     icon,
     iconPosition,
     isOpen,
-}) {
+}: ButtonProps) {
     let alignClasses
 
     if (align === 'left') {
@@ -43,10 +57,14 @@ function Button({
     if (subtype === 'primary') {
         buttonClasses = `${classes} text-white bg-blue-500 font-semibold hover:bg-blue-600`
     } else if (subtype === 'secondary') {
-        // Placeholder for secondary button styling
         buttonClasses = `${classes} text-gray-900 bg-gray-200 font-semibold hover:bg-gray-300`
     } else if (subtype === 'tertiary') {
-        const justifyClass = align === 'right' ? 'justify-end' : align === 'left' ? 'justify-start' : 'justify-center';
+        const justifyClass =
+            align === 'right'
+                ? 'justify-end'
+                : align === 'left'
+                  ? 'justify-start'
+                  : 'justify-center'
         buttonClasses = `text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 inline-flex items-center transition-all duration-[600ms] ${justifyClass} ${flexClasses} ${fullWidthClasses}`
     } else if (subtype === 'accept') {
         buttonClasses = `${classes} text-gray-900 focus:outline-none bg-white  border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700`
