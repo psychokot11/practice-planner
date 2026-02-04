@@ -1,4 +1,4 @@
-import supabase from './supabase.ts'
+import supabase from './supabase'
 import { Drill } from '../types'
 
 export async function getDrills(): Promise<Drill[]> {
