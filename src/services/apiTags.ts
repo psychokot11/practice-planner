@@ -1,6 +1,7 @@
 import supabase from './supabase'
+import { Tag } from '../types'
 
-export async function getTags() {
+export async function getTags(): Promise<Tag[]> {
     const { data: tags, error } = await supabase.from('tags').select('*')
 
     if (error) {
@@ -11,7 +12,7 @@ export async function getTags() {
     return tags
 }
 
-export async function createTag(newTag) {
+export async function createTag(newTag: Omit<Tag, 'id'>): Promise<Tag[]> {
     const { data, error } = await supabase
         .from('tags')
         .insert([{ ...newTag }])
@@ -19,8 +20,11 @@ export async function createTag(newTag) {
 
     if (error) {
         console.error(error)
-        // Check if error is due to duplicate key constraint
-        if (error.code === '23505' || error.message?.includes('duplicate key')) {
+
+        if (
+            error.code === '23505' ||
+            error.message?.includes('duplicate key')
+        ) {
             throw new Error('Tag already exists')
         }
         throw new Error('An error occurred while creating a new tag')
@@ -29,16 +33,11 @@ export async function createTag(newTag) {
     return data
 }
 
-export async function deleteTag(id) {
-    const { data: tags, error } = await supabase
-        .from('tags')
-        .delete()
-        .eq('id', id)
+export async function deleteTag(id: number): Promise<void> {
+    const { error } = await supabase.from('tags').delete().eq('id', id)
 
     if (error) {
         console.error(error)
         throw new Error('An error occurred while deleting the tag')
     }
-
-    return tags
 }
