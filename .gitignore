@@ -27,3 +27,6 @@ dist-ssr
 # Development/Sample Data Tools (remove in production)
 src/utils/generateSampleData.js
 src/components/SampleDataGenerator.jsx
+
+# Personal mentor manual
+TYPESCRIPT_MENTOR.md
