@@ -1,6 +1,20 @@
 import supabase, { supabaseURL } from './supabase'
 
-export async function signup({ fullName, email, password }) {
+type SignupCredentials = {
+    fullName: string
+    email: string
+    password: string
+}
+
+type LoginCredentials = Pick<SignupCredentials, 'email' | 'password'>
+
+type UpdateUserData = {
+    password?: string
+    fullName?: string
+    avatar?: File
+}
+
+export async function signup({ fullName, email, password }: SignupCredentials) {
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -16,10 +30,10 @@ export async function signup({ fullName, email, password }) {
         throw new Error(error.message)
     }
 
-    return { data, error }
+    return { data }
 }
 
-export async function login({ email, password }) {
+export async function login({ email, password }: LoginCredentials) {
     let { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -54,8 +68,12 @@ export async function logout() {
     }
 }
 
-export async function updateCurrentUser({ password, fullName, avatar }) {
-    let updateData = {}
+export async function updateCurrentUser({
+    password,
+    fullName,
+    avatar,
+}: UpdateUserData) {
+    let updateData: { password?: string; data?: { fullName: string } } = {}
     if (password) updateData.password = password
     if (fullName) updateData.data = { fullName }
 
