@@ -5,7 +5,7 @@ import { createTag as createTagService } from '../../services/apiTags'
 export function useCreateTag() {
     const queryClient = useQueryClient()
 
-    const { mutate: createTag, isLoading: isCreating } = useMutation({
+    const { mutate: createTag, isPending: isCreating } = useMutation({
         mutationFn: createTagService,
         onSuccess: () => {
             toast.success('Tag created')

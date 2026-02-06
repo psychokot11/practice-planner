@@ -5,7 +5,7 @@ import { deleteTag as deleteTagApi } from '../../services/apiTags'
 export function useDeleteTag() {
     const queryClient = useQueryClient()
 
-    const { isLoading: isDeleting, mutate: deleteTag } = useMutation({
+    const { isPending: isDeleting, mutate: deleteTag } = useMutation({
         mutationFn: deleteTagApi,
         onSuccess: () => {
             toast.success('Tag deleted')
