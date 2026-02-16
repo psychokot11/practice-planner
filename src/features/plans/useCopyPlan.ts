@@ -1,22 +1,23 @@
-import { useDrills } from '../drills/useDrills'
+import { useDrills } from '../drills/useDrills.ts'
+import { Plan } from '../../types'
 
 export function useCopyPlan() {
     const { drills } = useDrills()
 
-    function copyPlan(data) {
+    function copyPlan(data: Plan) {
         const title = data.name
         const players = data.minNumPlayers
         const mainFocus = data.tags?.length ? data.tags.join(', ') : ''
         const comments = data.comments?.trim()
-        const planDrills = data.drills
+        const planDrills = data.drills ?? {}
 
         const drillOrder = ['warmUp', 'coreSession', 'finalChallenge']
-        const drillLines = []
+        const drillLines: string[] = []
 
         drillOrder.forEach((section) => {
             if (Array.isArray(planDrills[section])) {
                 planDrills[section].forEach((drill) => {
-                    const matchedDrill = drills.find((d) => d.id === drill.id)
+                    const matchedDrill = drills?.find((d) => d.id === drill.id)
                     if (matchedDrill) {
                         const name = matchedDrill.name || 'Unnamed drill'
                         const description = matchedDrill.description?.trim()
