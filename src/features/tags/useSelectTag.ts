@@ -7,9 +7,12 @@ export function useSelectTag(
 ) {
     const drills = filteredByCountDrills
     const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
+    // TODO: Refactor tags to use a single format (Tag objects) across DB and app
     const [selectedTags, setSelectedTags] = useState<string[]>(
         Array.isArray(formItem?.tags)
-            ? formItem.tags.map((tag) => tag.name)
+            ? formItem.tags.map((tag) =>
+                  typeof tag === 'string' ? tag : tag.name
+              )
             : []
     )
     const [filteredDrills, setFilteredDrills] = useState(drills)

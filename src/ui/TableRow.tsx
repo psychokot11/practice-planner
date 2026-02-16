@@ -149,7 +149,7 @@ function TableRow<T extends Record<string, any>>({
                                         }
 
                                         case 'tags': {
-                                            const sortedTags = [...tags].sort(
+                                            const sortedTags = [...tags].filter(Boolean).sort(
                                                 (a, b) => {
                                                     const tagA =
                                                         typeof a === 'object'
