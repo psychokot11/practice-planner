@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDrills } from '../drills/useDrills'
+import { useDrills } from '../drills/useDrills.ts'
 import { useTags } from '../tags/useTags'
 import { useCreatePlan } from './useCreatePlan'
 import { useCreateRandomPlan } from './useCreateRandomPlan'
@@ -30,17 +30,19 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
     const isWorking = isCreating || isEditing
     const planId = plan ? plan.id : null
 
-    const { register, handleSubmit, setValue, reset, formState } = useForm()
+    const { register, handleSubmit, setValue, reset, formState, watch } =
+        useForm()
     const { errors } = formState
     const [showConfirmation, setShowConfirmation] = useState(false)
     const [hasUserMadeChanges, setHasUserMadeChanges] = useState(false)
+    const [hasMaxPlayers, setHasMaxPlayers] = useState(
+        type === 'edit' ? !!plan?.maxNumPlayers : true
+    )
 
     const formItem = plan
 
-    const { filteredByCountDrills, setPlayersCount } = useFilterByPlayerCount(
-        drills,
-        plan
-    )
+    const { filteredByCountDrills, setMaxPlayersCount, setMinPlayersCount } =
+        useFilterByPlayerCount(drills, plan)
 
     const {
         handleTagDropdownToggle,
@@ -75,10 +77,6 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     const { handleSortedListChange, practicePlan } = useSetPlan(plan)
 
-    function handlePlayersCountChange(e) {
-        setPlayersCount(Number(e.target.value))
-    }
-
     useEffect(() => {
         setValue('tags', selectedTags)
     }, [selectedTags, setValue])
@@ -86,6 +84,23 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
     useEffect(() => {
         setValue('drills', practicePlan)
     }, [practicePlan, setValue, selectedDrills])
+
+    // Watch for changes in player count fields
+    const watchedMinPlayers = watch('minNumPlayers')
+    const watchedMaxPlayers = watch('maxNumPlayers')
+
+    useEffect(() => {
+        if (watchedMinPlayers) {
+            setMinPlayersCount(Number(watchedMinPlayers))
+        }
+    }, [watchedMinPlayers, setMinPlayersCount])
+
+    useEffect(() => {
+        if (watchedMaxPlayers !== undefined) {
+            const value = watchedMaxPlayers ? Number(watchedMaxPlayers) : null
+            setMaxPlayersCount(value)
+        }
+    }, [watchedMaxPlayers, setMaxPlayersCount])
 
     const { copyPlan } = useCopyPlan()
 
@@ -116,7 +131,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
 
     function onError(errors) {
         console.error('Form validation errors:', errors)
-        
+
         const firstErrorField = Object.keys(errors)[0]
         if (firstErrorField) {
             const element = document.getElementById(firstErrorField)
@@ -175,7 +190,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                             className="p-4 md:p-5"
                             onChange={() => setHasUserMadeChanges(true)}
                         >
-                            <div className="grid gap-4 mb-4 grid-cols-1 md:grid-cols-3">
+                            <div className="grid gap-4 mb-4 grid-cols-1 md:grid-cols-4">
                                 <div className="col-span-1">
                                     <label
                                         htmlFor="name"
@@ -195,12 +210,14 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                             required: 'Plan name is required',
                                             minLength: {
                                                 value: 2,
-                                                message: 'Plan name must be at least 2 characters'
+                                                message:
+                                                    'Plan name must be at least 2 characters',
                                             },
                                             maxLength: {
                                                 value: 100,
-                                                message: 'Plan name must be less than 100 characters'
-                                            }
+                                                message:
+                                                    'Plan name must be less than 100 characters',
+                                            },
                                         })}
                                     />
                                     {errors.name && (
@@ -209,41 +226,140 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         </span>
                                     )}
                                 </div>
-                                <div className="col-span-1">
-                                    <label
-                                        htmlFor="minNumPlayers"
-                                        className={labelClasses}
-                                    >
-                                        Number of players
-                                    </label>
-                                    <input
-                                        type="number"
-                                        name="minNumPlayers"
-                                        id="minNumPlayers"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        defaultValue={
-                                            type === 'edit'
-                                                ? plan.minNumPlayers
-                                                : 2
-                                        }
-                                        onChange={handlePlayersCountChange}
-                                        {...register('minNumPlayers', {
-                                            required: 'Number of players is required',
-                                            min: {
-                                                value: 1,
-                                                message: 'Must have at least 1 player'
-                                            },
-                                            max: {
-                                                value: 50,
-                                                message: 'Maximum 50 players allowed'
+                                <div className="col-span-1 md:col-span-2 grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label
+                                            htmlFor="minNumPlayers"
+                                            className={labelClasses}
+                                        >
+                                            Min. players
+                                        </label>
+                                        <input
+                                            type="number"
+                                            name="minNumPlayers"
+                                            id="minNumPlayers"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            defaultValue={
+                                                type === 'edit'
+                                                    ? plan.minNumPlayers
+                                                    : 2
                                             }
-                                        })}
-                                    />
-                                    {errors.minNumPlayers && (
-                                        <span className="block py-2 text-red-600">
-                                            {errors.minNumPlayers.message}
-                                        </span>
-                                    )}
+                                            {...register('minNumPlayers', {
+                                                required:
+                                                    'Min. players is required',
+                                                min: {
+                                                    value: 1,
+                                                    message:
+                                                        'Must have at least 1 player',
+                                                },
+                                                max: {
+                                                    value: 50,
+                                                    message:
+                                                        'Maximum 50 players allowed',
+                                                },
+                                            })}
+                                        />
+                                        {errors.minNumPlayers && (
+                                            <span className="block py-2 text-red-600 text-xs">
+                                                {errors.minNumPlayers.message}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-2">
+                                            <label
+                                                htmlFor="maxNumPlayers"
+                                                className={labelClasses}
+                                            >
+                                                Max. players
+                                            </label>
+                                            <input
+                                                type="checkbox"
+                                                id="hasMaxPlayers"
+                                                checked={hasMaxPlayers}
+                                                title="Set maximum limit"
+                                                onChange={(e) => {
+                                                    setHasMaxPlayers(
+                                                        e.target.checked
+                                                    )
+                                                    if (!e.target.checked) {
+                                                        setValue(
+                                                            'maxNumPlayers',
+                                                            ''
+                                                        )
+                                                        setMaxPlayersCount(null)
+                                                    } else {
+                                                        // When checking, update filtering with current value if any
+                                                        const currentValue =
+                                                            document.getElementById(
+                                                                'maxNumPlayers'
+                                                            )?.value
+                                                        if (currentValue) {
+                                                            setMaxPlayersCount(
+                                                                Number(
+                                                                    currentValue
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                }}
+                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 mb-2"
+                                            />
+                                        </div>
+                                        <input
+                                            type="number"
+                                            name="maxNumPlayers"
+                                            id="maxNumPlayers"
+                                            disabled={!hasMaxPlayers}
+                                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
+                                                !hasMaxPlayers
+                                                    ? 'opacity-50 cursor-not-allowed'
+                                                    : ''
+                                            }`}
+                                            defaultValue={
+                                                type === 'edit'
+                                                    ? plan.maxNumPlayers || ''
+                                                    : ''
+                                            }
+                                            {...register('maxNumPlayers', {
+                                                validate: (value) => {
+                                                    if (
+                                                        !hasMaxPlayers ||
+                                                        !value
+                                                    )
+                                                        return true
+                                                    const minPlayers = parseInt(
+                                                        document.getElementById(
+                                                            'minNumPlayers'
+                                                        )?.value || 0
+                                                    )
+                                                    const maxPlayers =
+                                                        parseInt(value)
+                                                    if (
+                                                        maxPlayers <= minPlayers
+                                                    ) {
+                                                        return 'Max players must be greater than min players'
+                                                    }
+                                                    return true
+                                                },
+                                                min: {
+                                                    value: 1,
+                                                    message:
+                                                        'Must have at least 1 player',
+                                                },
+                                                max: {
+                                                    value: 50,
+                                                    message:
+                                                        'Maximum 50 players allowed',
+                                                },
+                                            })}
+                                        />
+                                        {errors.maxNumPlayers && (
+                                            <span className="block py-2 text-red-600 text-xs">
+                                                {errors.maxNumPlayers.message}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="col-span-1">
                                     <label
@@ -269,7 +385,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         {...register('tags')}
                                     />
                                 </div>
-                                <div className="col-span-1 md:col-span-3 grid gap-4 mb-4 grid-cols-1 md:grid-cols-3 p-5 bg-neutral-100 rounded-lg">
+                                <div className="col-span-1 md:col-span-4 grid gap-4 mb-4 grid-cols-1 md:grid-cols-3 p-5 bg-neutral-100 rounded-lg">
                                     {sections.map(({ key, title }) => (
                                         <div className="col-span-1" key={key}>
                                             <DropdownList
@@ -323,7 +439,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                     ))}
                                 </div>
                                 {type === 'create' && (
-                                    <div className="col-span-1 md:col-span-3 mb-4 grid-cols-1 md:grid-cols-3 p-5 bg-neutral-100 rounded-lg">
+                                    <div className="col-span-1 md:col-span-4 mb-4 grid-cols-1 md:grid-cols-3 p-5 bg-neutral-100 rounded-lg">
                                         <div className="flex gap-4">
                                             <Button
                                                 type="button"
@@ -368,7 +484,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         )}
                                     </div>
                                 )}
-                                <div className="col-span-1 md:col-span-3">
+                                <div className="col-span-1 md:col-span-4">
                                     <label
                                         htmlFor="description"
                                         className={labelClasses}
@@ -380,15 +496,18 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         name="description"
                                         rows="4"
                                         defaultValue={
-                                            type === 'edit' ? plan.description : ''
+                                            type === 'edit'
+                                                ? plan.description
+                                                : ''
                                         }
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Provide short description"
                                         {...register('description', {
                                             maxLength: {
                                                 value: 500,
-                                                message: 'Description must be less than 500 characters'
-                                            }
+                                                message:
+                                                    'Description must be less than 500 characters',
+                                            },
                                         })}
                                     />
                                     {errors.description && (
@@ -397,7 +516,7 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         </span>
                                     )}
                                 </div>
-                                <div className="col-span-1 md:col-span-3">
+                                <div className="col-span-1 md:col-span-4">
                                     <label
                                         htmlFor="comments"
                                         className={labelClasses}
@@ -416,8 +535,9 @@ function CreatePlanForm({ plan, type, onClose, planSections }) {
                                         {...register('comments', {
                                             maxLength: {
                                                 value: 1000,
-                                                message: 'Comments must be less than 1000 characters'
-                                            }
+                                                message:
+                                                    'Comments must be less than 1000 characters',
+                                            },
                                         })}
                                     />
                                     {errors.comments && (

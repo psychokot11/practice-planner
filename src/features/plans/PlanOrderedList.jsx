@@ -1,4 +1,4 @@
-import { useDrills } from '../drills/useDrills'
+import { useDrills } from '../drills/useDrills.ts'
 import Button from '../../ui/buttons/Button'
 
 function PlanList({ title, items }) {
@@ -27,7 +27,9 @@ function PlanList({ title, items }) {
 
     return (
         <div>
-            <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-2">{title}</h5>
+            <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                {title}
+            </h5>
             <ul className="list-disc list-outside ml-6 space-y-2">
                 {filteredDrills &&
                     filteredDrills.map((drill) => (
@@ -36,7 +38,8 @@ function PlanList({ title, items }) {
                                 {drill.name}
                                 {drill.description && (
                                     <span className="text-gray-600 dark:text-gray-300">
-                                        {' - '}{drill.description}
+                                        {' - '}
+                                        {drill.description}
                                     </span>
                                 )}
                             </span>
@@ -45,9 +48,11 @@ function PlanList({ title, items }) {
                                     <Button
                                         subtype="tertiary"
                                         icon="play"
-                                        iconPosition='left'
+                                        iconPosition="left"
                                         align="right"
-                                        onClick={() => window.open(drill.link, '_blank')}
+                                        onClick={() =>
+                                            window.open(drill.link, '_blank')
+                                        }
                                     >
                                         Watch video
                                     </Button>

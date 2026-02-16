@@ -1,20 +1,26 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Drill, Plan } from '../../types'
 
-export function useSelectTag(formItem = {}, filteredByCountDrills) {
+export function useSelectTag(
+    formItem: Partial<Drill | Plan> = {},
+    filteredByCountDrills: Drill[]
+) {
     const drills = filteredByCountDrills
     const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
-    const [selectedTags, setSelectedTags] = useState(
-        Array.isArray(formItem?.tags) ? formItem.tags : []
+    const [selectedTags, setSelectedTags] = useState<string[]>(
+        Array.isArray(formItem?.tags)
+            ? formItem.tags.map((tag) => tag.name)
+            : []
     )
     const [filteredDrills, setFilteredDrills] = useState(drills)
 
-    function handleTagDropdownToggle(item) {
+    function handleTagDropdownToggle(item: string) {
         if (item === 'tags') {
             setIsTagsDropdownOpen((prev) => !prev)
         }
     }
 
-    function handleTagChange(event) {
+    function handleTagChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { value, checked } = event.target
 
         setSelectedTags((prevTags) => {
@@ -34,7 +40,9 @@ export function useSelectTag(formItem = {}, filteredByCountDrills) {
                 drills.filter(
                     (drill) =>
                         Array.isArray(drill.tags) &&
-                        drill.tags.some((tag) => selectedTags.includes(tag))
+                        drill.tags.some((tag) =>
+                            selectedTags.includes(tag.name)
+                        )
                 )
             )
         }

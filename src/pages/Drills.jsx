@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { IoMdAddCircle } from 'react-icons/io'
-import { useDrills } from '../features/drills/useDrills'
+import { useDrills } from '../features/drills/useDrills.ts'
 import { useFilterByTags } from '../hooks/useFilterByTags'
 import DrillsTable from '../features/drills/DrillsTable'
 import Spinner from '../ui/Spinner'
@@ -11,7 +11,7 @@ import TagFilter from '../ui/TagFilter'
 function Drills() {
     const { isLoading, drills } = useDrills()
     const [isFormOpen, setIsFormOpen] = useState(false)
-    
+
     const {
         selectedTags,
         allTags,
@@ -19,7 +19,7 @@ function Drills() {
         incompatibleTags,
         handleTagToggle,
         clearFilters,
-        hasActiveFilters
+        hasActiveFilters,
     } = useFilterByTags(drills)
 
     function handleOpenForm() {

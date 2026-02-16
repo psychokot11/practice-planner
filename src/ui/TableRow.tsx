@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useCopyPlan } from '../features/plans/useCopyPlan'
+import { useCopyPlan } from '../features/plans/useCopyPlan.ts'
 import { AiTwotoneDelete, AiTwotoneEdit, AiTwotoneCopy } from 'react-icons/ai'
 import { IoMdPlay } from 'react-icons/io'
 import PlanOrderedList from '../features/plans/PlanOrderedList'

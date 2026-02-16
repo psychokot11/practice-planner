@@ -1,5 +1,5 @@
 import { usePlans } from '../features/plans/usePlans'
-import { useDrills } from '../features/drills/useDrills'
+import { useDrills } from '../features/drills/useDrills.ts'
 import { useTags } from '../features/tags/useTags'
 import StatTile from '../features/dashboard/StatTile'
 import PopularTagsChart from '../features/dashboard/PopularTagsChart'
